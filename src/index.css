@@ -1,0 +1,213 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* ===========================================================================
+   ENGINEERING NOTEBOOK theme.
+   Light graph-paper surface, IBM Plex (mono for chrome, sans for reading),
+   one terminal-green accent, sharp edges, hairline rules. Flat by design:
+   no gradients, no glassmorphism, no blur blobs.
+=========================================================================== */
+@theme {
+  --font-display: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg: #fbfbf7;        /* warm paper */
+  --color-bg-soft: #f4f3ec;
+  --color-surface: #ffffff;   /* panels */
+  --color-surface-2: #f4f3ec;
+  --color-border: #1c1c1a;    /* strong ink rules (engineering drawing feel) */
+  --color-hairline: #d8d6c8;  /* faint rules */
+  --color-ink: #14150f;
+  --color-ink-soft: #3c3d35;
+  --color-muted: #84857a;
+
+  --color-grid: rgba(20, 22, 15, 0.05);
+  --color-accent: #0b7a45;    /* deep terminal green */
+  --color-accent-2: #0b7a45;
+  --color-hit: #0b7a45;
+  --color-miss: #b3261e;
+}
+
+:root {
+  --accent: var(--color-accent);
+  --accent-2: var(--color-accent-2);
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  /* faint graph-paper grid */
+  background-image: linear-gradient(var(--color-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+  background-size: 26px 26px;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent) 22%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   Reusable building blocks
+--------------------------------------------------------------------------- */
+.font-display {
+  font-family: var(--font-display);
+}
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* mono section label, e.g.  ~/work   or   01 — TRIGGER */
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* flat panel — sharp corners, ink border */
+.panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+}
+
+.hairline {
+  border-color: var(--color-hairline);
+}
+
+/* bordered, mono, square buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 0.7rem 1.1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--color-ink);
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+.btn:hover {
+  transform: translateY(-1px);
+}
+.btn-primary {
+  background: var(--color-ink);
+  color: var(--color-bg);
+  border-color: var(--color-ink);
+}
+.btn-primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* blinking terminal caret */
+.caret {
+  display: inline-block;
+  width: 0.6ch;
+  height: 1.05em;
+  margin-left: 0.1ch;
+  transform: translateY(0.12em);
+  background: var(--accent);
+  animation: caret-blink 1.05s steps(1) infinite;
+}
+@keyframes caret-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Case-study reading column — the priority surface.
+   Sits on a solid white panel (grid doesn't show through under body text),
+   high contrast, generous measure, static.
+--------------------------------------------------------------------------- */
+.case-prose {
+  --tw-prose-body: var(--color-ink-soft);
+  --tw-prose-headings: var(--color-ink);
+  --tw-prose-bold: var(--color-ink);
+  --tw-prose-links: var(--accent);
+  --tw-prose-bullets: var(--accent);
+  --tw-prose-counters: var(--color-muted);
+  --tw-prose-quotes: var(--color-ink);
+  --tw-prose-quote-borders: var(--accent);
+  --tw-prose-hr: var(--color-hairline);
+  --tw-prose-th-borders: var(--color-border);
+  --tw-prose-td-borders: var(--color-hairline);
+  --tw-prose-code: var(--color-ink);
+  font-size: 1.0625rem;
+  line-height: 1.72;
+  counter-reset: beat;
+}
+
+/* beat headings: mono "01 —" prefix, sans-bold title */
+.case-prose > h2 {
+  counter-increment: beat;
+  scroll-margin-top: 6rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--color-hairline);
+  margin-top: 2.75rem;
+}
+.case-prose > h2::before {
+  content: counter(beat, decimal-leading-zero) "  —  ";
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.case-prose h3 {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+/* monospace tables read as data */
+.case-prose table {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Motion safety
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

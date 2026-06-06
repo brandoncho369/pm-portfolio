@@ -1,0 +1,137 @@
+---
+# ─────────────────────────────────────────────────────────────────────────
+# CYCLE TEMPLATE — copy this file to start a new case study.
+#
+# HOW TO ADD A NEW CYCLE (no code, no help needed):
+#   1. Copy this file into the project's cycles folder, e.g.
+#        /content/poker-ascent/cycles/cycle-02-onboarding.mdx
+#        /content/tonbo/cycles/cycle-01-something.mdx
+#   2. Rename the file: cycle-<NN>-<short-slug>.mdx
+#      The file name becomes the URL slug. The leading number is just for
+#      tidiness — ORDER on the site comes from the `cycle:` field below.
+#   3. Fill in the frontmatter and the seven beats. Save. Done — it appears
+#      automatically on that project's page.
+#
+# Files starting with "_" (like this one) are ignored by the site.
+# ─────────────────────────────────────────────────────────────────────────
+
+title: "[PLACEHOLDER] Cycle title"      # shown as the page heading + card title
+cycle: 1                                  # number → controls ordering on the project page
+date: "[PLACEHOLDER] Mon 2026"           # free text, e.g. "Mar 2026"
+status: "Draft"                           # e.g. Draft / Shipped / In progress
+bluf: "[PLACEHOLDER — Brandon fills this] One sentence: the outcome / takeaway a recruiter should remember."
+tags: []                                  # optional, e.g. ["freemium", "activation"]
+---
+
+{/*
+  WRITING NOTES
+  - Each `##` below is one of the seven beats and is auto-numbered on the page.
+    Keep them in order; don't add extra `##` headings or the numbering will shift.
+  - Use `###` for sub-sections (e.g. inside the PRD).
+  - Custom components available with NO import: <BLUF>, <PRD>, <MetricResult>,
+    <Quote>, <Artifact>, <Callout>, <Placeholder>.
+  - To embed an image: put it in /public/artifacts/ and reference it like
+    <Artifact src="/artifacts/my-image.png" alt="..." caption="..." />
+  - Keep body copy tight and skimmable — this is the part recruiters read.
+*/}
+
+## Summary (BLUF)
+
+<BLUF>
+[PLACEHOLDER — Brandon fills this] The bottom line in one or two sentences:
+what you set out to do and what happened.
+</BLUF>
+
+## Trigger & problem
+
+[PLACEHOLDER — Brandon fills this] What prompted this cycle? The signal, the
+data point, the user pain, or the business pressure that made this worth doing.
+What problem are you actually solving, and for whom?
+
+## Discovery & user-research synthesis
+
+[PLACEHOLDER — Brandon fills this] How you investigated — interviews, surveys,
+analytics, support tickets, competitive teardown. Then the *synthesis*: the
+patterns you found and what they imply. Don't just list research; show the
+judgment you drew from it.
+
+<Artifact type="synthesis" caption="[PLACEHOLDER] Affinity map / synthesis screenshot" />
+
+<Quote author="[PLACEHOLDER] User name/segment" role="[PLACEHOLDER] context">
+[PLACEHOLDER — Brandon fills this] A representative user quote that captures the
+core insight.
+</Quote>
+
+## The PRD
+
+<PRD>
+
+### Problem
+[PLACEHOLDER — Brandon fills this] The crisp problem statement.
+
+### Target user
+[PLACEHOLDER — Brandon fills this] Who this is for (and who it is not for).
+
+### Success metrics (defined upfront)
+[PLACEHOLDER — Brandon fills this] The metric(s) you committed to *before*
+building, with targets. State guardrail metrics too.
+
+- Primary: [PLACEHOLDER]
+- Guardrail: [PLACEHOLDER]
+
+### In scope
+- [PLACEHOLDER]
+
+### Out of scope
+- [PLACEHOLDER]
+
+### User stories
+- As a [PLACEHOLDER user], I want [PLACEHOLDER] so that [PLACEHOLDER].
+
+### Edge cases
+- [PLACEHOLDER]
+
+### Open questions
+- [PLACEHOLDER]
+
+</PRD>
+
+<Artifact type="PRD" caption="[PLACEHOLDER] Optional: link or screenshot of the full PRD doc" />
+
+## Prioritization
+
+[PLACEHOLDER — Brandon fills this] Why this, why now, why in this order. Show
+your framework (RICE, impact/effort, opportunity sizing — whatever you used).
+
+**What I chose NOT to build, and why:**
+
+- [PLACEHOLDER — Brandon fills this] The thing you cut, and the reasoning. This
+  section is where product judgment shows most — be specific.
+
+## Build & sprint summary
+
+[PLACEHOLDER — Brandon fills this] How the build went — scope changes, tradeoffs
+made mid-flight, how you worked with eng/design, what shipped and when. Keep it
+to the decisions that mattered.
+
+## Measurement & retro
+
+[PLACEHOLDER — Brandon fills this] Intro line on what you measured and over what
+window.
+
+<MetricResult
+  metric="[PLACEHOLDER] e.g. Day-7 activation"
+  target="[PLACEHOLDER] e.g. +5pp"
+  result="[PLACEHOLDER] e.g. +7pp"
+  hit={true}
+  guardrail="[PLACEHOLDER] e.g. Refund rate flat"
+/>
+
+{/* Add one <MetricResult ... /> per metric you tracked. */}
+
+<Artifact type="chart" caption="[PLACEHOLDER] Metrics chart (drop an image in /public/artifacts/)" />
+
+### Retro & lessons
+
+[PLACEHOLDER — Brandon fills this] What you'd do differently, what surprised you,
+and the transferable lesson. End on the insight you carry forward.
