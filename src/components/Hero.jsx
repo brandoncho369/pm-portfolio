@@ -68,10 +68,10 @@ export default function Hero() {
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Link to="/work/poker-ascent" className="btn btn-primary">
+            <a href="#work" className="btn btn-primary">
               view case studies
-              <span aria-hidden>→</span>
-            </Link>
+              <span aria-hidden>↓</span>
+            </a>
             <Link to="/about" className="btn">
               about_me
             </Link>
