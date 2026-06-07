@@ -195,6 +195,21 @@ body {
   font-size: 0.85rem;
 }
 
+/* collapsible PRD document: hide native marker, rotate our chevron when open */
+.prd-doc > summary {
+  list-style: none;
+}
+.prd-doc > summary::-webkit-details-marker {
+  display: none;
+}
+.prd-doc .chev {
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+.prd-doc[open] .chev {
+  transform: rotate(90deg);
+}
+
 /* ---------------------------------------------------------------------------
    Motion safety
 --------------------------------------------------------------------------- */

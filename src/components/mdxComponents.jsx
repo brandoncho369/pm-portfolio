@@ -151,6 +151,41 @@ export function Artifact({ src, alt = '', caption, type }) {
   )
 }
 
+// Collapsible "full document" artifact (e.g. the complete PRD). Native <details>
+// so it's accessible, needs no JS, and is reduced-motion safe. Collapsed by
+// default so it never slows the case-study skim; expands inline for depth.
+export function PRDDoc({
+  title = 'Full PRD document',
+  meta,
+  defaultOpen = false,
+  children,
+}) {
+  return (
+    <details
+      className="prd-doc not-prose my-8 border border-[var(--color-border)] bg-[var(--color-surface)]"
+      open={defaultOpen || undefined}
+    >
+      <summary className="flex cursor-pointer select-none items-center justify-between gap-3 border-b border-[var(--color-border)] bg-[var(--color-bg-soft)] px-4 py-3">
+        <span className="flex items-center gap-2 font-mono text-xs font-semibold">
+          <span className="chev" aria-hidden>
+            ▸
+          </span>
+          {title}
+        </span>
+        <span className="font-mono text-[11px] uppercase tracking-widest text-muted">
+          PRD.md
+        </span>
+      </summary>
+      {meta && (
+        <p className="border-b border-[var(--color-hairline)] px-5 py-2 font-mono text-[11px] text-muted">
+          {meta}
+        </p>
+      )}
+      <div className="case-prose prose max-w-none px-5 py-6">{children}</div>
+    </details>
+  )
+}
+
 export function Callout({ children, title }) {
   return (
     <div className="not-prose my-5 border border-[var(--color-hairline)] bg-[var(--color-bg-soft)] p-5">
@@ -167,6 +202,7 @@ export function Callout({ children, title }) {
 export const mdxComponents = {
   BLUF,
   PRD,
+  PRDDoc,
   MetricResult,
   Quote,
   Artifact,

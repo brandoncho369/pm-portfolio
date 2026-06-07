@@ -79,7 +79,141 @@ long tail outside the core catalog.
 
 </PRD>
 
-<Artifact type="PRD" caption="[PLACEHOLDER — link or screenshot of the full PRD]" />
+<PRDDoc
+  title="Full PRD — Self-Serve Model Add"
+  meta="Product: Tonbo · Author: Brandon · Status: Shipped · Created 2026-05-28 · Last updated 2026-05-28"
+>
+
+### 1. Summary (TL;DR)
+Collectors can't track a watch unless it already exists in Tonbo's catalog. When
+a model is missing, the only path is a support request that I (sole operator)
+fulfill by hand. This PRD covers a self-serve flow that lets a user resolve any
+off-catalog model themselves: they enter a reference number, an LLM maps it to the
+correct brand/family, the model is added to the scraping pipeline, and a one-off
+comp calculation runs on demand — all in under 60 seconds, at under 1¢ per model,
+with no operator involvement.
+
+### 2. Problem & Background
+During tester feedback, the most frequent complaint was that a specific watch the
+collector wanted to track wasn't in the catalog. The only fallback was emailing
+support, after which I manually added the model. This created two problems:
+
+- **For the user:** every catalog gap meant waiting on a human before they could
+  even start building their watchlist.
+- **For the operation:** every gap routed through one person, making me the
+  bottleneck for catalog growth.
+
+The volume of "please add this model" support emails was both the pain and the
+data — each one a precise demand signal naming exactly which long-tail reference a
+real user wanted.
+
+### 3. Goals & Non-Goals
+**Goals**
+
+- Let users add any single off-catalog model without contacting support.
+- Eliminate operator involvement in the common case.
+- Keep cost proportional to actual demand.
+
+**Non-Goals**
+
+- Pre-loading the full ~10k+ universe of watches.
+- Bulk import or CSV upload of multiple models at once.
+- Letting users edit or correct existing catalog data.
+
+### 4. Success Metrics
+(Defined before launch.)
+
+- **Primary:** reduce model-add support email volume by ≥75% within 7 days of
+  launch.
+- **Completion (counter-metric):** self-serve attempts that successfully resolve a
+  model.
+- **Conversion (counter-metric):** share of resolved models that the user then
+  adds to their watchlist.
+- **Guardrail:** model-data integrity — no duplicate or non-existent models
+  entering the database via self-serve adds.
+
+### 5. Target User
+Japanese watch collectors tracking specific reference models. A meaningful share
+of demand sits in the long tail — references outside the core catalog that
+individual collectors care about but that wouldn't justify pre-loading.
+
+### 6. User Stories
+
+- As a collector, I want to add a watch that isn't in the catalog without emailing
+  support, so I can build my watchlist immediately.
+- As a collector who only knows the watch by nickname, I want clear guidance on
+  what to enter, so I can resolve it without giving up.
+- As the operator, I want missing-model demand handled automatically, so I'm not
+  the bottleneck for catalog growth.
+
+### 7. Solution Overview
+A sticky input at the bottom of the existing model-selection dropdown. When a user
+can't find their watch, they enter its reference number in the same place they'd
+otherwise pick one. The system then:
+
+1. Sends the reference number to the Claude API, which maps it to the correct
+   brand and family.
+2. Writes the resolved model into the scraping database (incl. the scraper regex
+   pattern).
+3. Runs the existing weekly comp-detection/calculation job on demand for that
+   single model.
+4. Surfaces the comp data to the user (in under 60s) so they can add the watch to
+   their watchlist inline.
+
+Placing the input inside the existing dropdown is deliberate: resolution and the
+actual job (adding to watchlist) happen on one surface, so there's no separate
+flow to drop out of.
+
+### 8. Functional Requirements
+
+- The input appears at the bottom of the model dropdown and remains visible
+  (sticky) while scrolling options.
+- On submit, the system calls the LLM matcher and returns brand/family within the
+  latency budget.
+- A successful match writes the model to the scraping DB and triggers a
+  single-model comp run.
+- On completion, the resolved watch becomes selectable and addable to the
+  watchlist from the same menu.
+- End-to-end target latency: under 60 seconds.
+- Cost target: under 1¢ per resolved model.
+
+### 9. Edge Cases & Error Handling
+
+| Case | Handling |
+| --- | --- |
+| Reference number doesn't correspond to a real model | Return "model not found." |
+| User enters a nickname instead of a reference | Prompt: enter the exact model/reference number. |
+| Repeated or automated requests | Rate limiting on submissions. |
+| Model already exists in catalog | Resolve to the existing entry (no duplicate). |
+
+### 10. Constraints & Assumptions
+
+- Build window: 2–3 days.
+- Team: solo operator, no communication delay, fast iteration loop.
+- Assumption: users can supply an exact reference number when prompted (validated
+  in testing — see retro).
+
+### 11. Risks & Mitigations
+
+- **Confidently-wrong LLM match** (a valid-looking reference mapped to the wrong
+  family) feeds incorrect comp data. Mitigation today: a weekly validation cron
+  flags duplicates and non-existent models. Known limitation: this guardrail is
+  lagging — bad data can persist up to a week. Next iteration: a real-time
+  confidence check / match-confirmation step at insertion, consistent with Tonbo's
+  existing confidence-level treatment of sparse-data alerts.
+- **Cost / abuse:** mitigated by rate limiting; per-model cost is under 1¢, so
+  blast radius is small.
+
+### 12. Alternatives Considered
+
+| Option | Why not |
+| --- | --- |
+| Add to watchlist now, hook up scraping/comp data by hand later | Unblocks the user, but the manual hook-up still routes through me — bottleneck deferred, not removed. |
+| Batch the top-requested models weekly | Neglects the long tail; early-week requesters wait days; still manual prioritization. |
+| Pre-load all 10k+ models | Scraping credits skyrocket, DB bloats, most are never demanded — supplying inventory nobody asked for. |
+| On-demand LLM resolution (chosen) | Instant for the user, zero operator effort, cost scales to actual demand. The LLM collapses the one step (brand/family disambiguation) that previously needed a human. |
+
+</PRDDoc>
 
 ## Prioritization
 
