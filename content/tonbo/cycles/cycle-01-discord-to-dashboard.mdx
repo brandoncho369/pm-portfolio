@@ -73,7 +73,120 @@ carrying them.
 
 </PRD>
 
-<Artifact type="PRD" caption="[PLACEHOLDER — full PRD doc; paste it and I'll embed it as a collapsible like cycle 02]" />
+<PRDDoc
+  title="Full PRD — Web Dashboard + Optional Discord Alerts"
+  meta="Product: Tonbo · Author: Brandon · Status: Shipped · Created 2026-05-23 · Last updated 2026-05-27"
+>
+
+### 1. Summary (TL;DR)
+New users were abandoning onboarding because Discord served as the product's
+primary interface, and most users found it unfamiliar and high-friction. This PRD
+moves the interface to a web dashboard on the main site (magic-link sign-in) and
+demotes Discord to an optional, notifications-only channel. Goal: cut onboarding
+drop-off by at least half without losing real-time alert engagement.
+
+### 2. Problem & Background
+Onboarding drop-off was ~70%. The flow required users to pay, receive an
+onboarding email, join a Discord server, verify their email, and configure a bot.
+Beta feedback (below) pointed clearly to Discord-as-interface as the cause: it
+asked users to adopt and learn an unfamiliar third-party app just to use the
+product they'd paid for.
+
+### 3. Discovery
+Structured feedback from 12 beta testers; 8 of 12 independently raised
+Discord-as-primary-interface, with these sub-causes:
+
+- No Discord account / unfamiliar with Discord.
+- Email-verification friction.
+- Confusing bot commands.
+- Limited bot UI and options.
+
+### 4. Goals & Non-Goals
+**Goals**
+
+- Move the primary interface off Discord and onto a familiar surface (web).
+- Preserve real-time alerts (core value).
+- Reduce onboarding steps and unfamiliar dependencies.
+
+**Non-Goals**
+
+- A native mobile app.
+- Fully removing Discord.
+- Replacing the notification mechanism entirely.
+
+### 5. Success Metrics
+(Defined before launch.)
+
+- **Primary:** reduce onboarding drop-off by ≥50% within one week. (Result:
+  70% → 16%, i.e. 4 of 25 new users — target exceeded.)
+- **Guardrail:** real-time alert engagement — share of users who still connect a
+  notification channel after Discord became optional.
+
+### 6. Target User
+New paying users of Tonbo. A large share are unfamiliar with Discord or unwilling
+to adopt it as a primary tool.
+
+### 7. User Stories
+
+- As a new user, I want to use the product from a web dashboard I already know how
+  to navigate, so I don't have to learn a new platform to get started.
+- As a new user, I want to sign in without a multi-step verification gauntlet, so
+  onboarding is fast.
+- As an active user, I want real-time alerts, so I don't miss time-sensitive
+  signals — but I want connecting that channel to be my choice.
+
+### 8. Solution Overview
+The web dashboard becomes the home base. All interactions that previously ran
+through Discord bot commands — watchlist adds, the live feed, configuration —
+happen in the dashboard. Discord is demoted to a notifications-only channel
+(analogous to Telegram alerts) that users opt into for real-time alerts.
+
+New flow: pay → web dashboard on the same site → magic-link sign-in → use
+everything → optionally connect Discord for real-time alerts.
+
+Design rationale: Discord had been doing two jobs — interface and notifications —
+and was weak at the first but cheap and effective at the second. The two jobs are
+split so each runs where it performs best; the unfamiliar surface becomes optional
+rather than mandatory.
+
+### 9. Functional Requirements
+
+- Web dashboard hosts all primary interactions (commands, watchlist management,
+  live feed).
+- Passwordless magic-link authentication.
+- Discord connection is optional, used solely to deliver real-time alerts.
+- Onboarding requires no third-party app to reach a usable state.
+
+### 10. Edge Cases & Constraints
+
+- User never connects Discord → fully usable via dashboard; alerts surfaced in-app
+  where possible.
+- Magic-link handling: single-use, time-limited links.
+- Constraint: solo operator; favor scope that ships fast over a native app build.
+
+### 11. Risks & Mitigations
+
+- **New attack surface.** Moving the dashboard onto the main site means
+  authentication and user data are now directly owned (previously fronted by
+  Discord). Mitigations: deliberate passwordless magic-link sign-in (no password
+  store); a security audit commissioned from the developer before launch, with
+  flagged issues remediated as a precondition of exposing the dashboard.
+  *[Optional — Brandon: name a category or two of findings once confirmed; keep
+  general rather than guess.]*
+- **Optional notifications may reduce alert engagement.** Making Discord opt-in
+  risks users missing real-time alerts (core value). Mitigation/monitor: track
+  notification-channel connect rate as a guardrail.
+
+### 12. Alternatives Considered
+
+| Option | Why not |
+| --- | --- |
+| Native app mirroring the dashboard + push | Out of scope for a solo operator on this timeline — too much build for the problem. |
+| Web-only, no Discord | Breaks notifications: either email spam or no real-time alerts; loses core value. |
+| Swap Discord for another third-party platform as the interface | Same flaw — still forces an unfamiliar third-party app to use the product. |
+| Web dashboard + Discord notifications-only (chosen) | Keeps real-time alerts while making the unfamiliar surface optional; each job runs where it's strongest. |
+
+</PRDDoc>
 
 ## Prioritization
 
