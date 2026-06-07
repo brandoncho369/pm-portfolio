@@ -42,9 +42,8 @@ export default function Landing() {
         <Reveal className="panel p-8 sm:p-12">
           <p className="label">// about</p>
           <h2 className="mt-3 max-w-3xl font-display text-xl font-semibold tracking-tight sm:text-2xl">
-            {/* [PLACEHOLDER — Brandon fills this] */}
-            [PLACEHOLDER — Brandon fills this] A one-line statement of how you
-            think about building product.
+            What I care about is the judgment — which problem matters, what not
+            to build, and how you'd know if you were right.
           </h2>
           <Link
             to="/about"

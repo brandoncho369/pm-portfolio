@@ -61,10 +61,9 @@ export default function Hero() {
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
-            {/* [PLACEHOLDER — Brandon fills this] */}
-            [PLACEHOLDER — Brandon fills this] One or two sentences on who you
-            are and how you think about product. The case studies are the real
-            argument — this is just the handshake.
+            I'm a builder who ships products end-to-end — user research, scoping,
+            and code — then documents the thinking behind each call. Two products
+            below, broken down the way I actually run and built them.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">

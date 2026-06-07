@@ -15,22 +15,20 @@ export const projects = [
   {
     slug: 'poker-ascent',
     name: 'Poker Ascent',
-    // [PLACEHOLDER — Brandon fills this] one-line positioning for the project
-    tagline: '[PLACEHOLDER] A Duolingo-style trainer that turns poker reps into measurable skill.',
-    // [PLACEHOLDER — Brandon fills this] 1–2 sentence framing shown on the project page
+    tagline:
+      'A poker trainer that teaches how real, exploitative poker is played — built for beginner and intermediate live players, not the GTO crowd.',
     summary:
-      '[PLACEHOLDER — Brandon fills this] What Poker Ascent is, who it serves, and why it matters. Keep it to two sentences of product framing.',
+      'A mobile poker trainer for beginner and intermediate live players — teaching real, exploitative play instead of GTO theory.',
     accent: '#16c784', // emerald — felt + chips
     accent2: '#f4c95d', // gold
   },
   {
     slug: 'tonbo',
     name: 'Tonbo',
-    // [PLACEHOLDER — Brandon fills this]
-    tagline: '[PLACEHOLDER] One-line positioning for Tonbo.',
-    // [PLACEHOLDER — Brandon fills this]
+    tagline:
+      "Intelligence on the Japanese watch market for collectors — scrapes listings, computes true landed cost, and alerts you when the dream watch you've been chasing appears.",
     summary:
-      '[PLACEHOLDER — Brandon fills this] What Tonbo is, who it serves, and why it matters. Two sentences max.',
+      'JDM watch-market intelligence for collectors — scrapes Japanese listings, computes true landed cost, and alerts you to underpriced watches.',
     accent: '#5b8cff', // iridescent blue
     accent2: '#c06bff', // violet
   },
