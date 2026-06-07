@@ -1,0 +1,143 @@
+---
+title: "From Discord-First to Web Dashboard + Optional Alerts"
+cycle: 1
+date: "May 2026"
+status: "Shipped"
+bluf: "Moved Tonbo's primary interface from Discord to a web dashboard and demoted Discord to optional alerts. Onboarding drop-off fell from 70% to 16%, beating the ≥50%-reduction target."
+tags: ["onboarding", "platform-strategy", "activation", "unbundling"]
+---
+
+## Summary (BLUF)
+
+Beta testers were abandoning onboarding because Discord, the primary interface,
+was unfamiliar and friction-heavy. I moved the interface to a web dashboard and
+demoted Discord to an optional notifications channel. Onboarding drop-off fell
+from **70% to 16% (21 of 25 new users in the week after launch)**, beating the
+≥50%-reduction target.
+
+## Trigger & problem
+
+Pre-launch, onboarding drop-off was ~70%. The activation flow was: pay → receive
+onboarding email → join a Discord server → verify email → configure a bot to your
+preferences. Each step lost people, and the root cause kept pointing at one thing:
+Discord was being asked to be the product's home, and most users didn't want it
+there.
+
+## Discovery & user-research synthesis
+
+I gathered structured feedback from **12 beta testers**. **8 of 12** converged on
+the same theme — Discord-as-primary-interface — with distinct sub-causes:
+
+- Many didn't have Discord or didn't know how to use it.
+- The email-verification step added friction.
+- The bot commands were confusing.
+- The bot UI and available options felt limited.
+
+This is the load-bearing part of the cycle: a clear majority, one dominant theme,
+broken into specific, addressable causes rather than a vague "people didn't like
+it."
+
+<Quote author="[PLACEHOLDER — optional tester quote]" role="Tonbo beta tester">
+[PLACEHOLDER — Brandon: optional. Drop a representative tester quote about the
+Discord friction here, or delete this block.]
+</Quote>
+
+## The PRD
+
+<PRD>
+
+### Problem
+Discord as the primary interface drives onboarding abandonment.
+
+### Target user
+New paying users, many unfamiliar with Discord.
+
+### Success metric (defined upfront)
+Reduce onboarding drop-off by **≥50%**.
+
+### Guardrail
+Don't lose real-time alert engagement — alerts are core value, and Discord was
+carrying them.
+
+### In scope
+- A web dashboard as the primary interface (commands, watchlist adds, live feed).
+- Discord retained for notifications only.
+
+### Out of scope
+- A native mobile app.
+- Fully removing Discord.
+
+### Edge cases & risks
+- The dashboard now lives on the main site → new authentication and user-data
+  attack surface (see Build & Retro).
+
+</PRD>
+
+<Artifact type="PRD" caption="[PLACEHOLDER — full PRD doc; paste it and I'll embed it as a collapsible like cycle 02]" />
+
+## Prioritization
+
+I considered four approaches:
+
+- **Native app mirroring the dashboard with push notifications.** Cleanest UX,
+  but out of scope for a solo operator on this timeline — too much build for the
+  problem.
+- **Web-only, no Discord.** Solves the interface problem but breaks
+  notifications: I'd either spam users with email or lose real-time alerts
+  entirely — and real-time alerts are core value.
+- **Swap Discord for another third-party platform (e.g. Telegram) as the primary
+  interface.** Same fundamental flaw — still forcing users onto an unfamiliar
+  third-party app to *use the product*.
+- **Hybrid (chosen).** The web dashboard becomes the home base — all commands,
+  watchlist adds, and the live feed live there. Discord is demoted to
+  notifications only, like a Telegram alert channel.
+
+**The insight:** Discord was quietly doing *two* jobs — interface and
+notification channel — and it was bad at the first but cheap and good at the
+second. I unbundled them and put each job where it's strongest: interface on the
+web, notifications on Discord. That keeps the core value (real-time alerts) while
+making the unfamiliar surface *optional* instead of *mandatory*.
+
+## Build & sprint summary
+
+New flow: **pay → web dashboard on the same site → magic-link sign-in → do
+everything from the dashboard → optionally connect Discord for real-time alerts.**
+Discord went from a required gate to an opt-in add-on.
+
+Relocating the dashboard onto the main site introduced a new attack surface: for
+the first time I directly owned **authentication and user data** (previously
+fronted by Discord). Two responses:
+
+- I deliberately chose **passwordless magic-link sign-in** before launch — no
+  password store, so there's nothing to breach on that front.
+- I'm not a security specialist, so I **commissioned a security audit from my
+  developer before exposing the dashboard** and had the flagged issues remediated
+  as a precondition of launch.
+
+<Artifact type="diagram" caption="[PLACEHOLDER — before/after onboarding flow diagram]" />
+
+## Measurement & retro
+
+<MetricResult
+  metric="Onboarding drop-off"
+  target="≥50% reduction"
+  result="70% → 16% (21 of 25 new users onboarded in the week after launch)"
+  hit={true}
+  guardrail="Real-time alert engagement — track how many users still connect a notification channel"
+/>
+
+**Guardrail — alert engagement:** because I made Discord optional, the number to
+watch is how many users still connect *some* real-time notification channel.
+
+### Retro & lessons
+
+- The reusable lesson is the **unbundling move**: when one tool is silently doing
+  two jobs, split it so each lives where it's strongest.
+- **Honest note on scale:** these are small, different cohorts (12 beta testers,
+  25 post-launch onboarders). The result is dramatic but directional, not
+  statistically powered.
+- **Honest note on security:** I made the right structural calls — passwordless
+  auth and a pre-launch audit gating the new surface — but I was dependent on my
+  developer to know *what* to worry about. The growth edge is building my own
+  baseline understanding of the surface so I can scope the risk myself, not just
+  commission someone to find it.
