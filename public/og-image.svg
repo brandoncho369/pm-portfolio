@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="grid" width="26" height="26" patternUnits="userSpaceOnUse">
+      <path d="M26 0H0V26" fill="none" stroke="#14160f" stroke-opacity="0.05" />
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="#fbfbf7" />
+  <rect width="1200" height="630" fill="url(#grid)" />
+
+  <!-- top label -->
+  <text x="80" y="120" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="26" fill="#84857a">
+    ~/brandon_
+  </text>
+
+  <!-- headline -->
+  <text x="78" y="300" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="86" font-weight="700" fill="#14150f">
+    Product judgment,
+  </text>
+  <text x="78" y="400" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="86" font-weight="700" fill="#14150f">
+    shown <tspan fill="#0b7a45">—</tspan> not claimed.
+  </text>
+
+  <!-- footer label -->
+  <text x="80" y="540" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="28" fill="#3c3d35">
+    // product management portfolio
+  </text>
+
+  <!-- accent block -->
+  <rect x="80" y="565" width="120" height="10" fill="#0b7a45" />
+</svg>

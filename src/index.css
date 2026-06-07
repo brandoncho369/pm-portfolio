@@ -41,6 +41,7 @@ html {
 
 body {
   margin: 0;
+  overflow-x: hidden; /* safety net against accidental horizontal scroll on mobile */
   background-color: var(--color-bg);
   /* faint graph-paper grid */
   background-image: linear-gradient(var(--color-grid) 1px, transparent 1px),
@@ -189,10 +190,16 @@ body {
   letter-spacing: 0.01em;
 }
 
-/* monospace tables read as data */
+/* monospace tables read as data; wrap long cell text so they never overflow
+   the reading column on mobile */
 .case-prose table {
   font-family: var(--font-mono);
   font-size: 0.85rem;
+}
+.case-prose th,
+.case-prose td {
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 /* collapsible PRD document: hide native marker, rotate our chevron when open */

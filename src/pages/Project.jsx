@@ -1,5 +1,6 @@
 import { useParams, Link } from 'react-router-dom'
 import PageTransition from '../components/PageTransition.jsx'
+import Seo from '../components/Seo.jsx'
 import Reveal from '../components/Reveal.jsx'
 import CycleCard from '../components/CycleCard.jsx'
 import NotFound from './NotFound.jsx'
@@ -15,6 +16,7 @@ export default function Project() {
 
   return (
     <PageTransition>
+      <Seo title={project.name} description={project.summary || project.tagline} />
       <div style={{ '--accent': project.accent }}>
         {/* HEADER ------------------------------------------------------- */}
         <header className="border-b border-[var(--color-border)]">

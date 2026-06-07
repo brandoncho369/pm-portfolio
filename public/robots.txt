@@ -1,0 +1,3 @@
+# Allow all crawlers — this is a public portfolio meant to be found.
+User-agent: *
+Allow: /

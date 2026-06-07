@@ -77,7 +77,7 @@ export default function Hero() {
             </Link>
           </div>
 
-          <dl className="mt-10 flex gap-8 border-t border-[var(--color-hairline)] pt-5">
+          <dl className="mt-10 flex flex-wrap gap-x-8 gap-y-4 border-t border-[var(--color-hairline)] pt-5">
             <div>
               <dt className="label">projects</dt>
               <dd className="font-display text-2xl font-semibold tabular-nums">

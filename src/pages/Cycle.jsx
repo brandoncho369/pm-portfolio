@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import PageTransition from '../components/PageTransition.jsx'
+import Seo from '../components/Seo.jsx'
 import NotFound from './NotFound.jsx'
 import { getCycle } from '../content'
 
@@ -29,6 +30,10 @@ export default function Cycle() {
 
   return (
     <PageTransition>
+      <Seo
+        title={`${fm.title || cycle.slug} — ${project.name}`}
+        description={fm.bluf}
+      />
       <div style={{ '--accent': project.accent }}>
         {/* HEADER ------------------------------------------------------- */}
         <header className="mx-auto max-w-3xl px-4 pt-28 sm:px-6">

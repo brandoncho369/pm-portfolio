@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import PageTransition from '../components/PageTransition.jsx'
+import Seo from '../components/Seo.jsx'
 import Hero from '../components/Hero.jsx'
 import Reveal from '../components/Reveal.jsx'
 import ProjectCard from '../components/ProjectCard.jsx'
@@ -10,6 +11,7 @@ export default function Landing() {
 
   return (
     <PageTransition>
+      <Seo description="Product management portfolio — case studies showing product judgment across full PM development cycles, by Brandon." />
       <Hero />
 
       {/* WORK ------------------------------------------------------------- */}

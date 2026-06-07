@@ -1,4 +1,5 @@
 import PageTransition from '../components/PageTransition.jsx'
+import Seo from '../components/Seo.jsx'
 import Reveal from '../components/Reveal.jsx'
 
 const aboutMod = import.meta.glob('/content/about.mdx', { eager: true })
@@ -10,6 +11,10 @@ const StarStories = Object.values(starMod)[0]?.default
 export default function AboutPage() {
   return (
     <PageTransition>
+      <Seo
+        title="About"
+        description="About Brandon — how he thinks about building product — plus STAR interview stories."
+      />
       <div className="mx-auto max-w-3xl px-4 pt-28 sm:px-6">
         {/* ABOUT --------------------------------------------------------- */}
         <Reveal>
