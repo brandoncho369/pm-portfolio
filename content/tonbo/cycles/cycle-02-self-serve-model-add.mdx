@@ -17,6 +17,8 @@ attempt succeeded within two tries.
 
 ## Trigger & problem
 
+<TLDR>Every off-catalog watch needed a support email and a manual add by me, the sole operator, a bottleneck for users and for catalog growth.</TLDR>
+
 During tester feedback, one complaint recurred: the specific watch a collector
 wanted to track wasn't in the catalog. The only fallback was a support email,
 after which I, the sole operator, manually added the model. That was friction for
@@ -24,6 +26,8 @@ the user (wait on a human, every single time) and a hard bottleneck for me (ever
 catalog gap routed through one person).
 
 ## Discovery & user-research synthesis
+
+<TLDR>Each "it's not on here" email is a precise demand signal naming exactly which long-tail model a real user wants.</TLDR>
 
 The signal came straight from tester feedback and from the volume of "please add
 this model" support emails, which doubled as a clean frequency measure of how
@@ -40,6 +44,8 @@ take to add those?
 </Quote>
 
 ## The PRD
+
+<TLDR>A self-serve path to resolve and add any single off-catalog model, without pre-loading the full ~10k+ universe of watches.</TLDR>
 
 <PRD>
 
@@ -217,6 +223,8 @@ flow to drop out of.
 
 ## Prioritization
 
+<TLDR>Chose on-demand LLM resolution: instant for the user, zero operator effort, and cost scaled to actual demand.</TLDR>
+
 I considered four options:
 
 - **A. Add to watchlist now, hook up data later by hand.** Unblocks the user
@@ -244,6 +252,8 @@ automated out of existence."
 
 ## Build & sprint summary
 
+<TLDR>Shipped in 2 days: a sticky request input in the existing dropdown that resolves a model via Claude in under 60 seconds.</TLDR>
+
 Shipped in **2 days**. The request input lives at the bottom of the existing
 model-selection dropdown (sticky), deliberately on the same surface where users
 add a watch to their watchlist, so resolving a missing model and completing the
@@ -262,6 +272,8 @@ surfaced to the user → user adds to watchlist inline.
 />
 
 ## Measurement & retro
+
+<TLDR>Model-add support emails fell 87% in 7 days. The open edge is moving the data-integrity guardrail from weekly to real-time.</TLDR>
 
 <MetricResult
   metric="Model-add support email volume"

@@ -178,7 +178,8 @@ body {
   margin-top: 2.75rem;
 }
 .case-prose > h2::before {
-  content: counter(beat, decimal-leading-zero) "  —  ";
+  content: counter(beat, decimal-leading-zero);
+  margin-right: 0.6rem;
   font-family: var(--font-mono);
   font-weight: 600;
   color: var(--accent);

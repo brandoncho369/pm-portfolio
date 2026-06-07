@@ -18,6 +18,20 @@ export function Placeholder({ children, label = 'PLACEHOLDER, Brandon fills this
   )
 }
 
+// One-line takeaway that leads each beat. Always visible and visually distinct
+// so a recruiter can skim the case study's "spine" in seconds, then read the
+// prose below any beat that interests them.
+export function TLDR({ children }) {
+  return (
+    <p className="not-prose mb-5 mt-1 flex gap-2.5 text-[1.05rem] font-semibold leading-snug text-[var(--color-ink)]">
+      <span className="select-none" style={{ color: 'var(--accent)' }} aria-hidden>
+        →
+      </span>
+      <span>{children}</span>
+    </p>
+  )
+}
+
 export function BLUF({ children }) {
   return (
     <div className="not-prose my-6 border border-[var(--color-border)] bg-[var(--color-surface)]">
@@ -200,6 +214,7 @@ export function Callout({ children, title }) {
 }
 
 export const mdxComponents = {
+  TLDR,
   BLUF,
   PRD,
   PRDDoc,

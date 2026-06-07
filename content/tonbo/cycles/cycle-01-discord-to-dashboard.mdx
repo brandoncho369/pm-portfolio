@@ -17,6 +17,8 @@ from **70% to 16% (21 of 25 new users in the week after launch)**, beating the
 
 ## Trigger & problem
 
+<TLDR>Discord was being forced to be the product's home, and ~70% of new users bounced before activation.</TLDR>
+
 Pre-launch, onboarding drop-off was ~70%. The activation flow was: pay → receive
 onboarding email → join a Discord server → verify email → configure a bot to your
 preferences. Each step lost people, and the root cause kept pointing at one thing:
@@ -24,6 +26,8 @@ Discord was being asked to be the product's home, and most users didn't want it
 there.
 
 ## Discovery & user-research synthesis
+
+<TLDR>8 of 12 beta testers independently named the same cause: Discord as the primary interface.</TLDR>
 
 I gathered structured feedback from **12 beta testers**. **8 of 12** converged on
 the same theme, Discord-as-primary-interface, with distinct sub-causes:
@@ -42,6 +46,8 @@ I don't know how to use Discord.
 </Quote>
 
 ## The PRD
+
+<TLDR>Move the interface to a web dashboard and demote Discord to optional, notifications-only, without losing real-time alerts.</TLDR>
 
 <PRD>
 
@@ -187,6 +193,8 @@ optional rather than mandatory.
 
 ## Prioritization
 
+<TLDR>The unbundle: Discord was doing two jobs (interface and notifications), so I split them and made only the unfamiliar one optional.</TLDR>
+
 I considered four approaches:
 
 - **Native app mirroring the dashboard with push notifications.** Cleanest UX,
@@ -210,6 +218,8 @@ making the unfamiliar surface *optional* instead of *mandatory*.
 
 ## Build & sprint summary
 
+<TLDR>The new flow is dashboard-first with magic-link sign-in, and I commissioned a security audit before exposing the new surface.</TLDR>
+
 New flow: **pay → web dashboard on the same site → magic-link sign-in → do
 everything from the dashboard → optionally connect Discord for real-time alerts.**
 Discord went from a required gate to an opt-in add-on.
@@ -231,6 +241,8 @@ fronted by Discord). Two responses:
 />
 
 ## Measurement & retro
+
+<TLDR>Drop-off fell from 70% to 16%, beating the ≥50% target. The transferable lesson is the unbundling move.</TLDR>
 
 <MetricResult
   metric="Onboarding drop-off"
