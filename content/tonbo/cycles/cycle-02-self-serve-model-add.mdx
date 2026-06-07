@@ -3,13 +3,13 @@ title: "Self-Serve Model Add"
 cycle: 2
 date: "May 2026"
 status: "Shipped"
-bluf: "A self-serve flow that resolves any off-catalog watch in under 60 seconds for under 1¢ and zero operator effort — model-add support emails fell 87% within 7 days."
+bluf: "A self-serve flow that resolves any off-catalog watch in under 60 seconds for under 1¢ and zero operator effort. Model-add support emails fell 87% within 7 days."
 tags: ["self-serve", "LLM", "bottleneck-removal", "long-tail-supply"]
 ---
 
 ## Summary (BLUF)
 
-Testers couldn't track watches outside Tonbo's catalog — their only option was to
+Testers couldn't track watches outside Tonbo's catalog. Their only option was to
 email me to add each model by hand. I shipped a self-serve flow that resolves any
 off-catalog model in under 60 seconds, for under 1¢ per model and zero operator
 effort. Model-add support emails dropped 87% within 7 days, and every self-serve
@@ -54,7 +54,7 @@ long tail outside the core catalog.
 ### Success metrics (defined upfront)
 - **Primary:** reduce model-add support email volume by ≥75% within 7 days of
   launch.
-- **Guardrail:** model-data integrity — no duplicate or non-existent models
+- **Guardrail:** model-data integrity, no duplicate or non-existent models
   entering the database via self-serve adds.
 
 ### In scope
@@ -75,22 +75,22 @@ long tail outside the core catalog.
 - Cost / abuse → rate limiting on requests.
 
 ### Constraints
-- 2–3 day build; solo operator (no communication delay, so iteration is fast).
+- 2–3 day build. Solo operator (no communication delay, so iteration is fast).
 
 </PRD>
 
 <PRDDoc
-  title="Full PRD — Self-Serve Model Add"
+  title="Full PRD: Self-Serve Model Add"
   meta="Product: Tonbo · Author: Brandon · Status: Shipped · Created 2026-05-28 · Last updated 2026-05-28"
 >
 
-### 1. Summary (TL;DR)
+### 1. Summary
 Collectors can't track a watch unless it already exists in Tonbo's catalog. When
 a model is missing, the only path is a support request that I (sole operator)
 fulfill by hand. This PRD covers a self-serve flow that lets a user resolve any
 off-catalog model themselves: they enter a reference number, an LLM maps it to the
 correct brand/family, the model is added to the scraping pipeline, and a one-off
-comp calculation runs on demand — all in under 60 seconds, at under 1¢ per model,
+comp calculation runs on demand, all in under 60 seconds, at under 1¢ per model,
 with no operator involvement.
 
 ### 2. Problem & Background
@@ -104,7 +104,7 @@ support, after which I manually added the model. This created two problems:
   bottleneck for catalog growth.
 
 The volume of "please add this model" support emails was both the pain and the
-data — each one a precise demand signal naming exactly which long-tail reference a
+data. Each one is a precise demand signal naming exactly which long-tail reference a
 real user wanted.
 
 ### 3. Goals & Non-Goals
@@ -129,12 +129,12 @@ real user wanted.
   model.
 - **Conversion (counter-metric):** share of resolved models that the user then
   adds to their watchlist.
-- **Guardrail:** model-data integrity — no duplicate or non-existent models
+- **Guardrail:** model-data integrity, no duplicate or non-existent models
   entering the database via self-serve adds.
 
 ### 5. Target User
 Japanese watch collectors tracking specific reference models. A meaningful share
-of demand sits in the long tail — references outside the core catalog that
+of demand sits in the long tail: references outside the core catalog that
 individual collectors care about but that wouldn't justify pre-loading.
 
 ### 6. User Stories
@@ -191,26 +191,26 @@ flow to drop out of.
 - Build window: 2–3 days.
 - Team: solo operator, no communication delay, fast iteration loop.
 - Assumption: users can supply an exact reference number when prompted (validated
-  in testing — see retro).
+  in testing, see retro).
 
 ### 11. Risks & Mitigations
 
 - **Confidently-wrong LLM match** (a valid-looking reference mapped to the wrong
   family) feeds incorrect comp data. Mitigation today: a weekly validation cron
   flags duplicates and non-existent models. Known limitation: this guardrail is
-  lagging — bad data can persist up to a week. Next iteration: a real-time
+  lagging, so bad data can persist up to a week. Next iteration: a real-time
   confidence check / match-confirmation step at insertion, consistent with Tonbo's
   existing confidence-level treatment of sparse-data alerts.
-- **Cost / abuse:** mitigated by rate limiting; per-model cost is under 1¢, so
+- **Cost / abuse:** mitigated by rate limiting. Per-model cost is under 1¢, so
   blast radius is small.
 
 ### 12. Alternatives Considered
 
 | Option | Why not |
 | --- | --- |
-| Add to watchlist now, hook up scraping/comp data by hand later | Unblocks the user, but the manual hook-up still routes through me — bottleneck deferred, not removed. |
-| Batch the top-requested models weekly | Neglects the long tail; early-week requesters wait days; still manual prioritization. |
-| Pre-load all 10k+ models | Scraping credits skyrocket, DB bloats, most are never demanded — supplying inventory nobody asked for. |
+| Add to watchlist now, hook up scraping/comp data by hand later | Unblocks the user, but the manual hook-up still routes through me. Bottleneck deferred, not removed. |
+| Batch the top-requested models weekly | Neglects the long tail. Early-week requesters wait days, and prioritization is still manual. |
+| Pre-load all 10k+ models | Scraping credits skyrocket, DB bloats, and most are never demanded, so you supply inventory nobody asked for. |
 | On-demand LLM resolution (chosen) | Instant for the user, zero operator effort, cost scales to actual demand. The LLM collapses the one step (brand/family disambiguation) that previously needed a human. |
 
 </PRDDoc>
@@ -219,17 +219,17 @@ flow to drop out of.
 
 I considered four options:
 
-- **A — Add to watchlist now, hook up data later by hand.** Unblocks the user
+- **A. Add to watchlist now, hook up data later by hand.** Unblocks the user
   instantly, but the manual step (adding the model to the scraper regex pattern
   and to comp-data collection) still routes through me. The bottleneck is
   deferred, not removed.
-- **B — Batch the top-requested models weekly.** Neglects the long tail entirely,
+- **B. Batch the top-requested models weekly.** Neglects the long tail entirely,
   and a user who requests early in the week waits days. Still manual
   prioritization on my end.
-- **C — Just add all 10k+ models.** Scraping credits skyrocket, the database
-  bloats, and most of those watches are never demanded — paying to supply
+- **C. Just add all 10k+ models.** Scraping credits skyrocket, the database
+  bloats, and most of those watches are never demanded, so I'd pay to supply
   inventory nobody asked for.
-- **D — On-demand resolution (chosen).** A sticky input at the bottom of the
+- **D. On-demand resolution (chosen).** A sticky input at the bottom of the
   existing model dropdown takes the user's reference number → an API call to
   Claude maps it to the correct brand and family → the model is written to the
   scraping database → the same weekly comp-detection/calculation job is run
@@ -238,7 +238,7 @@ I considered four options:
 
 **Why D wins:** it's instant for the user (like A, unlike B), requires zero manual
 operator work (unlike A), and scales cost to actual demand (unlike C). The LLM is
-the piece that collapses the one step — brand/family disambiguation — that
+the piece that collapses the one step, brand/family disambiguation, that
 previously required a human. In effect, D is "Option A with the hook-up step
 automated out of existence."
 
@@ -246,7 +246,7 @@ automated out of existence."
 
 Shipped in **2 days**. The request input lives at the bottom of the existing
 model-selection dropdown (sticky), deliberately on the same surface where users
-add a watch to their watchlist — so resolving a missing model and completing the
+add a watch to their watchlist, so resolving a missing model and completing the
 actual job happen in one place, with no separate flow to drop out of.
 
 Pipeline: user enters reference number → Claude matches brand/family → insert into
@@ -258,7 +258,7 @@ surfaced to the user → user adds to watchlist inline.
 <Artifact
   src="/artifacts/tonbo-model-request-dropdown.png"
   alt="Tonbo watchlist model search with a 'Request research' input pinned to the bottom of the results list"
-  caption="The request input is pinned to the bottom of the watchlist search ('Not finding it? Request research for…'), so resolving a missing model happens on the same surface where the user adds one — no separate flow to drop out of."
+  caption="The request input is pinned to the bottom of the watchlist search ('Not finding it? Request research for…'), so resolving a missing model happens on the same surface where the user adds one, with no separate flow to drop out of."
 />
 
 ## Measurement & retro
@@ -268,28 +268,28 @@ surfaced to the user → user adds to watchlist inline.
   target="≥75% reduction within 7 days"
   result="87% reduction within 7 days"
   hit={true}
-  guardrail="Data integrity — weekly validation cron flags duplicate / non-existent models"
+  guardrail="Data integrity: weekly validation cron flags duplicate / non-existent models"
 />
 
 **Completion:** 100% of self-serve attempts succeeded within two tries. The
 retries were users who entered a nickname first and then the exact reference
-number after the "not found" prompt — i.e., the edge-case handling worked as
+number after the "not found" prompt. The edge-case handling worked as
 designed: the error message taught users to self-correct rather than giving up.
 
 **Conversion:** 100% of users who resolved a model added it to their watchlist
-immediately, because it happens in the same dropdown — the design collapses
+immediately, because it happens in the same dropdown. The design collapses
 resolution and the actual job into a single step, so there's no funnel drop-off.
 
-**Guardrail — data integrity:** a weekly validation cron checks for duplicate and
+**Guardrail (data integrity):** a weekly validation cron checks for duplicate and
 non-existent models, acting as the safety net on anything the LLM matcher gets
 wrong.
 
 ### Retro & lessons
 
-The guardrail is currently *lagging* — it runs weekly, not at point of insertion.
+The guardrail is currently *lagging*: it runs weekly, not at point of insertion.
 A confidently-wrong match (a valid-looking reference mapped to the wrong family)
 could feed bad comp data for up to a week before the cron catches it. Because comp
 accuracy is Tonbo's core value, the next iteration is a real-time confidence check
-or match-confirmation step at insertion — consistent with how I already
+or match-confirmation step at insertion, consistent with how I already
 communicate uncertainty elsewhere in Tonbo (confidence levels on sparse-data
 alerts).

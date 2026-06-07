@@ -55,14 +55,12 @@ export default function Hero() {
           <h1 className="mt-5 font-display text-4xl font-semibold leading-[1.08] tracking-tight text-[var(--color-ink)] sm:text-6xl">
             Product judgment,
             <br />
-            shown
-            <span style={{ color: 'var(--accent)' }}> — </span>
-            not claimed.
+            shown. <span style={{ color: 'var(--accent)' }}>Not claimed.</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
-            I'm a builder who ships products end-to-end — user research, scoping,
-            and code — then documents the thinking behind each call. Two products
+            I'm a builder who ships products end-to-end: user research, scoping,
+            and code, then documents the thinking behind each call. Two products
             below, broken down the way I actually run and built them.
           </p>
 

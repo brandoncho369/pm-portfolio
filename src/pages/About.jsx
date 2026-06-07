@@ -13,7 +13,7 @@ export default function AboutPage() {
     <PageTransition>
       <Seo
         title="About"
-        description="About Brandon — how he thinks about building product — plus STAR interview stories."
+        description="About Brandon: how he thinks about building product, plus STAR interview stories."
       />
       <div className="mx-auto max-w-3xl px-4 pt-28 sm:px-6">
         {/* ABOUT --------------------------------------------------------- */}
@@ -27,7 +27,7 @@ export default function AboutPage() {
           {About ? (
             <About />
           ) : (
-            <p>[PLACEHOLDER — Brandon fills this] Add /content/about.mdx</p>
+            <p>[PLACEHOLDER, Brandon fills this] Add /content/about.mdx</p>
           )}
         </article>
 
@@ -47,7 +47,7 @@ export default function AboutPage() {
               <StarStories />
             ) : (
               <p>
-                [PLACEHOLDER — Brandon fills this] Add /content/star-stories.mdx
+                [PLACEHOLDER, Brandon fills this] Add /content/star-stories.mdx
               </p>
             )}
           </article>

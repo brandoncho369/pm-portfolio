@@ -12,7 +12,7 @@ export default function Footer() {
             <span style={{ color: 'var(--accent)' }}>_</span>
           </p>
           <p className="mt-2 max-w-sm text-sm text-ink-soft">
-            Product management portfolio — evidence of product judgment, one
+            Product management portfolio. Evidence of product judgment, one
             development cycle at a time.
           </p>
         </div>

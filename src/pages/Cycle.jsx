@@ -31,7 +31,7 @@ export default function Cycle() {
   return (
     <PageTransition>
       <Seo
-        title={`${fm.title || cycle.slug} — ${project.name}`}
+        title={`${fm.title || cycle.slug} · ${project.name}`}
         description={fm.bluf}
       />
       <div style={{ '--accent': project.accent }}>

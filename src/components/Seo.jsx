@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 // Per-route document title + meta description + Open Graph / Twitter tags.
 // Set client-side, which covers browsers, history, and JS-rendering crawlers
 // (e.g. Google). Non-JS scrapers fall back to the static defaults in index.html.
-const SITE = 'Brandon — PM Portfolio'
+const SITE = 'Brandon · PM Portfolio'
 
 function upsertMeta(attr, key, value) {
   if (value == null) return

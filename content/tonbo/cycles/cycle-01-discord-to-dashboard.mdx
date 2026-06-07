@@ -26,7 +26,7 @@ there.
 ## Discovery & user-research synthesis
 
 I gathered structured feedback from **12 beta testers**. **8 of 12** converged on
-the same theme — Discord-as-primary-interface — with distinct sub-causes:
+the same theme, Discord-as-primary-interface, with distinct sub-causes:
 
 - Many didn't have Discord or didn't know how to use it.
 - The email-verification step added friction.
@@ -55,7 +55,7 @@ New paying users, many unfamiliar with Discord.
 Reduce onboarding drop-off by **≥50%**.
 
 ### Guardrail
-Don't lose real-time alert engagement — alerts are core value, and Discord was
+Don't lose real-time alert engagement: alerts are core value, and Discord was
 carrying them.
 
 ### In scope
@@ -73,11 +73,11 @@ carrying them.
 </PRD>
 
 <PRDDoc
-  title="Full PRD — Web Dashboard + Optional Discord Alerts"
+  title="Full PRD: Web Dashboard + Optional Discord Alerts"
   meta="Product: Tonbo · Author: Brandon · Status: Shipped · Created 2026-05-23 · Last updated 2026-05-27"
 >
 
-### 1. Summary (TL;DR)
+### 1. Summary
 New users were abandoning onboarding because Discord served as the product's
 primary interface, and most users found it unfamiliar and high-friction. This PRD
 moves the interface to a web dashboard on the main site (magic-link sign-in) and
@@ -92,7 +92,7 @@ asked users to adopt and learn an unfamiliar third-party app just to use the
 product they'd paid for.
 
 ### 3. Discovery
-Structured feedback from 12 beta testers; 8 of 12 independently raised
+Structured feedback from 12 beta testers, 8 of whom independently raised
 Discord-as-primary-interface, with these sub-causes:
 
 - No Discord account / unfamiliar with Discord.
@@ -117,8 +117,8 @@ Discord-as-primary-interface, with these sub-causes:
 (Defined before launch.)
 
 - **Primary:** reduce onboarding drop-off by ≥50% within one week. (Result:
-  70% → 16%, i.e. 4 of 25 new users — target exceeded.)
-- **Guardrail:** real-time alert engagement — share of users who still connect a
+  70% → 16%, i.e. 4 of 25 new users, target exceeded.)
+- **Guardrail:** real-time alert engagement, the share of users who still connect a
   notification channel after Discord became optional.
 
 ### 6. Target User
@@ -132,21 +132,21 @@ to adopt it as a primary tool.
 - As a new user, I want to sign in without a multi-step verification gauntlet, so
   onboarding is fast.
 - As an active user, I want real-time alerts, so I don't miss time-sensitive
-  signals — but I want connecting that channel to be my choice.
+  signals, but I want connecting that channel to be my choice.
 
 ### 8. Solution Overview
 The web dashboard becomes the home base. All interactions that previously ran
-through Discord bot commands — watchlist adds, the live feed, configuration —
+through Discord bot commands (watchlist adds, the live feed, configuration)
 happen in the dashboard. Discord is demoted to a notifications-only channel
 (analogous to Telegram alerts) that users opt into for real-time alerts.
 
 New flow: pay → web dashboard on the same site → magic-link sign-in → use
 everything → optionally connect Discord for real-time alerts.
 
-Design rationale: Discord had been doing two jobs — interface and notifications —
+Design rationale: Discord had been doing two jobs, interface and notifications,
 and was weak at the first but cheap and effective at the second. The two jobs are
-split so each runs where it performs best; the unfamiliar surface becomes optional
-rather than mandatory.
+split so each runs where it performs best, and the unfamiliar surface becomes
+optional rather than mandatory.
 
 ### 9. Functional Requirements
 
@@ -158,17 +158,17 @@ rather than mandatory.
 
 ### 10. Edge Cases & Constraints
 
-- User never connects Discord → fully usable via dashboard; alerts surfaced in-app
-  where possible.
+- User never connects Discord → fully usable via dashboard, with alerts surfaced
+  in-app where possible.
 - Magic-link handling: single-use, time-limited links.
-- Constraint: solo operator; favor scope that ships fast over a native app build.
+- Constraint: solo operator, favoring scope that ships fast over a native app build.
 
 ### 11. Risks & Mitigations
 
 - **New attack surface.** Moving the dashboard onto the main site means
   authentication and user data are now directly owned (previously fronted by
   Discord). Mitigations: deliberate passwordless magic-link sign-in (no password
-  store); a security audit commissioned from the developer before launch, with
+  store), and a security audit commissioned from the developer before launch, with
   flagged issues remediated as a precondition of exposing the dashboard.
 - **Optional notifications may reduce alert engagement.** Making Discord opt-in
   risks users missing real-time alerts (core value). Mitigation/monitor: track
@@ -178,10 +178,10 @@ rather than mandatory.
 
 | Option | Why not |
 | --- | --- |
-| Native app mirroring the dashboard + push | Out of scope for a solo operator on this timeline — too much build for the problem. |
-| Web-only, no Discord | Breaks notifications: either email spam or no real-time alerts; loses core value. |
-| Swap Discord for another third-party platform as the interface | Same flaw — still forces an unfamiliar third-party app to use the product. |
-| Web dashboard + Discord notifications-only (chosen) | Keeps real-time alerts while making the unfamiliar surface optional; each job runs where it's strongest. |
+| Native app mirroring the dashboard + push | Out of scope for a solo operator on this timeline. Too much build for the problem. |
+| Web-only, no Discord | Breaks notifications: either email spam or no real-time alerts, which loses core value. |
+| Swap Discord for another third-party platform as the interface | Same flaw. Still forces an unfamiliar third-party app to use the product. |
+| Web dashboard + Discord notifications-only (chosen) | Keeps real-time alerts while making the unfamiliar surface optional. Each job runs where it's strongest. |
 
 </PRDDoc>
 
@@ -190,20 +190,20 @@ rather than mandatory.
 I considered four approaches:
 
 - **Native app mirroring the dashboard with push notifications.** Cleanest UX,
-  but out of scope for a solo operator on this timeline — too much build for the
+  but out of scope for a solo operator on this timeline. Too much build for the
   problem.
 - **Web-only, no Discord.** Solves the interface problem but breaks
   notifications: I'd either spam users with email or lose real-time alerts
-  entirely — and real-time alerts are core value.
+  entirely, and real-time alerts are core value.
 - **Swap Discord for another third-party platform (e.g. Telegram) as the primary
-  interface.** Same fundamental flaw — still forcing users onto an unfamiliar
+  interface.** Same fundamental flaw. It still forces users onto an unfamiliar
   third-party app to *use the product*.
-- **Hybrid (chosen).** The web dashboard becomes the home base — all commands,
+- **Hybrid (chosen).** The web dashboard becomes the home base: all commands,
   watchlist adds, and the live feed live there. Discord is demoted to
   notifications only, like a Telegram alert channel.
 
-**The insight:** Discord was quietly doing *two* jobs — interface and
-notification channel — and it was bad at the first but cheap and good at the
+**The insight:** Discord was quietly doing *two* jobs, interface and
+notification channel, and it was bad at the first but cheap and good at the
 second. I unbundled them and put each job where it's strongest: interface on the
 web, notifications on Discord. That keeps the core value (real-time alerts) while
 making the unfamiliar surface *optional* instead of *mandatory*.
@@ -218,7 +218,7 @@ Relocating the dashboard onto the main site introduced a new attack surface: for
 the first time I directly owned **authentication and user data** (previously
 fronted by Discord). Two responses:
 
-- I deliberately chose **passwordless magic-link sign-in** before launch — no
+- I deliberately chose **passwordless magic-link sign-in** before launch, with no
   password store, so there's nothing to breach on that front.
 - I'm not a security specialist, so I **commissioned a security audit from my
   developer before exposing the dashboard** and had the flagged issues remediated
@@ -237,10 +237,10 @@ fronted by Discord). Two responses:
   target="≥50% reduction"
   result="70% → 16% (21 of 25 new users onboarded in the week after launch)"
   hit={true}
-  guardrail="Real-time alert engagement — track how many users still connect a notification channel"
+  guardrail="Real-time alert engagement: track how many users still connect a notification channel"
 />
 
-**Guardrail — alert engagement:** because I made Discord optional, the number to
+**Guardrail (alert engagement):** because I made Discord optional, the number to
 watch is how many users still connect *some* real-time notification channel.
 
 ### Retro & lessons
@@ -250,8 +250,8 @@ watch is how many users still connect *some* real-time notification channel.
 - **Honest note on scale:** these are small, different cohorts (12 beta testers,
   25 post-launch onboarders). The result is dramatic but directional, not
   statistically powered.
-- **Honest note on security:** I made the right structural calls — passwordless
-  auth and a pre-launch audit gating the new surface — but I was dependent on my
+- **Honest note on security:** I made the right structural calls, passwordless
+  auth and a pre-launch audit gating the new surface, but I was dependent on my
   developer to know *what* to worry about. The growth edge is building my own
   baseline understanding of the surface so I can scope the risk myself, not just
   commission someone to find it.

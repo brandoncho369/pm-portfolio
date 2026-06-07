@@ -18,7 +18,7 @@
     Product judgment,
   </text>
   <text x="78" y="400" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="86" font-weight="700" fill="#14150f">
-    shown <tspan fill="#0b7a45">—</tspan> not claimed.
+    shown. <tspan fill="#0b7a45">Not claimed.</tspan>
   </text>
 
   <!-- footer label -->

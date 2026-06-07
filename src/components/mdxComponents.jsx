@@ -4,7 +4,7 @@
 // All STATIC and high-contrast — nothing here delays reading.
 // ---------------------------------------------------------------------------
 
-export function Placeholder({ children, label = 'PLACEHOLDER — Brandon fills this' }) {
+export function Placeholder({ children, label = 'PLACEHOLDER, Brandon fills this' }) {
   return (
     <div className="my-4 border border-dashed border-[color-mix(in_oklab,var(--accent)_55%,var(--color-hairline))] bg-[color-mix(in_oklab,var(--accent)_6%,transparent)] px-4 py-3 text-sm">
       <span
@@ -53,7 +53,7 @@ export function PRD({ children, title = 'Product Requirements Document' }) {
 
 export function MetricResult({ metric, target, result, hit, guardrail }) {
   const hitLabel =
-    hit === true ? 'PASS' : hit === false ? 'MISS' : hit || '—'
+    hit === true ? 'PASS' : hit === false ? 'MISS' : hit || 'n/a'
   const hitColor =
     hit === true
       ? 'var(--color-hit)'
@@ -101,7 +101,7 @@ export function Quote({ children, author, role }) {
       </blockquote>
       {(author || role) && (
         <figcaption className="mt-3 font-mono text-xs text-muted">
-          — {author && <span className="text-ink-soft">{author}</span>}
+          {author && <span className="text-ink-soft">{author}</span>}
           {author && role && ', '}
           {role}
         </figcaption>

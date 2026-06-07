@@ -5,7 +5,7 @@ import Seo from '../components/Seo.jsx'
 export default function NotFound() {
   return (
     <PageTransition>
-      <Seo title="404 — Not found" />
+      <Seo title="Page not found" />
       <div className="mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center px-4 text-center">
         <p className="font-mono text-sm text-muted">
           $ cat ./this-page

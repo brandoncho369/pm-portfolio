@@ -11,7 +11,7 @@ export default function Landing() {
 
   return (
     <PageTransition>
-      <Seo description="Product management portfolio — case studies showing product judgment across full PM development cycles, by Brandon." />
+      <Seo description="Product management portfolio. Case studies showing product judgment across full PM development cycles, by Brandon." />
       <Hero />
 
       {/* WORK ------------------------------------------------------------- */}
@@ -22,7 +22,7 @@ export default function Landing() {
             Two products, documented as PM development cycles.
           </h2>
           <p className="mt-4 max-w-2xl text-ink-soft">
-            Each cycle runs the full arc — trigger, discovery, PRD,
+            Each cycle runs the full arc: trigger, discovery, PRD,
             prioritization, build, and measured result. Skim the bottom-line in
             seconds, or read the reasoning end to end.
           </p>
@@ -42,7 +42,7 @@ export default function Landing() {
         <Reveal className="panel p-8 sm:p-12">
           <p className="label">// about</p>
           <h2 className="mt-3 max-w-3xl font-display text-xl font-semibold tracking-tight sm:text-2xl">
-            What I care about is the judgment — which problem matters, what not
+            What I care about is the judgment: which problem matters, what not
             to build, and how you'd know if you were right.
           </h2>
           <Link
