@@ -73,7 +73,126 @@ Beginner progression through the early tiers.
 
 </PRD>
 
-<Artifact type="PRD" caption="[PLACEHOLDER, full PRD doc. Paste it and I'll embed it as a collapsible like the other cycles]" />
+<PRDDoc
+  title="Full PRD: Tiered Complexity System"
+  meta="Product: Poker Ascent · Author: Brandon · Status: Shipped · Created 2026-03-04 · Last updated 2026-03-16"
+>
+
+### 1. Summary
+The training engine models a full, realistic set of decision variables, and
+beginners were overwhelmed by facing all of them at once. This PRD introduces a
+five-tier leveling system that introduces variables progressively (tiers 1 to 4)
+and ends in an open-ended full-complexity mode (tier 5), with XP earned through
+accuracy. Goal: let beginners learn gradually without hiding the realism the
+product depends on, while keeping experts moving.
+
+### 2. Problem & Background
+The engine accounts for intended playstyle, player count (heads-up vs. multiway),
+stack sizes (hero and villains), villain archetypes (nit, loose, etc.), position,
+the hand, board texture, and previous streets. Each is a genuine input to a
+correct decision. But presented all at once, beginners couldn't weigh them and
+were overloaded. The realism that gives the product credibility was also its
+onboarding wall.
+
+### 3. Discovery
+Beta feedback (same cohort) showed beginners specifically struggling to prioritize
+among variables and feeling overwhelmed by the full set at once. The variables
+themselves were not the problem. The simultaneous exposure was. 8 of 22 beginners
+explicitly raised overwhelm.
+
+### 4. Goals & Non-Goals
+**Goals**
+
+- Let beginners build up to full complexity gradually.
+- Preserve all variables (no permanent hiding). It is an education product.
+- Keep experts progressing quickly. Don't force a slow grind.
+- Provide a clear sense of progression and completion.
+
+**Non-Goals**
+
+- Hiding variables permanently.
+- Free, user-selected complexity.
+- Finishable-in-a-month content (retention must span months).
+
+### 5. Success Metrics
+
+- **Primary:** beginner progression through early tiers. (Result: 14 of 22
+  beginners reached tier 3 within 7 sessions.)
+- **Guardrail 1, learning quality:** accuracy on full-complexity (tier 5) drills.
+  (Not yet readable in the 7-session window by design. Full complexity is months
+  out.)
+- **Guardrail 2, expert churn:** early-session quit rate among high-accuracy
+  users. (Result: zero expert drop-offs in the window. Caveat: early-window only.)
+- **Secondary (diagnostic):** overwhelm-feedback frequency, per-variable
+  dip-and-recover accuracy, and time or completions to clear each tier.
+
+### 6. Target User
+Beginners, who must learn variables incrementally, and experienced or expert
+players, who already understand them and must not be slowed to a crawl.
+
+### 7. User Stories
+
+- As a beginner, I want to start with a few variables and add more as I improve, so
+  I'm never asked to weigh more than I can handle.
+- As an improving player, I want a clear sense of advancement, so progression feels
+  earned rather than arbitrary.
+- As an expert, I want to move through the basics quickly, so I'm not stuck
+  grinding content I've mastered.
+
+### 8. Solution Overview
+A five-tier progression:
+
+- Tiers 1 to 4: each introduces one or a few new variables, layering complexity
+  gradually. Higher tiers require more drill completions to clear.
+- Tier 5: open-ended "infinite" mode at full complexity, so tier 4 is the last
+  tier of added complexity.
+- XP is earned through accuracy, so skill paces the climb.
+
+Expert-pacing mechanic, hot-streak XP: consecutive correct answers accelerate XP
+gain, letting skill self-calibrate speed through the low tiers without a separate
+placement step. (This is the built intervention, distinct from the guardrail
+metric that monitors expert churn.)
+
+Tiers are not freely selectable, by design: free choice would remove the sense of
+progression and completion the system is meant to create.
+
+### 9. Functional Requirements
+
+- Tiers 1 to 4 each unlock a defined set of new variables. Tier 5 presents full
+  complexity, open-ended.
+- XP is awarded on accuracy. Tier advancement requires accumulating tier-specific
+  completion thresholds.
+- Hot-streak: consecutive correct answers increase XP rate.
+- Content volume gated to support months-long retention.
+
+### 10. Edge Cases & Constraints
+
+- Expert forced through low tiers: mitigated (not eliminated) by hot-streak. See
+  open questions for calibrated entry.
+- Beginner on a lucky streak advancing before consolidating: monitor via
+  learning-quality guardrail.
+- Constraint: retention target is months. Content must not be exhausted quickly.
+
+### 11. Risks & Mitigations
+
+- **Comfort over learning.** Simpler tiers could make beginners feel progress
+  without getting better. Mitigation and monitor: learning-quality guardrail
+  (full-complexity accuracy), measured at tier 5.
+- **Expert churn from grinding.** Mitigation: hot-streak acceleration. Monitor:
+  expert early-quit rate. Known limit: it speeds the grind, it doesn't remove it.
+- **Interacting guardrails.** Faster XP (the expert fix) can push under-consolidated
+  beginners forward (a learning-quality risk), so the two guardrails must be read
+  together.
+
+### 12. Alternatives Considered
+
+| Option | Why not |
+| --- | --- |
+| Keep some variables implicit | Undercuts the educational value. Users should learn these factors exist. |
+| User-selected complexity in settings | Users forget to change it. They stall on easy or jump up and re-overwhelm, and it offloads a teaching decision to the learner. |
+| Tiered leveling, XP-gated (chosen) | Scaffolds learning automatically, preserves progression and completion, and lets accuracy pace the climb. |
+
+</PRDDoc>
 
 ## Prioritization
 
