@@ -37,6 +37,32 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* OPERATING -------------------------------------------------------- */}
+      <section className="mx-auto max-w-6xl px-4 pb-4 sm:px-6">
+        <Reveal>
+          <p className="label">// operating</p>
+          <Link
+            to="/leafrush"
+            style={{ '--accent': '#1f7a4d' }}
+            className="panel group mt-4 flex flex-col gap-5 p-7 transition-shadow hover:shadow-[5px_5px_0_0_var(--accent)] sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div>
+              <h3 className="font-display text-2xl font-semibold tracking-tight">
+                <span style={{ color: 'var(--accent)' }}>▸</span> Leafrush Marketing
+              </h3>
+              <p className="mt-2 max-w-2xl text-ink-soft">
+                Before product, I built and ran a marketing agency for lawn-care
+                businesses, from solo founder to a team of five. The operator
+                chapter: ownership, systems, and judgment under real constraints.
+              </p>
+            </div>
+            <span className="whitespace-nowrap font-mono text-sm text-ink-soft transition-colors group-hover:text-[var(--accent)]">
+              2022–2026 →
+            </span>
+          </Link>
+        </Reveal>
+      </section>
+
       {/* ABOUT TEASER ----------------------------------------------------- */}
       <section className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
         <Reveal className="panel p-8 sm:p-12">

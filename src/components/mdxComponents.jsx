@@ -4,6 +4,26 @@
 // All STATIC and high-contrast — nothing here delays reading.
 // ---------------------------------------------------------------------------
 
+import { Link } from 'react-router-dom'
+
+// Internal links (starting with "/") use the router for smooth client-side
+// navigation; external links open in a new tab. Applied to all MDX links.
+export function MDXLink({ href = '', children, ...rest }) {
+  if (href.startsWith('/')) {
+    return (
+      <Link to={href} {...rest}>
+        {children}
+      </Link>
+    )
+  }
+  const external = /^https?:/i.test(href)
+  return (
+    <a href={href} {...(external ? { target: '_blank', rel: 'noreferrer' } : {})} {...rest}>
+      {children}
+    </a>
+  )
+}
+
 export function Placeholder({ children, label = 'PLACEHOLDER, Brandon fills this' }) {
   return (
     <div className="my-4 border border-dashed border-[color-mix(in_oklab,var(--accent)_55%,var(--color-hairline))] bg-[color-mix(in_oklab,var(--accent)_6%,transparent)] px-4 py-3 text-sm">
@@ -264,4 +284,5 @@ export const mdxComponents = {
   Placeholder,
   Callout,
   Story,
+  a: MDXLink,
 }

@@ -29,6 +29,9 @@ export default function Footer() {
               {p.slug}/
             </Link>
           ))}
+          <Link to="/leafrush" className="hover:text-[var(--color-ink)]">
+            leafrush
+          </Link>
           <Link to="/about" className="hover:text-[var(--color-ink)]">
             about
           </Link>
