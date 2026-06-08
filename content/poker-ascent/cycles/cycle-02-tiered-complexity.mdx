@@ -1,0 +1,189 @@
+---
+title: "Tiered Complexity: Scaffolding a Realistic Engine for Beginners"
+cycle: 2
+date: "Mar 2026"
+status: "Shipped"
+bluf: "Our engine models poker as realistically as a real hand, and beginners were overwhelmed weighing every variable at once. A five-tier system introduces complexity gradually: 14 of 22 beginners reached tier 3 within 7 sessions, with zero expert drop-off."
+tags: ["progressive-disclosure", "difficulty-design", "retention", "education"]
+---
+
+## Summary (BLUF)
+
+Our engine models poker realistically (playstyle, player count, stack sizes,
+villain archetypes, position, hand, board texture, and prior streets), and
+beginners were overwhelmed by having to weigh all of it at once. We introduced a
+five-tier leveling system that introduces variables gradually (tiers 1 to 4),
+capped by an open-ended full-complexity mode (tier 5). 14 of 22 beginners reached
+tier 3 within their first 7 sessions, and zero experts dropped off in that window.
+
+## Trigger & problem
+
+<TLDR>The realism that makes the engine credible was the same thing drowning new users, who couldn't weigh every variable at once.</TLDR>
+
+The engine accounts for everything that genuinely matters in a real hand: intended
+playstyle, heads-up vs. multiway, your stack and villains' stacks, villain
+archetypes (nit, loose, etc.), position, the hand, board texture, and previous
+streets. That realism is the point, but it is a lot to hold at once. Beginners
+told us it was too complicated: they didn't know how to weigh each variable, and
+the volume of information left them overloaded and confused. The realism we needed
+for credibility was the same thing drowning new users.
+
+## Discovery & user-research synthesis
+
+<TLDR>Every variable is a real input to a correct decision, so the problem wasn't what we modeled, it was how much we exposed at once.</TLDR>
+
+The complaint came from the same beta cohort, concentrated again in beginners:
+they couldn't prioritize among the variables and felt overwhelmed by the full set
+presented at once. Crucially, the variables aren't noise. Every one is a real,
+necessary input to a correct decision, so the problem wasn't *what* we modeled, it
+was *how much we exposed at once* to a user still learning the fundamentals.
+
+Of the 22 beginners, 8 explicitly reported feeling overwhelmed, and we expect the
+real number is higher, since others may simply not have said anything.
+
+## The PRD
+
+<TLDR>A tiered system that introduces variables progressively, gated by earned XP, so beginners learn gradually and experts aren't slowed to a crawl.</TLDR>
+
+<PRD>
+
+### Problem
+Beginners are overwhelmed by the full variable set and can't weigh inputs
+appropriately.
+
+### Target user
+Beginners (must learn gradually) and experts (must not be slowed to a crawl).
+
+### Success metric (defined upfront)
+Beginner progression through the early tiers.
+
+### Guardrails
+1. Learning quality holds at full complexity.
+2. Expert drop-off doesn't worsen.
+
+### In scope
+- A tiered system that introduces variables progressively, gated by earned XP.
+
+### Out of scope
+- Hiding variables permanently.
+- Free tier-selection.
+
+### Constraint
+- Content must support months-long retention, not be exhausted in weeks.
+
+</PRD>
+
+<Artifact type="PRD" caption="[PLACEHOLDER, full PRD doc. Paste it and I'll embed it as a collapsible like the other cycles]" />
+
+## Prioritization
+
+<TLDR>Chose a tiered leveling system over hiding variables or a settings toggle, because scaffolding teaches and accuracy-driven XP lets skill pace the climb.</TLDR>
+
+- **Keep some variables implicit or behind the scenes.** Reduces load, but this is
+  an education product. Users *should* learn that these factors exist and matter.
+  Hiding them undercuts the core value. Rejected.
+- **Let users pick a complexity level in settings.** Flexible, but users forget to
+  change it. They would either stay stuck on easy and never progress, or jump up
+  and feel overwhelmed all over again. It also offloads a teaching decision onto
+  the learner. Rejected.
+- **Tiered leveling system (chosen).** Five tiers. Tiers 1 to 4 each introduce one
+  or a few new variables. **Tier 5 is an open-ended "infinite" mode at full
+  complexity**, so tier 4 is the last tier of *added* complexity. Higher tiers
+  require more drill completions to clear, and XP is earned through accuracy.
+
+**Why it wins:** beginners learn when it is simple and add variables one layer at a
+time as they level up. It is scaffolding, not a settings toggle they will forget.
+Progression is structured, so there is a real sense of advancement and completion.
+And because XP is accuracy-driven, *skill itself paces the climb*.
+
+## Build & sprint summary
+
+<TLDR>Built the five tiers plus a hot-streak XP mechanic, where consecutive correct answers accelerate the climb so skill self-calibrates speed.</TLDR>
+
+Five-tier progression. Each of tiers 1 to 4 introduces new variable(s). Tier 5 is
+full-complexity infinite mode. XP is awarded for accuracy, and clearing higher
+tiers requires more completions. We deliberately gated content to support
+**months-long retention**. The app shouldn't be finishable (and deletable) in a
+single month.
+
+**Intervention for the expert problem, a hot-streak XP mechanic:** consecutive
+correct answers accelerate XP gain. This lets skill self-calibrate speed: the more
+accurate you are, the faster you clear the low tiers, without a separate placement
+step. (Note this is the mechanic we built, not a metric. See Measurement.)
+
+<Artifact type="diagram" caption="[PLACEHOLDER] Tier progression: variables introduced per tier" />
+
+## Measurement & retro
+
+<TLDR>14 of 22 beginners reached tier 3 in 7 sessions with zero early expert drop-off, but the learning-quality guardrail lives at tier 5 and is honestly months out.</TLDR>
+
+This feature has to do two things at once, cut beginner overwhelm *and* preserve
+learning without driving off experts, so no single metric carries it. The
+guardrails do as much work as the primary.
+
+<MetricResult
+  metric="Beginner progression to tier 3"
+  target="Beginners advance through the early tiers"
+  result="14 of 22 beginners reached tier 3 within their first 7 sessions"
+  hit={true}
+  guardrail="Watched against expert drop-off and learning quality (below)"
+/>
+
+<MetricResult
+  metric="Expert early drop-off (guardrail)"
+  target="No worse than before"
+  result="Zero expert drop-offs in the 7-session window"
+  hit={true}
+/>
+
+<MetricResult
+  metric="Learning quality at full complexity (guardrail)"
+  target="Accuracy holds on tier-5 drills"
+  result="Not yet readable. Tier 5 is months out by design."
+  hit="pending"
+/>
+
+**Primary, honest framing:** this is an *absolute* progression figure for a system
+that didn't exist before, not a before/after delta. On its own it shows that most
+beginners advanced, not that overwhelm fell. The overwhelm-symptom metric dropping
+and learning quality holding are what close that loop.
+
+**Guardrail 2 (expert churn), caveat:** experts are proxied as users posting high
+accuracy from their first drills. The hot-streak mechanic was the intervention,
+and zero early quits is the signal it didn't backfire. Over a 7-session window,
+"no churn" and "not-yet-churned" look identical. This shows we didn't bleed
+experts *early*, not that the long-grind problem is solved.
+
+**Guardrail 1 (learning quality):** defined as accuracy on full-complexity drills,
+but not yet readable in this window by design. Full complexity lives at tier 5,
+which no one reached within 7 days because tiers gate content for months-long
+retention. We defined the right guardrail. Honestly, the measurement is months
+out, not a 7-session result.
+
+**Secondary and diagnostic signals worth instrumenting:**
+
+- Overwhelm-feedback frequency (confirms the symptom, doesn't prove the cure).
+- Per-variable "dip-and-recover" accuracy when a new variable is introduced (the
+  signature of scaffolding actually working).
+- Time or completions to clear each tier.
+
+### Retro & lessons
+
+Two tensions we are watching, not smoothing over:
+
+- **Retention vs. experts.** Months-long gated content is good for retention but is
+  exactly what risks experts later. Our zero-churn number simply hasn't reached
+  the grind danger-zone yet. Hot-streak makes experts climb *faster*, not *fewer*
+  tiers. They still play every low tier.
+- **Expert-fix vs. learning-quality.** Accelerating XP on streaks pushes *everyone*
+  accurate forward faster, including a beginner on an easy run who hasn't
+  consolidated, which could shove them back into overwhelm. So guardrails 1 and 2
+  must be watched together, not in isolation.
+
+**Next iteration:** a calibrated entry point, a short placement or skill assessment
+that seeds a user's starting tier, so experts test into higher tiers instead of
+grinding low ones while progression stays intact for everyone. It complements
+hot-streak (which fixes *speed*) by fixing *whether they should be in the low tiers
+at all*. This is the cycle where the portfolio's recurring principle, *don't tax
+users who don't need it*, was hardest to hold, and the entry point is how we would
+honor it without sacrificing progression.
