@@ -1,0 +1,155 @@
+---
+title: "Closing the Vocabulary Gap in the Learn Loop"
+cycle: 1
+date: "Feb 2026"
+status: "Shipped"
+bluf: "Beginners couldn't understand the poker terms inside our own explanations, which broke the learn loop for exactly the users we exist to serve. A glossary plus inline, just-in-time definitions dropped beginner 'what does this mean?' questions to effectively zero."
+tags: ["education", "just-in-time-learning", "beginner-onboarding", "progressive-disclosure"]
+---
+
+## Summary (BLUF)
+
+Beginner testers couldn't understand the poker terms inside our own explanations,
+which broke the core learn loop for exactly the users the product exists to serve.
+We shipped a two-layer fix: a Study-tab glossary plus inline, clickable term
+definitions that surface at the moment of confusion. In-session "what does this
+mean?" questions from beginners dropped to effectively zero.
+
+## Trigger & problem
+
+<TLDR>Our explanations taught using jargon beginners didn't know yet, so the moment meant to teach was the moment that lost them.</TLDR>
+
+Poker Ascent's core value is a learn loop: a player misses a decision, gets an
+explanation, and learns from it. But the explanations themselves leaned on poker
+jargon (*pot odds, fold equity, reverse implied odds*) that beginners didn't yet
+know. So the moment that was supposed to teach was the moment that lost them. The
+teaching mechanism was failing at the exact point it was meant to work.
+
+## Discovery & user-research synthesis
+
+<TLDR>17 of 22 beginners flagged the same thing: they couldn't follow the terminology inside the explanations.</TLDR>
+
+Our first beta cohort was **40 college poker players** spanning beginner to
+experienced, all people we knew personally and played with. After the first round
+of testing, one complaint dominated among beginners: **17 of 22 beginners** raised
+the terminology in our explanations.
+
+<Quote author="Beginner tester" role="first beta cohort">
+Dude, I don't know what this means. What's reverse implied odds?
+</Quote>
+
+The load-bearing insight is in the segmentation: the breakage was concentrated in
+**beginners, our target learners**, and it sat *inside the core loop*, not at the
+edges. An education product that loses its least-experienced users in the act of
+educating has a value-execution gap, not a polish gap.
+
+## The PRD
+
+<TLDR>Repair the loop in context with a glossary plus inline term definitions, without taxing the experienced half of the cohort.</TLDR>
+
+<PRD>
+
+### Problem
+Beginners can't follow our explanations because they assume vocabulary beginners
+don't have.
+
+### Target user
+Beginner players (roughly half the cohort). Experienced players already know the
+terms.
+
+### Success metric (defined upfront)
+Reduce beginner "what does X mean?" questions during drills. Target: an 80%
+decrease.
+
+### In scope
+- A glossary reference plus in-context term definitions.
+
+### Out of scope
+- A mandatory vocabulary walkthrough.
+- A general-purpose LLM tutor.
+
+### Edge cases
+- A term that isn't yet in the glossary.
+- Experienced players who don't want interruptions (handled by opt-in design).
+
+### Constraints
+- Small team, beginner-heavy cohort. Keep it within scope and near-zero marginal
+  cost.
+
+</PRD>
+
+<Artifact type="PRD" caption="[PLACEHOLDER, full PRD doc. Paste it and I'll embed it as a collapsible like the Tonbo cycles]" />
+
+## Prioritization
+
+<TLDR>Chose two-layer just-in-time learning: fix the loop in context, opt-in, at near-zero cost, instead of front-loading or off-loading the fix.</TLDR>
+
+- **Mandatory vocabulary walkthrough after onboarding.** Front-loads the cost onto
+  everyone, lengthens onboarding, and punishes the roughly half of users who are
+  experienced and already know the terms. It taxes all users for a
+  beginner-specific problem.
+- **A constrained ChatGPT/Claude term-explainer.** Flexible, but it costs money per
+  call and risks scope creep. A "just explain terms" tutor quietly becomes a
+  chatbot to maintain.
+- **Two-layer just-in-time learning (chosen).**
+  1. **Inline, underlined, clickable terms** inside drills. Tap any piece of
+     jargon for a short popup explanation, delivered at the exact moment of
+     confusion, inside the loop.
+  2. **A dedicated Study tab.** A thorough glossary players can browse to look up
+     or refresh terms on their own time.
+
+**Why it wins:** it repairs the broken loop in context rather than bolting on a
+separate lesson, costs effectively nothing per use, and is opt-in by design.
+Experienced players simply don't click, so beginners get help without adding any
+friction for advanced users.
+
+## Build & sprint summary
+
+<TLDR>Shipped two surfaces: a Study-tab glossary and inline clickable term definitions inside drills.</TLDR>
+
+Shipped two surfaces:
+
+- **Study tab:** a comprehensive glossary of poker terms.
+- **Inline term definitions:** poker vocabulary appears underlined and clickable
+  throughout drills. Tapping opens a concise popup explanation without leaving the
+  drill.
+
+<Artifact type="screenshot" caption="[PLACEHOLDER] Study-tab glossary" />
+
+<Artifact type="screenshot" caption="[PLACEHOLDER] Inline clickable-term popup" />
+
+## Measurement & retro
+
+<TLDR>Beginner in-session questions dropped to effectively zero, but the honest gap is that we didn't track glossary or popup adoption, which is what would prove it.</TLDR>
+
+Because we knew all 40 testers personally, we directly observed and counted "what
+does X mean?" questions in sessions.
+
+<MetricResult
+  metric="Beginner 'what does X mean?' questions during drills"
+  target="80% decrease"
+  result="Dropped to effectively zero (observed in sessions)"
+  hit={true}
+  guardrail="Watch that the inline underlines don't clutter the experience for experienced players"
+/>
+
+**Honest framing:** this was observed in sessions on a small, personally-known
+cohort, not instrumented analytics, and not a statistically powered sample.
+
+**The gap (caught in retro):** we did **not** track glossary opens or inline-popup
+clicks. That usage data is exactly what would *validate* the result. It is the
+difference between "questions stopped because beginners self-served the answer"
+(success) and "questions stopped because beginners disengaged" (failure). On its
+own, "questions went to zero" can't distinguish the two. Adoption tracking isn't a
+nice-to-have here. It is the metric that proves the primary signal.
+
+**Guardrail worth adding:** did the clickable underlines distract or clutter the
+experience for *experienced* players (half the cohort)? The opt-in design intends
+no, but a quick check (do advanced users find the markup noisy?) would confirm we
+didn't trade beginner help for advanced-player friction.
+
+### Retro & lessons
+
+Deliver help at the moment of need, in context, and opt-in. Repair the loop where
+it breaks instead of front-loading or off-loading the fix, and don't tax the users
+who don't need it.
