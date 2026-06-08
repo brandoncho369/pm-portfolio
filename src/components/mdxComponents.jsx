@@ -124,7 +124,15 @@ export function Quote({ children, author, role }) {
   )
 }
 
-export function Artifact({ src, alt = '', caption, type }) {
+export function Artifact({ src, alt = '', caption, type, width }) {
+  // Constrain display size. "phone" suits tall portrait screenshots so they
+  // don't dominate the page; default is full reading-column width.
+  const imgWidth =
+    width === 'phone'
+      ? 'mx-auto w-full max-w-[300px]'
+      : width === 'sm'
+        ? 'mx-auto w-full max-w-md'
+        : 'w-full'
   if (!src) {
     return (
       <figure className="not-prose my-6">
@@ -154,7 +162,7 @@ export function Artifact({ src, alt = '', caption, type }) {
         alt={alt}
         loading="lazy"
         decoding="async"
-        className="w-full border border-[var(--color-border)]"
+        className={`${imgWidth} border border-[var(--color-border)]`}
       />
       {caption && (
         <figcaption className="mt-2 text-center font-mono text-xs text-muted">
