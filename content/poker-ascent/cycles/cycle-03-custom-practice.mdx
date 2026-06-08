@@ -70,7 +70,121 @@ Retained adoption of custom practice by the target segment.
 
 </PRD>
 
-<Artifact type="PRD" caption="[PLACEHOLDER, full PRD doc. Paste it and I'll embed it as a collapsible like the other cycles]" />
+<PRDDoc
+  title="Full PRD: Custom Practice Mode"
+  meta="Product: Poker Ascent · Author: Brandon · Status: Shipped · Created 2026-03-17 · Last updated 2026-03-28"
+>
+
+### 1. Summary
+The tier system gave beginners a gentle on-ramp but left stronger players grinding
+to reach the complexity they wanted, with no way to revisit basics. This PRD adds
+a separate custom-practice mode (per-variable toggles to build any practice
+environment) placed at the bottom of skill selection, without altering the tier
+progression path. Goal: serve advanced and intermediate players without breaking
+the progression system or exposing beginners to overload.
+
+### 2. Problem & Background
+The cycle-2 tier system intentionally gates complexity behind earned progression.
+For advanced and intermediate players that became friction: they had to grind
+drills to reach harder tiers, and had no route back to rehearse fundamentals. The
+structure that protected beginners constrained stronger players, the open question
+from the prior cycle, now realized.
+
+### 3. Discovery
+12 of 40 testers, skewing advanced and intermediate, asked for the ability to set
+their own variables. Two forms: wanting to reach hard complexity without grinding,
+and wanting to go back and drill basics. Both reduce to one thing: practicing a
+self-chosen environment, on demand.
+
+### 4. Goals & Non-Goals
+**Goals**
+
+- Let stronger players drill any chosen combination of variables immediately.
+- Allow revisiting basics without losing progression.
+- Keep the tier progression system intact.
+- Keep beginners away from accidental full-complexity overload.
+
+**Non-Goals**
+
+- Changing how the tiers themselves work or unlock.
+- Making custom mode the default or primary path.
+- Targeting beginners with this feature.
+
+### 5. Success Metrics
+
+- **Primary, retained adoption (target segment):** repeat use of custom mode by
+  intermediate and advanced players. (Result: 13 of 40 returned repeatedly, almost
+  all advanced or intermediate. 27 one-time trials discounted as launch-bundle
+  curiosity.)
+- **Guardrail 1, progression holds:** structured-tier share of session time.
+  (Result: 97% to 86%. Held in-window, slope to be monitored.)
+- **Guardrail 2, beginner overload:** beginner toggling and accuracy when using
+  custom mode. (Result: no observed beginner use or misuse. Light instrumentation,
+  tighten going forward.)
+- **Secondary (diagnostic):** most-toggled variable combinations (a roadmap
+  signal), and whether custom-mode users progress faster on the main path.
+
+### 6. Target User
+Intermediate and advanced players who want targeted practice or to revisit
+fundamentals. Beginners are explicitly out of scope and steered away by placement.
+
+### 7. User Stories
+
+- As an advanced player, I want to drill a specific hard variable now without
+  grinding up the tiers, so practice matches what I'm working on.
+- As an improving player, I want to go back and rehearse basics, so I can shore up
+  weak spots.
+- As a beginner, I should not be nudged into a mode that lets me turn on more
+  complexity than I can handle.
+
+### 8. Solution Overview
+A custom-practice option at the bottom of the skill-selection screen. The player
+toggles on one or more variables (position, hand, board texture, intended
+playstyle, villain archetype, stack sizes, multiway) to construct the exact
+practice environment, then drills it freely. The tier progression path is
+untouched and runs in parallel.
+
+Design rationale: rather than loosen the progression structure for everyone, add a
+parallel surface for the users who need it. Bottom-of-screen placement keeps it
+discoverable for seekers and off the default path for beginners.
+
+### 9. Functional Requirements
+
+- Custom-practice entry appears at the bottom of skill selection.
+- Player can toggle any subset of the engine's variables on or off to define the
+  environment.
+- Drills run against the chosen environment with no effect on tier state or
+  progression.
+- Selected variable combinations are logged (for the diagnostic metric).
+
+### 10. Edge Cases & Constraints
+
+- Player toggles everything on: full complexity outside the tier path (intended
+  for advanced users, monitored via guardrail 2 for beginner misuse).
+- No variables toggled: define a disabled state or a sensible default.
+- Constraint: must not alter or interfere with tier progression mechanics.
+
+### 11. Risks & Mitigations
+
+- **Cannibalizing progression.** Custom mode could pull users off the structured
+  path. Mitigation: it is a parallel supplement, not a replacement. Monitor: tier
+  share of session time, with attention to the trend, not just the level.
+- **Beginner overload.** Toggling full complexity reintroduces the cycle-2
+  problem. Mitigation: buried placement plus comprehension barrier. Monitor:
+  beginner toggling and accuracy.
+- **Friction signal.** Heavy custom-mode use may indicate the tiers themselves
+  grind too much, a question to investigate about the core path.
+
+### 12. Alternatives Considered
+
+| Option | Why not |
+| --- | --- |
+| Backward-only tier revisiting | Lets players rehearse basics but not reach hard complexity without grinding. |
+| Free forward movement | Destroys earned progression and the anti-overwhelm gating at once. |
+| Fully split tiers + recommended tabs | Collapses the progression spine into a menu and relies on a nudge users ignore. |
+| Separate custom-practice mode (chosen) | Serves stronger players via a parallel surface while leaving progression fully intact. |
+
+</PRDDoc>
 
 ## Prioritization
 
