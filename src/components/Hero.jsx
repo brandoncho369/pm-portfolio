@@ -88,12 +88,16 @@ export default function Hero() {
               </dd>
             </div>
             <div>
-              <dt className="label">status</dt>
+              <dt className="label">seeking</dt>
               <dd className="font-display text-2xl font-semibold">
-                <span style={{ color: 'var(--accent)' }}>●</span> open to intern
+                <span style={{ color: 'var(--accent)' }}>●</span> PM internship
               </dd>
             </div>
           </dl>
+
+          <p className="mt-4 font-mono text-xs text-muted">
+            Available anytime · remote or anywhere
+          </p>
         </div>
 
         {/* RIGHT — terminal panel listing the real projects ------------ */}

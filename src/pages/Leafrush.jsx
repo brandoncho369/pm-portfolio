@@ -34,7 +34,7 @@ export default function Leafrush() {
           )}
 
           {Array.isArray(meta.stats) && meta.stats.length > 0 && (
-            <dl className="mt-8 grid grid-cols-2 gap-x-8 gap-y-5 border-t border-[var(--color-hairline)] pt-6 sm:grid-cols-4">
+            <dl className="mt-8 grid grid-cols-2 gap-x-8 gap-y-5 border-t border-[var(--color-hairline)] pt-6 sm:grid-cols-3">
               {meta.stats.map((s, i) => (
                 <div key={i}>
                   <dt
