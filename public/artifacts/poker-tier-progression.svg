@@ -1,0 +1,97 @@
+<svg viewBox="0 0 900 460" xmlns="http://www.w3.org/2000/svg" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .title { font-family: Georgia,'Iowan Old Style','Times New Roman',serif; fill:#211C16; }
+      .sub   { fill:#8C8378; }
+      .pill  { font-family: ui-monospace,'SF Mono',Menlo,Consolas,monospace; font-weight:700; fill:#FBFAF6; }
+      .chip  { font-size:9.5px; }
+      .cap   { fill:#8C8378; font-size:10.5px; }
+      .leg   { fill:#5C554B; font-size:10px; }
+    </style>
+  </defs>
+
+  <!-- card -->
+  <rect x="14" y="14" width="872" height="432" rx="18" fill="#FBFAF6" stroke="#ECE5DB"/>
+
+  <!-- header -->
+  <text class="title" x="40" y="50" font-size="22">Tiered complexity: variables introduced per tier</text>
+  <text class="sub" x="40" y="70" font-size="12">Poker Ascent · each tier carries everything before it, then adds one new variable</text>
+
+  <!-- ascent line through the newly-unlocked chip of each tier (drawn behind chips) -->
+  <polyline points="110,258 280,228 450,198 620,168 790,138" fill="none" stroke="#1E7A50" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.45"/>
+
+  <!-- baseline -->
+  <line x1="40" y1="362" x2="860" y2="362" stroke="#D9D2C5"/>
+
+  <!-- ===== TIER HEADERS ===== -->
+  <rect x="68"  y="84" width="84" height="26" rx="13" fill="#211C16"/><text class="pill" x="110" y="101" font-size="12" text-anchor="middle">TIER 1</text>
+  <rect x="238" y="84" width="84" height="26" rx="13" fill="#211C16"/><text class="pill" x="280" y="101" font-size="12" text-anchor="middle">TIER 2</text>
+  <rect x="408" y="84" width="84" height="26" rx="13" fill="#211C16"/><text class="pill" x="450" y="101" font-size="12" text-anchor="middle">TIER 3</text>
+  <rect x="578" y="84" width="84" height="26" rx="13" fill="#211C16"/><text class="pill" x="620" y="101" font-size="12" text-anchor="middle">TIER 4</text>
+  <rect x="748" y="84" width="84" height="26" rx="13" fill="#B5852F"/><text class="pill" x="790" y="101" font-size="12" text-anchor="middle">TIER 5</text>
+
+  <!-- ===== TIER 1 (x=50) : foundation, all 4 introduced here ===== -->
+  <g>
+    <rect x="50" y="336" width="120" height="24" rx="6" fill="#1E7A50"/><text class="chip" x="110" y="352" fill="#fff" text-anchor="middle">Position</text>
+    <rect x="50" y="306" width="120" height="24" rx="6" fill="#1E7A50"/><text class="chip" x="110" y="322" fill="#fff" text-anchor="middle">Hand</text>
+    <rect x="50" y="276" width="120" height="24" rx="6" fill="#1E7A50"/><text class="chip" x="110" y="292" fill="#fff" text-anchor="middle">Board texture</text>
+    <rect x="50" y="246" width="120" height="24" rx="6" fill="#1E7A50"/><text class="chip" x="110" y="262" fill="#fff" text-anchor="middle">Intended playstyle</text>
+  </g>
+
+  <!-- ===== TIER 2 (x=220) : + Villain archetype ===== -->
+  <g>
+    <rect x="220" y="336" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="280" y="352" fill="#5C554B" text-anchor="middle">Position</text>
+    <rect x="220" y="306" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="280" y="322" fill="#5C554B" text-anchor="middle">Hand</text>
+    <rect x="220" y="276" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="280" y="292" fill="#5C554B" text-anchor="middle">Board texture</text>
+    <rect x="220" y="246" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="280" y="262" fill="#5C554B" text-anchor="middle">Intended playstyle</text>
+    <rect x="220" y="216" width="120" height="24" rx="6" fill="#1E7A50"/><text class="chip" x="280" y="232" fill="#fff" text-anchor="middle">Villain archetype</text>
+  </g>
+
+  <!-- ===== TIER 3 (x=390) : + Stack sizes ===== -->
+  <g>
+    <rect x="390" y="336" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="450" y="352" fill="#5C554B" text-anchor="middle">Position</text>
+    <rect x="390" y="306" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="450" y="322" fill="#5C554B" text-anchor="middle">Hand</text>
+    <rect x="390" y="276" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="450" y="292" fill="#5C554B" text-anchor="middle">Board texture</text>
+    <rect x="390" y="246" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="450" y="262" fill="#5C554B" text-anchor="middle">Intended playstyle</text>
+    <rect x="390" y="216" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="450" y="232" fill="#5C554B" text-anchor="middle">Villain archetype</text>
+    <rect x="390" y="186" width="120" height="24" rx="6" fill="#1E7A50"/><text class="chip" x="450" y="202" fill="#fff" text-anchor="middle">Stack sizes</text>
+  </g>
+
+  <!-- ===== TIER 4 (x=560) : + Multiway ===== -->
+  <g>
+    <rect x="560" y="336" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="620" y="352" fill="#5C554B" text-anchor="middle">Position</text>
+    <rect x="560" y="306" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="620" y="322" fill="#5C554B" text-anchor="middle">Hand</text>
+    <rect x="560" y="276" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="620" y="292" fill="#5C554B" text-anchor="middle">Board texture</text>
+    <rect x="560" y="246" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="620" y="262" fill="#5C554B" text-anchor="middle">Intended playstyle</text>
+    <rect x="560" y="216" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="620" y="232" fill="#5C554B" text-anchor="middle">Villain archetype</text>
+    <rect x="560" y="186" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="620" y="202" fill="#5C554B" text-anchor="middle">Stack sizes</text>
+    <rect x="560" y="156" width="120" height="24" rx="6" fill="#1E7A50"/><text class="chip" x="620" y="172" fill="#fff" text-anchor="middle">Multiway</text>
+  </g>
+
+  <!-- ===== TIER 5 (x=730) : full complexity + infinite mode ===== -->
+  <g>
+    <rect x="730" y="336" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="790" y="352" fill="#5C554B" text-anchor="middle">Position</text>
+    <rect x="730" y="306" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="790" y="322" fill="#5C554B" text-anchor="middle">Hand</text>
+    <rect x="730" y="276" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="790" y="292" fill="#5C554B" text-anchor="middle">Board texture</text>
+    <rect x="730" y="246" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="790" y="262" fill="#5C554B" text-anchor="middle">Intended playstyle</text>
+    <rect x="730" y="216" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="790" y="232" fill="#5C554B" text-anchor="middle">Villain archetype</text>
+    <rect x="730" y="186" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="790" y="202" fill="#5C554B" text-anchor="middle">Stack sizes</text>
+    <rect x="730" y="156" width="120" height="24" rx="6" fill="#EFEBE3" stroke="#D9D2C5"/><text class="chip" x="790" y="172" fill="#5C554B" text-anchor="middle">Multiway</text>
+    <rect x="730" y="126" width="120" height="24" rx="6" fill="#B5852F"/><text class="chip" x="790" y="142" fill="#fff" text-anchor="middle">&#8734; Infinite mode</text>
+  </g>
+
+  <!-- completion-effort bars under each tier -->
+  <rect x="92"  y="386" width="36" height="6"  rx="2" fill="#C9BFB0"/>
+  <rect x="262" y="380" width="36" height="12" rx="2" fill="#C9BFB0"/>
+  <rect x="432" y="374" width="36" height="18" rx="2" fill="#C9BFB0"/>
+  <rect x="602" y="368" width="36" height="24" rx="2" fill="#C9BFB0"/>
+  <rect x="772" y="362" width="36" height="30" rx="2" fill="#B5852F"/>
+
+  <!-- caption -->
+  <text class="cap" x="40" y="410">Higher tiers require more drill completions to clear (bars). XP is earned through accuracy. Tier 5 removes the XP cap.</text>
+
+  <!-- legend -->
+  <rect x="40"  y="424" width="13" height="13" rx="3" fill="#1E7A50"/><text class="leg" x="59"  y="434">unlocked at this tier</text>
+  <rect x="210" y="424" width="13" height="13" rx="3" fill="#EFEBE3" stroke="#D9D2C5"/><text class="leg" x="229" y="434">carried from earlier tiers</text>
+  <rect x="410" y="424" width="13" height="13" rx="3" fill="#B5852F"/><text class="leg" x="429" y="434">infinite mode (no XP cap)</text>
+</svg>
