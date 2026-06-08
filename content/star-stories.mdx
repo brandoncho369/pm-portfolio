@@ -1,13 +1,14 @@
 ---
-title: "STAR interview stories"
+title: "Judgment calls"
 ---
 
-{/* Each story leads with a one-line hook, then Situation, Task, Action,
-    Result, and the Lesson I carry forward. */}
+{/* Each is a real decision, collapsed to a one-line hook. Click to expand the
+    Situation, Task, Action, Result, and the Lesson I carry forward. */}
 
-### Cut a hard dependency before it could sink the product
-
-<TLDR>Moved Tonbo's primary interface off Discord to an owned web dashboard, cutting my single biggest platform dependency without losing the real-time alerts users valued.</TLDR>
+<Story
+  title="Cut a hard dependency before it could sink the product"
+  hook={`Moved Tonbo's primary interface off Discord to an owned web dashboard, cutting my single biggest platform dependency without losing the real-time alerts users valued.`}
+>
 
 - **Situation:** I built Tonbo, an arbitrage-intelligence tool for the Japanese watch market, and at first ran the entire experience and its alerts through Discord.
 - **Task:** As it grew, I had to decide whether Discord should stay the primary interface. It was working, but I was uneasy about depending on a platform I didn't control.
@@ -15,9 +16,12 @@ title: "STAR interview stories"
 - **Result:** I removed my biggest dependency risk and gave the product a credible front door, without losing the notification experience users liked.
 - **Lesson:** Match each channel to what it is actually good at, and be wary of building on a platform you don't own.
 
-### Let user research overrule my own assumptions
+</Story>
 
-<TLDR>About 30 user interviews surfaced a need I never assumed, an automated landed-cost calculator, which I prioritized over my own roadmap and it became the feature users pointed to.</TLDR>
+<Story
+  title="Let user research overrule my own assumptions"
+  hook={`About 30 user interviews surfaced a need I never assumed, an automated landed-cost calculator, which I prioritized over my own roadmap and it became the feature users pointed to.`}
+>
 
 - **Situation:** Starting Tonbo, I had my own assumptions about what mattered most, mostly alerting and comp data.
 - **Task:** Before building the wrong things, I wanted to validate what users actually needed.
@@ -25,9 +29,12 @@ title: "STAR interview stories"
 - **Result:** Testers adopted it quickly and called it out as a standout. It became a feature people pointed to.
 - **Lesson:** My gut about what mattered was wrong. The highest-impact feature came from a pattern across real users, not from me.
 
-### Communicate uncertainty instead of faking confidence
+</Story>
 
-<TLDR>Added a low-to-high confidence score to Tonbo's price comps so users could tell a well-backed deal from a thin one, protecting both their trust and their money.</TLDR>
+<Story
+  title="Communicate uncertainty instead of faking confidence"
+  hook={`Added a low-to-high confidence score to Tonbo's price comps so users could tell a well-backed deal from a thin one, protecting both their trust and their money.`}
+>
 
 - **Situation:** A core part of Tonbo matches US price comps to Japanese listings to compute margin, but the comp data was not uniform. Some pieces had solid data, others just one or two data points.
 - **Task:** I realized that presenting every estimate as equally reliable would mislead users into over-trusting margins built on thin data, and they could lose money.
@@ -35,12 +42,17 @@ title: "STAR interview stories"
 - **Result:** Users could weigh deals appropriately instead of treating thin estimates as sure things, which protected their trust in the product.
 - **Lesson:** With any data or prediction product, communicating how confident the system is can matter as much as the prediction itself.
 
-### Resolve a co-founder disagreement by finding the real need
+</Story>
 
-<TLDR>Turned a co-founder standoff over drill explanations into a shipped fix by separating the underlying need from the proposed solution: an expandable "read more" layer that fit our constraints.</TLDR>
+<Story
+  title="Resolve a co-founder disagreement by finding the real need"
+  hook={`Turned a co-founder standoff over drill explanations into a shipped fix by separating the underlying need from the proposed solution: an expandable read-more layer that fit our constraints.`}
+>
 
 - **Situation:** On Poker Ascent, the training app I co-founded, my co-founder and I disagreed about the core drills. He wanted much deeper and more varied explanations on each one.
 - **Task:** I had to resolve it. He had a legitimate point about user value, but there were two real constraints: our drill engine was not built for that depth, and long explanations would break the UI.
 - **Action:** Instead of shutting it down on technical grounds or over-building something that would wreck the experience, I separated what he actually wanted from how he proposed getting it. The underlying need was that users understand the reasoning, and that explanations not feel repetitive. So I shipped a fix that fit our constraints: an expandable "read more" layer that kept the default UI clean, plus rewritten copy that read as more varied.
 - **Result:** It resolved the disagreement, he felt genuinely heard, and we shipped something that served the need without breaking the engine or cluttering the UI.
 - **Lesson:** Most disagreements are about the solution, not the goal. If you dig to the underlying need, you can usually find an option that honors it within your constraints.
+
+</Story>

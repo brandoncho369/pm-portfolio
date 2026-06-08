@@ -13,7 +13,7 @@ export default function AboutPage() {
     <PageTransition>
       <Seo
         title="About"
-        description="About Brandon: how he thinks about building product, plus STAR interview stories."
+        description="About Brandon: how he thinks about building product, plus the judgment calls behind it."
       />
       <div className="mx-auto max-w-3xl px-4 pt-28 sm:px-6">
         {/* ABOUT --------------------------------------------------------- */}
@@ -34,12 +34,12 @@ export default function AboutPage() {
         {/* STAR STORIES ------------------------------------------------- */}
         <section className="mt-20">
           <Reveal>
-            <p className="label">// interview prep</p>
+            <p className="label">// judgment calls</p>
             <h2 className="mt-3 font-display text-2xl font-semibold tracking-tight">
-              STAR interview stories
+              Judgment calls
             </h2>
             <p className="mt-2 font-mono text-xs text-muted">
-              situation · task · action · result
+              Real decisions, and what I took from each. Click any to expand.
             </p>
           </Reveal>
           <article className="case-prose prose mt-6 max-w-none">

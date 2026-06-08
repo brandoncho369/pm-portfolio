@@ -200,6 +200,38 @@ export function PRDDoc({
   )
 }
 
+// Collapsible "judgment call" story. Collapsed by default to its title + one-line
+// hook so the section reads as a scannable list; expands to the full
+// Situation / Task / Action / Result / Lesson. Reuses the .prd-doc chevron CSS.
+export function Story({ title, hook, children }) {
+  return (
+    <details className="prd-doc not-prose my-3 border border-[var(--color-border)] bg-[var(--color-surface)]">
+      <summary className="flex cursor-pointer select-none items-start gap-3 px-4 py-3.5">
+        <span
+          className="chev mt-0.5 font-mono text-sm"
+          style={{ color: 'var(--accent)' }}
+          aria-hidden
+        >
+          ▸
+        </span>
+        <span className="min-w-0">
+          <span className="block font-mono text-sm font-semibold text-[var(--color-ink)]">
+            {title}
+          </span>
+          {hook && (
+            <span className="mt-1 block text-sm leading-snug text-ink-soft">
+              {hook}
+            </span>
+          )}
+        </span>
+      </summary>
+      <div className="case-prose prose max-w-none border-t border-[var(--color-hairline)] px-4 py-4">
+        {children}
+      </div>
+    </details>
+  )
+}
+
 export function Callout({ children, title }) {
   return (
     <div className="not-prose my-5 border border-[var(--color-hairline)] bg-[var(--color-bg-soft)] p-5">
@@ -223,4 +255,5 @@ export const mdxComponents = {
   Artifact,
   Placeholder,
   Callout,
+  Story,
 }
