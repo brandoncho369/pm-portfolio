@@ -78,7 +78,114 @@ decrease.
 
 </PRD>
 
-<Artifact type="PRD" caption="[PLACEHOLDER, full PRD doc. Paste it and I'll embed it as a collapsible like the Tonbo cycles]" />
+<PRDDoc
+  title="Full PRD: In-Context Poker Vocabulary"
+  meta="Product: Poker Ascent · Author: Brandon · Status: Shipped · Created 2026-02-27 · Last updated 2026-03-03"
+>
+
+### 1. Summary
+Beginner testers couldn't understand the poker terms used inside our own
+explanations, breaking the core learn loop for the users it is meant to serve.
+This PRD adds a glossary (Study tab) and inline, clickable term definitions that
+surface at the point of confusion during drills, delivering vocabulary help in
+context, opt-in, at near-zero marginal cost.
+
+### 2. Problem & Background
+Poker Ascent teaches through a loop: miss a decision, read an explanation, learn
+from it. The explanations assumed knowledge of terms like pot odds, fold equity,
+and reverse implied odds, vocabulary beginners didn't have. The teaching moment
+became the failure point.
+
+### 3. Discovery
+First beta cohort: 40 college poker players, beginner to experienced, all known
+personally to the team. First-round feedback: 17 of 22 beginners flagged
+terminology in the explanations and experience. Representative quotes: "Dude, I
+don't know what this means," and "What's reverse implied odds?" The friction
+concentrated in beginners and sat inside the core loop.
+
+### 4. Goals & Non-Goals
+**Goals**
+
+- Let beginners understand any term the moment they hit it.
+- Provide a reference players can use to study or refresh on their own.
+- Add no friction for experienced players.
+
+**Non-Goals**
+
+- A mandatory vocabulary course before play.
+- A general-purpose AI tutor or chatbot.
+- Rewriting all explanations to avoid terminology entirely.
+
+### 5. Success Metrics
+
+- **Primary:** reduce beginner "what does X mean?" questions during drills.
+  Target: an 80% decrease. (Result: observed to drop to roughly zero in sessions
+  across the cohort.)
+- **Validating / adoption (gap to add going forward):** glossary opens and
+  inline-popup clicks. This confirms questions fell because the feature was used,
+  not because users disengaged.
+- **Guardrail:** no added friction or clutter for experienced players.
+
+### 6. Target User
+Beginner players (roughly half the cohort), who need definitions in context.
+Experienced players, who already know the terms and should be able to ignore the
+feature entirely.
+
+### 7. User Stories
+
+- As a beginner, I want to understand a term the instant it appears in an
+  explanation, so the explanation actually teaches me instead of losing me.
+- As a beginner, I want a place to look up or refresh terms on my own time, so I
+  can study outside of drills.
+- As an experienced player, I want vocabulary help to stay out of my way, so it
+  doesn't interrupt my flow.
+
+### 8. Solution Overview
+Two layers:
+
+1. **Inline term definitions (in-loop):** poker vocabulary appears underlined and
+   clickable within drills. Tapping a term opens a short popup explanation without
+   leaving the drill, delivering help at the moment of confusion.
+2. **Study tab (reference):** a thorough glossary of poker terms players can
+   browse to look up or refresh concepts on their own.
+
+Both are pull, not push: nothing interrupts a player who doesn't need it, which is
+why the feature can serve beginners without taxing experienced users.
+
+### 9. Functional Requirements
+
+- Recognized terms render as underlined, tappable elements wherever they appear in
+  drill content.
+- Tapping a term opens a concise definition popup in place. Dismissing returns to
+  the drill unchanged.
+- The Study tab lists glossary terms with definitions, browsable independently of
+  any drill.
+- Marginal cost per use is effectively zero (static content, no per-request API
+  cost).
+
+### 10. Edge Cases & Constraints
+
+- A term not yet in the glossary. Fallback to be defined: either no link, or flag
+  the term for adding.
+- Constraint: small team, beginner-heavy beta cohort. Keep within scope and
+  near-zero cost.
+
+### 11. Risks & Mitigations
+
+- **Glossary gaps leave some terms unexplained.** Mitigation: prioritize the terms
+  beginners actually asked about first, then expand from real session feedback.
+- **Markup clutter could distract experienced players.** Mitigation: opt-in
+  interaction (underline only, no forced popups). Monitor as a guardrail.
+
+### 12. Alternatives Considered
+
+| Option | Why not |
+| --- | --- |
+| Mandatory vocabulary walkthrough after onboarding | Lengthens onboarding and taxes the roughly half of users who already know the terms. Global friction for a beginner-specific problem. |
+| Constrained ChatGPT/Claude term explainer | Per-call cost and scope creep. A "term helper" drifts into a chatbot to maintain. |
+| Glossary + inline clickable terms (chosen) | Repairs the loop in context, near-zero marginal cost, opt-in so it never interrupts experienced players. |
+
+</PRDDoc>
 
 ## Prioritization
 
@@ -114,9 +221,23 @@ Shipped two surfaces:
   throughout drills. Tapping opens a concise popup explanation without leaving the
   drill.
 
-<Artifact type="screenshot" caption="[PLACEHOLDER] Study-tab glossary" />
+<Artifact
+  src="/artifacts/poker-study-glossary.png"
+  alt="Poker Ascent Study tab listing glossary terms such as CO, UTG, BB, SB, OOP, IP, Equity, Pot Odds, and Implied Odds, grouped by Position and Math."
+  caption="The Study tab: a browsable glossary of poker terms players can look up or refresh on their own time."
+/>
 
-<Artifact type="screenshot" caption="[PLACEHOLDER] Inline clickable-term popup" />
+<Artifact
+  src="/artifacts/poker-inline-terms.png"
+  alt="A drill explanation with poker terms like BB, equity, out of position, and range underlined and tappable inline."
+  caption="Inside a drill, jargon appears underlined and tappable at the exact moment of confusion."
+/>
+
+<Artifact
+  src="/artifacts/poker-term-popup.png"
+  alt="Tapping the term equity opens a bottom-sheet definition with a plain-language explanation and a worked example."
+  caption="Tapping a term opens a concise definition, with an example, without leaving the drill."
+/>
 
 ## Measurement & retro
 
