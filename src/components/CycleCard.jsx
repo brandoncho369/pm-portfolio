@@ -20,13 +20,18 @@ export default function CycleCard({ projectSlug, cycle, index }) {
           className="mt-0.5 flex-none font-display text-sm font-semibold tabular-nums"
           style={{ color: 'var(--accent)' }}
         >
-          {String(num).padStart(2, '0')}
+          {fm.minor ? '·' : String(num).padStart(2, '0')}
         </span>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <h3 className="font-display text-base font-semibold tracking-tight">
               {fm.title || cycle.slug}
             </h3>
+            {fm.minor && (
+              <span className="border border-[var(--color-hairline)] px-2 py-0.5 font-mono text-[11px] uppercase tracking-wide text-muted">
+                minor
+              </span>
+            )}
             {fm.status && (
               <span className="border border-[var(--color-hairline)] px-2 py-0.5 font-mono text-[11px] text-muted">
                 {fm.status}

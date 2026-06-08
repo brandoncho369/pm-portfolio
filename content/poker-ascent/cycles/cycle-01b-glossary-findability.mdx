@@ -1,0 +1,73 @@
+---
+title: "Glossary Findability: Search + Categories"
+cycle: 1.5
+minor: true
+date: "Mar 2026"
+status: "Shipped"
+bluf: "A low-priority polish fix: a search bar plus category grouping made the Study-tab glossary navigable, and it finally instrumented glossary usage, closing cycle 1's open thread."
+tags: ["polish", "findability", "glossary"]
+---
+
+> **Scope note:** a low-priority polish fix, written up short on purpose. Included
+> because right-sizing effort to impact, and not dressing a small fix as a saga, is
+> part of the job.
+
+## What happened
+
+After cycle 1 shipped the Study-tab glossary, users found it was one long column of
+rows and didn't want to scroll hunting for the term they wanted. The content was
+already complete. It just wasn't navigable.
+
+## Options considered
+
+- **A to Z jump bar.** Fast, but only helps if you know the term's exact name,
+  which beginners often don't.
+- **Collapsible accordion sections.** Tidier, but still leaves people hunting.
+- **Surface most-viewed or recent terms at the top.** Aids discovery, not directed
+  lookup.
+- **Full tag or filter system.** Overkill for a glossary.
+- **Chosen: a search bar plus category grouping** (positions, poker math, and so
+  on) with a category dropdown at the top.
+
+**Why it wins:** it serves both retrieval modes at once. Search for "I know the
+term I want," and the category dropdown for "show me what exists in poker math."
+One cheap change covers known-item lookup and browsing.
+
+## Build
+
+A search bar at the top of the Study tab, plus terms grouped into categories with a
+dropdown to filter.
+
+## Measurement
+
+Deliberately light. Over-instrumenting a search bar would show worse judgment than
+the fix itself.
+
+- **Primary, retrieval-tool adoption:** the share of glossary visits that use
+  search or the category filter rather than scrolling. This also **closes a thread
+  from cycle 1**, where the retro flagged we weren't tracking glossary engagement
+  at all. Here we finally are.
+- **Guardrail, search responsiveness:** query latency around 100ms, so the tool
+  itself adds no friction.
+- **Diagnostic and roadmap:** most-searched terms and most-used categories.
+  Quietly the most valuable output: the terms people search most are the
+  highest-confusion concepts, which points straight at where cycle 1's inline
+  definitions and our explanations need the most work.
+
+**Two framing notes, so these numbers claim only what they prove:**
+
+- **Coverage is not findability.** Search returns a hit close to 100% of the time,
+  but that is near-tautological, because the glossary already contained every
+  in-app term after cycle 1. It confirms the index is complete. It doesn't show the
+  search bar helped anyone find faster. Adoption of the new tools does that.
+- **Latency is not time-to-find.** The 100ms is search-query speed, not how long a
+  human takes to locate a term. We didn't cleanly instrument human time-to-find or
+  give-up rate, so the practical evidence here is the complaint disappearing plus
+  retrieval-tool adoption. Honest for a fix this size, and named rather than
+  dressed up.
+
+## Closes
+
+Retires the open thread from cycle 1 (we weren't tracking glossary usage). The two
+glossary cycles now bookend cleanly: **cycle 1 built it, and this made it navigable
+and finally instrumented it.**

@@ -185,6 +185,11 @@ body {
   color: var(--accent);
 }
 
+/* minor cycles: keep section headings styled but drop the beat numbers */
+.case-prose.no-beats > h2::before {
+  content: none;
+}
+
 .case-prose h3 {
   font-family: var(--font-mono);
   font-size: 0.95rem;

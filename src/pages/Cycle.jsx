@@ -26,6 +26,7 @@ export default function Cycle() {
 
   const { project, cycle, prev, next } = found
   const fm = cycle.frontmatter || {}
+  const isMinor = !!fm.minor
   const Body = cycle.Component
 
   return (
@@ -52,17 +53,30 @@ export default function Cycle() {
           </p>
 
           <div className="mt-5 flex flex-wrap items-center gap-2 font-mono text-xs">
-            {typeof fm.cycle === 'number' && (
+            {isMinor ? (
               <span
-                className="border px-2 py-0.5 font-semibold"
+                className="border px-2 py-0.5 font-semibold uppercase tracking-wide"
                 style={{
                   color: 'var(--accent)',
                   borderColor:
                     'color-mix(in oklab, var(--accent) 45%, var(--color-hairline))',
                 }}
               >
-                cycle {String(fm.cycle).padStart(2, '0')}
+                minor cycle
               </span>
+            ) : (
+              typeof fm.cycle === 'number' && (
+                <span
+                  className="border px-2 py-0.5 font-semibold"
+                  style={{
+                    color: 'var(--accent)',
+                    borderColor:
+                      'color-mix(in oklab, var(--accent) 45%, var(--color-hairline))',
+                  }}
+                >
+                  cycle {String(fm.cycle).padStart(2, '0')}
+                </span>
+              )
             )}
             {fm.status && (
               <span className="border border-[var(--color-hairline)] px-2 py-0.5 text-muted">
@@ -90,7 +104,9 @@ export default function Cycle() {
         <div className="mx-auto mt-10 grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[220px_minmax(0,1fr)]">
           <aside className="hidden lg:block">
             <div className="sticky top-28">
-              <p className="label mb-3">// seven beats</p>
+              <p className="label mb-3">
+                {isMinor ? '// contents' : '// seven beats'}
+              </p>
               <ol className="border-l border-[var(--color-hairline)]">
                 {toc.map((t, i) => (
                   <li key={t.id}>
@@ -111,7 +127,11 @@ export default function Cycle() {
 
           {/* The case study itself, on a solid panel for max legibility */}
           <article ref={articleRef} className="min-w-0">
-            <div className="case-prose prose max-w-none border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-8 sm:px-10 sm:py-10">
+            <div
+              className={`case-prose prose max-w-none border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-8 sm:px-10 sm:py-10${
+                isMinor ? ' no-beats' : ''
+              }`}
+            >
               <Body />
             </div>
 
