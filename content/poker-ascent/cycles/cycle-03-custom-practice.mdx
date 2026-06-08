@@ -1,0 +1,182 @@
+---
+title: "Custom Practice: A Parallel Path That Doesn't Break Progression"
+cycle: 3
+date: "Mar 2026"
+status: "Shipped"
+bluf: "Stronger players wanted to drill specific variables without grinding the tier ladder, but free movement would have broken the progression system. A separate custom-practice mode runs parallel to the tiers: 13 of 40 returned repeatedly, almost all advanced or intermediate, and structured-tier session share held at 86%."
+tags: ["progression-design", "parallel-mode", "advanced-users", "optional-layer"]
+---
+
+## Summary (BLUF)
+
+Advanced and intermediate testers wanted to drill specific variables without
+grinding through tiers to reach them, and to revisit basics, but free movement
+through the tiers would have broken the progression system from the previous
+cycle. We added a separate **custom-practice mode** (toggle any one or more
+variables) at the bottom of the skill-selection screen, leaving the tier spine
+untouched. 13 of 40 testers returned to it repeatedly, almost all advanced or
+intermediate, and structured-tier session share held at 86% (down from 97%) in the
+first window.
+
+## Trigger & problem
+
+<TLDR>The tier system that protected beginners had become a cage for stronger players, who couldn't reach hard variables or revisit basics. This cycle answers cycle 2's open question.</TLDR>
+
+The tier system from cycle 2 produced the exact friction we flagged as its open
+question: advanced and intermediate players had to grind a lot of drills to reach
+the harder, higher-complexity tiers, and there was no way to drop back and
+rehearse the basics. The structure that protected beginners had become a cage for
+stronger players. **This cycle is the answer to the open question the last one
+raised.**
+
+## Discovery & user-research synthesis
+
+<TLDR>12 of 40 testers, skewing advanced and intermediate, wanted to practice the environment they choose now, which the forward-only spine couldn't serve.</TLDR>
+
+**12 of 40 testers** raised this, skewing toward advanced and intermediate
+players. The complaint took two shapes:
+
+- *"I have to grind to reach the complexity I actually want to practice."*
+- *"I want to go back and drill the basics and there's no way to."*
+
+Both are the same underlying need: practice the environment you choose, now, which
+the single forward-only progression spine couldn't serve.
+
+## The PRD
+
+<TLDR>A separate practice surface with per-variable toggles for stronger players, without altering the tier progression path itself.</TLDR>
+
+<PRD>
+
+### Problem
+Stronger players can't practice the variables they want without grinding the tier
+ladder, and can't revisit basics.
+
+### Target user
+Intermediate and advanced players. Beginners are explicitly not the audience here.
+
+### Success metric (defined upfront)
+Retained adoption of custom practice by the target segment.
+
+### Guardrails
+1. The tier progression system still holds.
+2. Beginners don't use custom mode to overload themselves.
+
+### In scope
+- A separate practice surface with per-variable toggles.
+
+### Out of scope
+- Altering the tier progression path itself.
+
+</PRD>
+
+<Artifact type="PRD" caption="[PLACEHOLDER, full PRD doc. Paste it and I'll embed it as a collapsible like the other cycles]" />
+
+## Prioritization
+
+<TLDR>Chose a separate custom-practice mode running parallel to the tiers, so progression is untouched because practice and progression are now two different surfaces.</TLDR>
+
+Each rejected option protected one thing by sacrificing another:
+
+- **Backward-only revisiting** (replay a tier you've cleared, no skipping ahead).
+  Preserves progression integrity, but does nothing for the advanced player who
+  wants to drill a *hard* variable now without grinding up to it.
+- **Free forward movement** through tiers. Solves access, but destroys the
+  earned-progression feeling *and* the anti-overwhelm gating in one move.
+- **Fully split the tiers** (choose any tier freely, with "recommended" tabs to
+  guide placement). Flexible, but it collapses the single progression spine into a
+  menu and leans on a recommendation nudge users ignore. Cycle 2 already taught us
+  that users don't change settings they should.
+- **Custom practice as a separate mode (chosen).** A "custom practice" option at
+  the bottom of the skill-selection screen where you toggle on one or multiple
+  variables to build the exact environment you want.
+
+**The insight:** don't modify the progression path. *Add a parallel one.* The
+tiers stay pristine as the structured spine, and custom mode is a sandbox beside
+it. No one's progression is touched, because practice and progression are now two
+different surfaces. Placing it at the *bottom* of skill selection is deliberate:
+discoverable for players who seek it, off the default path for a beginner who
+shouldn't.
+
+## Build & sprint summary
+
+<TLDR>Added a custom-practice entry at the bottom of skill selection that toggles any combination of variables, with the tier system left unchanged.</TLDR>
+
+A custom-practice entry at the bottom of skill selection. The player toggles any
+combination of variables (position, hand, board texture, playstyle, villain
+archetype, stack sizes, multiway) to set the practice environment, then drills it
+freely. The tier system is unchanged.
+
+<Artifact type="screenshot" caption="[PLACEHOLDER] Custom-practice toggle UI: per-variable toggles at the bottom of skill selection" />
+
+## Measurement & retro
+
+<TLDR>13 of 40 returned to custom mode (almost all advanced or intermediate) and tier share held at 86%, but the risk is the slope of that drain, not the level.</TLDR>
+
+The job was narrow: give stronger players the practice they wanted *without*
+breaking the progression system the tiers exist to create. The guardrails carry as
+much weight as the primary.
+
+<MetricResult
+  metric="Retained adoption (target segment)"
+  target="Advanced and intermediate players return to custom practice"
+  result="13 of 40 returned to it repeatedly, almost all advanced or intermediate"
+  hit={true}
+  guardrail="Watched against progression share and beginner overload (below)"
+/>
+
+<MetricResult
+  metric="Progression still holds (guardrail)"
+  target="Structured tiers remain the primary surface"
+  result="Structured-tier session share moved from 97% to 86%"
+  hit="watch"
+/>
+
+<MetricResult
+  metric="Beginner overload (guardrail)"
+  target="Beginners don't use custom mode to overload"
+  result="No observed beginner toggling or misuse (small, early window)"
+  hit={true}
+/>
+
+**Primary, trial vs. retained:** we discount the 27 of 40 who *tried* custom mode.
+It launched bundled with other new features, so trial measures curiosity, not
+value. Retained use is the number that counts, and the people who needed it
+adopted it while beginners largely didn't.
+
+**Guardrail 1, read two-sided:** structured-tier share of session time moved from
+97% to 86%, roughly an 11-point shift into custom practice.
+
+- *Reassuring:* 86% of time is still in the progression spine, so custom mode is a
+  supplement, not a replacement.
+- *Skeptical:* an 11-point drain in a single early window on a brand-new feature.
+  The risk is the *slope*, not the level. Does it stabilize near 86%, or keep
+  bleeding as novelty fades and advanced players realize they can live in the
+  sandbox? One window can't tell us. Honest claim: held so far, watching the
+  trend, not "the tiers held."
+
+**Guardrail 2, beginner overload:** no observed beginner toggling or misuse. The
+buried placement (off the default path) plus the comprehension barrier (beginners
+don't yet understand the variables well enough to over-toggle) both did their job.
+Caveat: small, early window, worth tighter instrumentation before calling it
+permanently safe.
+
+**Secondary and diagnostic signals worth instrumenting:**
+
+- Which variable *combinations* get toggled most (a direct roadmap signal for what
+  players actually want to drill).
+- Whether custom-mode users show *faster* tier progression on the main path (the
+  optimistic hypothesis: targeted practice feeds structured improvement).
+
+### Retro & lessons
+
+**The honest second-order read:** an 11-point shift toward the sandbox might also
+be telling us the *tiers themselves* are more of a grind than we'd like, and
+advanced players are routing around friction. That is not necessarily bad, but it
+is a question the data raises and doesn't answer, and it is about the rest of the
+product, not just this feature.
+
+**Lesson:** when a structured system frustrates a subset of users, the move isn't
+to loosen the structure for everyone. It is to add an optional parallel surface for
+the users who need it, and protect the structure with a guardrail you actually
+watch.
