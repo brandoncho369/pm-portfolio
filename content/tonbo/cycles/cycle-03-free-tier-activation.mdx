@@ -1,0 +1,256 @@
+---
+title: "Free-Tier Watchlist Activation"
+cycle: 3
+date: "Jun 2026"
+status: "Shipped"
+bluf: "Too many free-tier users finished onboarding without adding a watch, the core activation action for that tier. A guided add-flow demo plus a recommended-adds section attacked the two frictions behind it, lifting the free-tier add rate to 95% against an 85% target."
+tags: ["activation", "onboarding", "free-tier", "recommendations"]
+---
+
+## Summary (BLUF)
+
+In the first week, too many onboarded free-tier users never added a watch, which
+is the core activation action for that tier. We shipped two things to attack the
+two distinct frictions behind non-adding: a guided onboarding demo of the add
+flow, and a recommended-adds section driven by community demand and US-to-Japan
+margin signals. The free-tier watchlist-add rate reached 95%, beating the 85%
+target, and recommendations were involved in about a third of adds.
+
+## Trigger & problem
+
+<TLDR>In week one only ~220 of ~280 onboarded free-tier users added a watch, and for a collector-only tier the watchlist add is the true activation signal.</TLDR>
+
+The first-week funnel ran roughly 360 users → 280 who completed onboarding → 220
+who added a watch. Watchlist-add is the activation signal for the free tier. The
+free tier has no trader functionality and exposes collector data only, so every
+free-tier user is a collector for whom a watchlist is the correct first action.
+That makes add-rate a true activation metric for this segment, and too many users
+were stopping short of it.
+
+## Discovery & user-research synthesis
+
+<TLDR>Working backward from a non-adder surfaced two distinct frictions: selection (which model to track) and procedural (never actually walked through the add).</TLDR>
+
+Working backward from a non-adder's experience surfaced two distinct frictions:
+
+- **Selection.** Users didn't know which exact model or reference to track.
+- **Procedural.** Onboarding showed where and how to add, but never walked the user
+  through actually doing it.
+
+Two different problems meant a single fix wouldn't be enough.
+
+## The PRD
+
+<TLDR>Attack both frictions: a guided onboarding demo of the add flow, plus a recommended-adds section, without auto-adding anything.</TLDR>
+
+<PRD>
+
+### Problem
+Too many free-tier users complete onboarding without adding a watch, the core
+activation action for the tier.
+
+### Target user
+Free-tier collectors: users with collector intent and no trader functionality, for
+whom building a watchlist is the natural first action.
+
+### Success metric (defined upfront)
+Lift the free-tier watchlist-add rate to at least 85%.
+
+### Guardrails
+1. Add meaningfulness: added watches are valued, not hollow.
+2. Onboarding completion does not drop from the new demo step.
+
+### In scope
+- A guided onboarding demo of the add flow.
+- A recommended-adds section.
+
+### Out of scope
+- Auto-adding a watch on the user's behalf.
+- Changing trader-tier flows.
+
+</PRD>
+
+<PRDDoc
+  title="Full PRD: Free-Tier Watchlist Activation"
+  meta="Product: Tonbo · Author: Brandon · Status: Shipped · Created 2026-06-01 · Last updated 2026-06-09"
+>
+
+### 1. Summary
+In week one, too many onboarded free-tier users never added a watch, the core
+activation action for that tier. This PRD adds a guided onboarding demo of the add
+flow and a recommended-adds section (community demand plus US-to-Japan margin and
+price signals) to attack the two distinct frictions behind non-adding. Goal: lift
+free-tier watchlist-add rate to at least 85%.
+
+### 2. Problem & Background
+First-week funnel: ~360 users → ~280 completed onboarding → ~220 added a watch.
+Watchlist-add is the activation signal for free tier. Because the free tier has no
+trader functionality (collector data only), every free-tier user is a collector
+for whom a watchlist is the correct first action, so add-rate is a true activation
+metric for this segment.
+
+### 3. Discovery
+Working backward from a non-adder's experience surfaced two distinct frictions:
+
+- Selection: users don't know which exact model or reference to track.
+- Procedural: onboarding showed where and how to add but didn't walk users through
+  actually doing it.
+
+### 4. Goals & Non-Goals
+**Goals**
+
+- Lift the share of free-tier users who take the core activation action.
+- Reduce both selection and procedural friction.
+- Preserve the short onboarding and the meaningfulness of adds.
+
+**Non-Goals**
+
+- Auto-adding a watch on the user's behalf.
+- Changing trader-tier flows.
+
+### 5. Success Metrics
+(Primary set before launch.)
+
+- **Primary, free-tier watchlist-add rate:** at least 85%. (Result: 163 of 172 =
+  95%.)
+- **Attribution, source of add:** reference-only, recommendation-only, or both.
+  (Result: 104, 13, 46. Recommendation-involved = 59, about 36%.)
+- **Guardrail 1, add meaningfulness:** retention and engagement of added watches.
+  (Lagging metric for this niche. About 10 of 163 removed in week one.
+  Return-engagement is the truer signal.)
+- **Guardrail 2, onboarding completion:** must not drop from the added demo step.
+  (Result: held.)
+
+### 6. Target User
+Free-tier collectors, users with collector intent and no trader functionality, for
+whom building a watchlist is the natural first action.
+
+### 7. User Stories
+
+- As a new collector, I want to be shown how to add a watch during onboarding, so
+  I'm not guessing at the mechanics.
+- As a new collector who isn't sure which watch to track first, I want relevant
+  suggestions, so I have a concrete starting point.
+- As a user, I don't want the product adding watches I didn't choose.
+
+### 8. Solution Overview
+
+- **Onboarding demo (procedural friction):** onboarding shows an actual on-screen
+  example of entering a reference number and clicking add. It is demonstrated, but
+  it does not perform the add for the user.
+- **Recommended adds (selection friction):** a section below the watchlist screen
+  surfacing recommended watches based on what other users are adding and what is
+  declining in price or rising in US-to-Japan margin.
+
+### 9. Functional Requirements
+
+- Onboarding includes a non-executing demonstration of the add flow.
+- The watchlist screen renders a recommended-adds section ranked by demand plus
+  margin and price signals.
+- Each add records its source (manual reference or recommendation) for attribution.
+
+### 10. Edge Cases & Constraints
+
+- No recommendations available (sparse data or a brand-new user): needs a defined
+  fallback, either a generic starter set or hiding the section.
+- Recommended watch already on the user's list: suppress it or mark it as added.
+- Constraint: must not lengthen onboarding enough to hurt completion.
+
+### 11. Risks & Mitigations
+
+- **Hollow adds.** Recommendations could juice adds with watches users don't value,
+  the reason auto-add was rejected. Monitor: add retention and return-engagement,
+  on a months-long horizon appropriate to the niche.
+- **Onboarding friction.** A demo step could reduce completion. Mitigation and
+  monitor: watch the completion rate (result: held).
+- **Attribution.** Two fixes shipped together limit isolation. Mitigation: the
+  source-of-add split attributes the recommendation feature directly. The demo's
+  separate effect is acknowledged as not fully isolable.
+
+### 12. Alternatives Considered
+
+| Option | Why not |
+| --- | --- |
+| Auto-add a sample watch during onboarding | Most users delete it immediately, a hollow add that clutters the list and games the metric. |
+| Show-only onboarding (where and how, no demo) | The status quo that produced the gap. Explains but doesn't teach the motion. |
+| Onboarding demo + recommended adds (chosen) | Addresses procedural and selection friction directly, without faking the add. |
+
+</PRDDoc>
+
+## Prioritization
+
+<TLDR>Chose a demo plus recommendations over auto-adding a sample watch, which would only create hollow adds that game the metric.</TLDR>
+
+We considered three options:
+
+- **Auto-add a sample watch during onboarding.** It would lift the number, but most
+  users delete it immediately. That is a hollow add that clutters the list and
+  games the metric rather than activating anyone.
+- **Show-only onboarding (where and how, no demo).** This was the status quo, and it
+  is what produced the gap. It explains the add but doesn't teach the motion.
+- **Onboarding demo plus recommended adds (chosen).** It addresses the procedural
+  and selection frictions directly, without faking the add.
+
+**The insight:** don't fake the activation action. Two distinct frictions needed
+two distinct fixes, and the honest version removes the friction so the user takes
+the real action rather than manufacturing the metric.
+
+## Build & sprint summary
+
+<TLDR>Shipped two surfaces: a non-executing add-flow demo in onboarding, and a recommended-adds section ranked by community demand and US-to-Japan margin signals.</TLDR>
+
+Two surfaces:
+
+- **Onboarding demo (procedural friction).** Onboarding shows an on-screen example
+  of entering a reference number and clicking add. It is demonstrated, but it
+  deliberately does not perform the add for the user.
+- **Recommended adds (selection friction).** A section below the watchlist surfaces
+  recommended watches based on what other users are adding and what is declining in
+  price or rising in US-to-Japan margin.
+
+Each add records its source, manual reference or recommendation, so the
+recommendation feature can be attributed directly.
+
+## Measurement & retro
+
+<TLDR>Add rate hit 95% against an 85% target, recommendations were involved in about 36% of adds, and the honest caveat is that two fixes shipped together limit isolation.</TLDR>
+
+<MetricResult
+  metric="Free-tier watchlist-add rate"
+  target="≥85%"
+  result="95% (163 of 172)"
+  hit={true}
+  guardrail="Watched against add meaningfulness and onboarding completion (below)"
+/>
+
+<MetricResult
+  metric="Onboarding completion (guardrail)"
+  target="No drop from the new demo step"
+  result="Held"
+  hit={true}
+/>
+
+<MetricResult
+  metric="Add meaningfulness (guardrail)"
+  target="Adds are valued, not hollow"
+  result="~10 of 163 removed in week one. Return-engagement is the truer signal, months out."
+  hit="watch"
+/>
+
+**Attribution:** each add recorded its source. Of the 163 adds, 104 came from a
+reference only, 13 from a recommendation only, and 46 from both. Recommendations
+were involved in 59 adds, about 36%. That attributes the recommendation feature
+directly. Because two fixes shipped together, the demo's separate effect is
+acknowledged as not fully isolable.
+
+**Hollow-add risk:** recommendations could juice adds with watches users don't
+actually value, which is exactly why auto-add was rejected. The real test is add
+retention and return-engagement, on a months-long horizon appropriate to this
+niche. In week one only about 10 of 163 adds were removed, which is reassuring but
+early.
+
+### Retro & lessons
+
+Don't fake the activation action. Two distinct frictions needed two distinct fixes,
+and the honest move is to attribute what you can (the recommendation split) while
+naming what you can't isolate (the demo that shipped alongside it).
