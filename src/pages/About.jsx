@@ -1,6 +1,7 @@
 import PageTransition from '../components/PageTransition.jsx'
 import Seo from '../components/Seo.jsx'
 import Reveal from '../components/Reveal.jsx'
+import ContactLinks from '../components/ContactLinks.jsx'
 
 const aboutMod = import.meta.glob('/content/about.mdx', { eager: true })
 const starMod = import.meta.glob('/content/star-stories.mdx', { eager: true })
@@ -30,6 +31,14 @@ export default function AboutPage() {
             <p>[PLACEHOLDER, Brandon fills this] Add /content/about.mdx</p>
           )}
         </article>
+
+        {/* GET IN TOUCH ------------------------------------------------- */}
+        <Reveal className="mt-10">
+          <p className="label">// get in touch</p>
+          <div className="mt-3 flex flex-wrap gap-3">
+            <ContactLinks variant="buttons" />
+          </div>
+        </Reveal>
 
         {/* STAR STORIES ------------------------------------------------- */}
         <section className="mt-20">

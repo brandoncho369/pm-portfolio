@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { getProjects } from '../content'
+import ContactLinks from './ContactLinks.jsx'
 
 export default function Footer() {
   const projects = getProjects()
@@ -15,6 +16,9 @@ export default function Footer() {
             Product management portfolio. Evidence of product judgment, one
             development cycle at a time.
           </p>
+          <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 font-mono text-sm text-ink-soft">
+            <ContactLinks variant="inline" />
+          </div>
         </div>
         <nav className="flex flex-col gap-2 font-mono text-sm text-ink-soft sm:items-end">
           <Link to="/" className="hover:text-[var(--color-ink)]">
