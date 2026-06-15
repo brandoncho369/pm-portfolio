@@ -51,9 +51,13 @@ export default function Landing() {
                 <span style={{ color: 'var(--accent)' }}>▸</span> Leafrush Marketing
               </h3>
               <p className="mt-2 max-w-2xl text-ink-soft">
-                Before product, I built and ran a marketing agency for lawn-care
-                businesses, from solo founder to a team of five. The operator
-                chapter: ownership, systems, and judgment under real constraints.
+                Before product, I ran a marketing agency for lawn-care businesses
+                end to end, from solo founder to a team of five. A 200+ A/B test
+                experimentation program, real metric-tradeoff calls, and ownership
+                under brutal constraints.
+              </p>
+              <p className="mt-3 font-mono text-xs text-muted">
+                200+ A/B tests · +230% avg acquisition lift · $100K+ client revenue
               </p>
             </div>
             <span className="whitespace-nowrap font-mono text-sm text-ink-soft transition-colors group-hover:text-[var(--accent)]">

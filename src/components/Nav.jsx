@@ -56,6 +56,7 @@ export default function Nav() {
               {p.slug}
             </NavItem>
           ))}
+          <NavItem to="/leafrush">leafrush</NavItem>
           <NavItem to="/about">about</NavItem>
         </div>
 
@@ -95,6 +96,9 @@ export default function Nav() {
                   {p.slug}
                 </MobileLink>
               ))}
+              <MobileLink to="/leafrush" onClick={() => setOpen(false)}>
+                leafrush
+              </MobileLink>
               <MobileLink to="/about" onClick={() => setOpen(false)}>
                 about
               </MobileLink>
