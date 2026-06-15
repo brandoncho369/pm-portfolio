@@ -54,7 +54,7 @@ export default function Leafrush() {
 
         {/* BODY */}
         <div className="mx-auto mt-10 max-w-3xl px-4 sm:px-6">
-          <article className="case-prose prose no-beats max-w-none border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-8 sm:px-10 sm:py-10">
+          <article className="case-prose prose max-w-none">
             {Body ? <Body /> : <p>Coming soon.</p>}
           </article>
 
