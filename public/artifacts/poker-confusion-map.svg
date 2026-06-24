@@ -1,0 +1,78 @@
+<svg viewBox="0 0 940 540" xmlns="http://www.w3.org/2000/svg" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .title { font-family: Georgia,'Iowan Old Style','Times New Roman',serif; fill:#211C16; }
+      .sub   { fill:#8C8378; }
+      .nm    { font-size:12px; font-weight:700; fill:#211C16; }
+      .cat   { font-family: ui-monospace,'SF Mono',Menlo,Consolas,monospace; font-size:8px; letter-spacing:.06em; fill:#8C8378; }
+      .ct    { font-size:13px; font-weight:700; fill:#1E7A50; }
+      .ex    { font-family: ui-monospace,'SF Mono',Menlo,Consolas,monospace; font-size:9px; fill:#6E665C; }
+      .cap   { font-size:9.5px; fill:#8C8378; }
+    </style>
+  </defs>
+
+  <rect x="14" y="14" width="912" height="512" rx="18" fill="#FBFAF6" stroke="#ECE5DB"/>
+
+  <text class="title" x="40" y="48" font-size="22">Confusion map: what users get stuck on</text>
+  <text class="sub" x="40" y="69" font-size="12">Poker Ascent · 32 support questions, semantically clustered (cosine ≥ 0.62) into 19 clusters, 7 recurring themes</text>
+
+  <!-- column guide -->
+  <text class="cat" x="210" y="96">CLUSTER SIZE (questions grouped by meaning)</text>
+  <text class="cat" x="512" y="96">REPRESENTATIVE QUESTIONS</text>
+
+  <!-- Row 1 · Streak anxiety (4) -->
+  <text class="nm" x="40" y="124">Streak anxiety</text>
+  <text class="cat" x="40" y="138">RETENTION SIGNAL</text>
+  <rect x="210" y="114" width="248" height="18" rx="3" fill="#1E7A50"/>
+  <text class="ct" x="468" y="128">4</text>
+  <text class="ex" x="512" y="127">where is my streak · why did it reset · disappeared</text>
+
+  <!-- Row 2 · Billing disputes (4) -->
+  <text class="nm" x="40" y="174">Billing disputes</text>
+  <text class="cat" x="40" y="188">TRUST / CHARGEBACK</text>
+  <rect x="210" y="164" width="248" height="18" rx="3" fill="#1E7A50"/>
+  <text class="ct" x="468" y="178">4</text>
+  <text class="ex" x="512" y="177">charged twice · billed again · after cancelling</text>
+
+  <!-- Row 3 · Finding stats (3) -->
+  <text class="nm" x="40" y="224">Finding their stats</text>
+  <text class="cat" x="40" y="238">DISCOVERABILITY</text>
+  <rect x="210" y="214" width="186" height="18" rx="3" fill="#3E9A6B"/>
+  <text class="ct" x="406" y="228">3</text>
+  <text class="ex" x="512" y="227">see my stats · weekly stats · view accuracy</text>
+
+  <!-- Row 4 · Cancellation (3) -->
+  <text class="nm" x="40" y="274">Cancellation</text>
+  <text class="cat" x="40" y="288">DISCOVERABILITY</text>
+  <rect x="210" y="264" width="186" height="18" rx="3" fill="#3E9A6B"/>
+  <text class="ct" x="406" y="278">3</text>
+  <text class="ex" x="512" y="277">how do I cancel · cancel subscription · unsubscribe</text>
+
+  <!-- Row 5 · App stability (2) -->
+  <text class="nm" x="40" y="324">App stability</text>
+  <text class="cat" x="40" y="338">STABILITY</text>
+  <rect x="210" y="314" width="124" height="18" rx="3" fill="#6FB48E"/>
+  <text class="ct" x="344" y="328">2</text>
+  <text class="ex" x="512" y="327">keeps crashing · the app froze</text>
+
+  <!-- Row 6 · Premium value (2) -->
+  <text class="nm" x="40" y="374">Premium value</text>
+  <text class="cat" x="40" y="388">CONVERSION</text>
+  <rect x="210" y="364" width="124" height="18" rx="3" fill="#6FB48E"/>
+  <text class="ct" x="344" y="378">2</text>
+  <text class="ex" x="512" y="377">how much is premium · is it worth it</text>
+
+  <!-- Row 7 · Login failures (2) -->
+  <text class="nm" x="40" y="424">Login failures</text>
+  <text class="cat" x="40" y="438">ACCESS</text>
+  <rect x="210" y="414" width="124" height="18" rx="3" fill="#6FB48E"/>
+  <text class="ct" x="344" y="428">2</text>
+  <text class="ex" x="512" y="427">can't log in · login not working</text>
+
+  <!-- singletons -->
+  <line x1="40" y1="458" x2="886" y2="458" stroke="#ECE5DB"/>
+  <text class="ex" x="40" y="478" fill="#8C8378">+ 12 one-off questions · difficulty · training mode · password, and more</text>
+
+  <!-- footnote -->
+  <text class="cap" x="40" y="506">Clustered by meaning, not keywords: "my streak disappeared" groups with "why did my streak reset" on meaning alone. Streak (retention) and billing (trust) tie at #1.</text>
+</svg>
