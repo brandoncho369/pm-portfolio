@@ -41,6 +41,18 @@ export default function CycleCard({ projectSlug, cycle, index }) {
           {fm.bluf && (
             <p className="mt-1.5 line-clamp-2 text-sm text-ink-soft">{fm.bluf}</p>
           )}
+          {Array.isArray(fm.tags) && fm.tags.length > 0 && (
+            <div className="mt-2.5 flex flex-wrap gap-1.5">
+              {fm.tags.map((t) => (
+                <span
+                  key={t}
+                  className="rounded-sm border border-[var(--color-hairline)] px-1.5 py-0.5 font-mono text-[10px] text-muted"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          )}
           {fm.date && (
             <p className="mt-2 font-mono text-xs text-muted">{fm.date}</p>
           )}
