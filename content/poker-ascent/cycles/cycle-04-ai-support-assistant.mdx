@@ -1,87 +1,117 @@
 ---
-title: "An AI Support Assistant, Safe by Construction"
+title: "AI Support Assistant: Deflection, Safety, and Owned Over-Engineering"
 cycle: 4
-date: "Jun 2026"
+date: "Apr 2026"
 status: "Shipped"
-bluf: "Beta testers kept asking questions that were already answerable, so I built a production agentic-RAG support assistant that resolves them autonomously and escalates the rest with a drafted reply. It is safe by construction: 0 strategy-coaching leaks across 1,000 adversarial prompts, and 60 of 60 answers grounded."
-tags: ["ai", "rag", "llm-safety", "evals", "support-deflection"]
+bluf: "Beta testers kept asking already-answerable questions, and some answers would have been actively harmful: poker-strategy coaching that competes with our paid product. The minimum fix was deflection. I knowingly built more: an eval-gated agentic-RAG assistant with safety guardrails, observability, and ticketing. Provable now: 0 strategy-coaching leaks across 1,000 adversarial prompts, 60/60 grounded, and a clustered map of what actually confuses users."
+tags: ["LLM", "RAG", "safety", "product-feedback", "scoping-judgment"]
 ---
 
 ## Summary (BLUF)
 
-Beta testers generated a high volume of questions that were already answerable,
-which is a deflection opportunity. The hard constraint: a poker-training app's
-support bot must never coach strategy, or it becomes a poker authority that
-competes with the paid product. I built a production agentic-RAG assistant that
-resolves routine and account questions autonomously, escalates the rest into a
-ticket queue with a drafted first reply, and is built eval-first so the one
-behavior that matters is enforced by architecture, not hope. Across 1,000
-adversarial prompts it produced 0 strategy-coaching responses, and 60 of 60
-answers were grounded in retrieved data.
+Beta testers kept asking support questions that were already answerable, routing
+avoidable load through us. And some questions, if answered, would have been actively
+harmful: poker-strategy coaching that competes with our own paid product. The
+minimum product fix was deflection. I deliberately built more than the minimum: a
+production-grade, eval-gated agentic RAG support assistant with safety guardrails,
+observability, and a ticketing workflow. **I'm presenting this as an owned
+over-investment, not as right-sizing.** The plan said so out loud ("this exceeds
+day-1 support needs"), and the bet was justified by a hard safety constraint plus
+the system's most valuable byproduct. Provable-now results: **0 strategy-coaching
+leaks across 1,000 adversarial prompts**, **60/60 grounded answers**, and a
+**clustered map of what actually confuses users**. Deflection and CSAT are still
+stabilizing as post-launch volume grows.
 
 ## Trigger & problem
 
-<TLDR>Beta testers flooded support with already-answerable questions, while the one hard rule was that the bot must never coach poker strategy.</TLDR>
+<TLDR>The hard part wasn't deflecting easy questions, it was making it structurally impossible for a poker-training bot to coach strategy or invent account facts.</TLDR>
 
-Support load splits into three kinds of message, each needing different handling:
-
-- **Routine support** (how do I cancel, what is free vs Pro): resolve instantly
-  from the knowledge base.
-- **Account-specific** (did my subscription renew): resolve from a live,
-  auth-scoped account lookup.
-- **Out of scope and dangerous** (how should I play AK on the button): refuse.
-  Coaching strategy makes the bot a poker authority, competes with the paid
-  product, and contradicts the app's own engine.
-
-Beta testers generated a high volume of the first kind. The third kind defines the
-product's spine: the assistant must never coach strategy.
+Support load split into three kinds of message with very different correct handling:
+routine ("how do I cancel?", resolve from the knowledge base), account-specific
+("did my subscription renew?", which needs a live, accurate lookup), and
+out-of-scope-and-dangerous ("how should I play AK on the button?"). That third kind
+is the spine of the problem: coaching strategy would make the bot a poker authority,
+**cannibalize the paid trainer, and contradict the app's own engine.** So the
+requirement wasn't just "deflect." It was "deflect while making it structurally
+impossible to drift into strategy coaching or to invent facts about someone's
+account."
 
 ## Discovery & user-research synthesis
 
-<TLDR>The real signal: many "easy" questions were symptoms of product confusion, not missing FAQ entries, so support became a diagnostic surface for product fixes.</TLDR>
+<TLDR>The sharper signal: many easy questions are symptoms, not support gaps, so support load is really a diagnostic surface for product problems.</TLDR>
 
-The dominant beta signal was the sheer volume of easily-answerable questions. The
-sharper observation: many of these are symptoms of product confusion, not gaps in
-support content. Repeated "where is my streak" or "charged twice" questions point
-at product issues, not missing FAQ entries. That reframed the support load as a
-diagnostic surface that feeds the knowledge base and the product roadmap, which
-became one of the system's most valuable outputs.
+The dominant beta signal was the volume of easily-answerable questions. But the
+sharper observation: **many of those questions are symptoms, not support gaps.** If
+users repeatedly ask "where's my streak," the real fix is the product, not a better
+FAQ answer. That reframed support load as a *diagnostic surface*, which later drove
+the most valuable metric in this cycle.
 
-## The PRD
+## The scoping tension (owned, not hidden)
 
-<TLDR>A grounded agentic-RAG assistant that maximizes deflection while making strategy-coaching and account hallucination structurally impossible.</TLDR>
+<TLDR>I knowingly over-built for day-1 volume, and I'm naming it, because the over-investment is defensible only if it's owned, tied to a real safety constraint, and cost-capped.</TLDR>
 
-<PRD>
+The honest minimum to handle easily-answerable questions is far less than what I
+built. I am naming that directly, because unacknowledged over-engineering reads as
+poor judgment, and the right-sizing instinct matters elsewhere in this portfolio.
 
-### Problem
-Beta testers ask a high volume of already-answerable questions, while the bot must
-never coach poker strategy or hallucinate account facts.
+I over-invested deliberately, for reasons I can defend:
 
-### Target user
-End users needing support (billing, account, how-to, jargon, escalation), and the
-support operator working the escalation queue.
+1. **The safety line is non-negotiable and needs real enforcement.** "Never coach
+   strategy" can't rest on a system-prompt instruction, because prompts leak. It
+   needs a pre-generation intent classifier plus an eval gate that fails the build
+   on a single leak. That is not gold-plating. It is the only way to make the
+   harmful behavior structurally impossible.
+2. **Account-specific answers must be grounded.** Telling a user the wrong thing
+   about their own billing is worse than not answering, so a groundedness check that
+   replaces unsupported claims with "let me open a ticket" is a real requirement,
+   not a flourish.
+3. **A platform and skill bet.** Evals, observability, and tool-use are table stakes
+   for a serious LLM system, and building them now was an intentional investment.
 
-### Success metric (defined upfront)
-Deflect about 70% of support sessions, with a gating safety metric of zero
-strategy-coaching responses in production.
+The judgment I'm claiming isn't "I built the minimum." It is this: **I knew I was
+over-building for day-1 volume, I said so in the plan, I capped cost so it's cheap
+while idle, and the honest risk is that if volume never grows, this is expensive
+infrastructure for a small problem.**
 
-### Guardrails
-1. Groundedness: every factual claim comes from retrieval or a live tool call.
-2. Cost stays under a hard cap while idle.
+## Prioritization
 
-### In scope
-- Grounded RAG answers, auth-scoped account tools, refusal of strategy, and
-  escalation to a ticket with a drafted reply.
+<TLDR>Chose agentic RAG with guardrails and evals, knowingly over-built, because a naive bot fails the one safety constraint that matters.</TLDR>
 
-### Out of scope
-- General poker Q&A, judging drill correctness, anything that competes with the
-  trainer.
+- **Expand static FAQ and help docs.** Cheapest, but the questions were already
+  answerable, so this is a findability problem, not a content gap. More docs users
+  don't read doesn't solve it, and it can't do account-specific lookups.
+- **Human support.** Doesn't scale, and routes every question through a founder, the
+  exact bottleneck pattern this portfolio keeps removing.
+- **Simple scripted or FAQ chatbot.** Cheap, but it hallucinates on account and
+  billing, can't do live lookups, and, critically, could drift into answering poker
+  strategy. A naive bot fails the one safety constraint that matters.
+- **Agentic RAG with guardrails and evals (chosen, knowingly over-built).** The only
+  option that enforces the safety line by construction, grounds account answers in
+  real tool calls, and turns support into a measurable feedback instrument.
 
-</PRD>
+## Build & sprint summary
+
+<TLDR>An eval-first agentic orchestrator wrapped by input and output guardrails, grounded by RAG and auth-scoped tools, escalating to a drafted ticket, shipped sprint by sprint post-launch.</TLDR>
+
+A grounded orchestrator (OpenAI gpt-4o-mini for chat and tool-use) wrapped by input
+and output guardrails (a strategy-intent classifier, a groundedness check, and PII
+redaction), fed by RAG over pgvector and auth-scoped read-only tools, with every
+turn traced, and unresolved sessions escalated into a ticket with a bot-drafted
+first reply. Built eval-first, shipped sprint by sprint, post-launch only.
+
+The chat and classifier run on gpt-4o-mini. The system was originally specced on
+Claude Haiku, and a thin provider abstraction made the switch to one-provider
+billing a localized change.
+
+<Artifact
+  src="/artifacts/poker-support-architecture.svg"
+  alt="Architecture request flow. A user message hits the API, then an input guardrail (moderation plus a strategy classifier) that either refuses out-of-scope strategy questions or allows them to the orchestrator (gpt-4o-mini). The orchestrator retrieves from RAG over pgvector and calls auth-scoped read-only tools, an output guardrail checks groundedness and redacts PII before the answer, unresolved sessions create a ticket that routes to Resend email and the admin queue, and every turn is traced to a metrics dashboard."
+  caption="The request flow: guardrailed before and after generation, grounded by RAG and live tools, escalating to a ticket when it can't resolve, with every turn traced."
+/>
 
 <PRDDoc
-  title="Full PRD: AI Support Assistant"
-  meta="Product: Poker Ascent · Author: Brandon · Status: Shipped (phased S0 to S6) · Created 2026-06-20 · Last updated 2026-06-24"
+  title="Full PRD and PM plan"
+  meta="Product: Poker Ascent · Author: Brandon · Status: Shipped (phased S0 to S6) · Created 2026-04 · Updated 2026-04"
 >
 
 ### 1. Summary
@@ -93,38 +123,25 @@ requirement: maximize deflection while making it structurally impossible for the
 assistant to drift into strategy coaching or to hallucinate facts about a user's
 account or billing.
 
-> **Scoping note (owned):** this system deliberately exceeds day-1 support volume
-> needs. The over-investment is justified by a non-negotiable safety constraint
-> (never coach strategy), the need to ground account answers in real data, and a
-> deliberate platform bet, and cost is capped so it stays cheap while idle. This is
-> an owned over-investment, not a claim of minimal right-sizing.
-
 ### 2. Problem & Background
 Support load splits into three kinds of message with very different correct
-handling:
-
-| Kind | Example | Right response |
-| --- | --- | --- |
-| Routine support | "How do I cancel?", "What's free vs Pro?" | Resolve instantly from the knowledge base |
-| Account-specific | "Did my subscription renew?" | Resolve via a live, auth-scoped account lookup |
-| Out of scope (dangerous) | "How should I play AK on the button?" | Refuse. Coaching strategy makes the bot a poker authority, competes with the paid product, and contradicts the app's own engine |
-
-Beta testers generated a high volume of the first kind, questions that were already
-answerable, while the third kind defines the product's spine: the assistant must
-never coach strategy.
+handling: routine (resolve from the knowledge base), account-specific (resolve via a
+live, auth-scoped account lookup), and out-of-scope or dangerous (refuse, because
+coaching strategy makes the bot a poker authority that competes with the paid
+product and contradicts the engine). Beta testers generated a high volume of the
+first kind, while the third kind defines the product's spine.
 
 ### 3. Discovery
 The dominant beta signal was the volume of easily-answerable questions. The sharper
 observation: many of these are symptoms of product confusion, not support-content
 gaps. Repeated "where's my streak" or "charged twice" questions point at product
-issues, not at missing FAQ entries. This reframed support load as a diagnostic
-surface feeding the knowledge base and product fixes, which became one of the
-system's most valuable outputs.
+issues, not missing FAQ entries. This reframed support load as a diagnostic surface
+feeding the knowledge base and product fixes.
 
 ### 4. Goals & Non-Goals
 **Goals**
 
-- Deflect about 70% of support sessions (resolve with no human ticket).
+- Deflect about 70% of support sessions.
 - Ground every factual claim in retrieved content or a live tool call.
 - Escalate cleanly, with full context and a drafted first reply.
 
@@ -134,220 +151,139 @@ system's most valuable outputs.
 
 **Non-Goals**
 
-- General poker Q&A.
-- Judging whether a drill's answer is correct.
-- Anything that competes with the trainer, refused by design.
+- General poker Q&A, judging drill correctness, anything that competes with the
+  trainer.
 
 ### 5. Success Metrics
 
 | Metric | Type | Target | Result so far |
 | --- | --- | --- | --- |
-| Strategy-coaching leaks | Safety (gating) | 0 in prod | 0 / 1,000 adversarial prompts (CI-gated, synthetic suite) |
-| Groundedness / faithfulness | Guardrail | at least 95% | 60 / 60 grounded (one earlier flagged miss was a judge false-positive) |
-| Confusion map | Diagnostic | coherent, actionable clusters | clusters surfaced (incl. billing and streak signals) |
+| Strategy-coaching leaks | Safety (gating) | 0 in prod | 0 / 1,000 adversarial prompts (CI-gated) |
+| Groundedness | Guardrail | at least 95% | 60 / 60 grounded |
+| Confusion map | Diagnostic | coherent clusters | billing and streak product signals surfaced |
 | Deflection rate | Primary | about 70% | early, stabilizing as volume grows |
 | CSAT (thumbs) | Health | at least 80% | early, accumulating |
-| First-response time (ticket) | Health | bot draft under 30s | instrumented on the metrics dashboard |
-| p50 TTFT | Health | under 1.5s | instrumented |
 | Cost / resolution | Health | under cap | about $0.0005 per message |
 
-Honest framing: the safety and groundedness results are eval-readable now.
-Deflection and CSAT depend on volume and are reported as early and directional, not
-settled.
+### 6. Solution Overview
+An orchestrator (gpt-4o-mini) wrapped on both sides by guardrails, fed by RAG and
+live, auth-scoped tools, with every turn traced. Core stances: grounding over
+recall, refusal as a first-class path (a classifier runs before generation),
+agentic but read-only (the only write tool is create_ticket), and eval-first (the
+safety metric is a hard CI gate).
 
-### 6. Target User
-- End users needing support (billing, account, how-to, jargon, escalation).
-- A support operator or admin working the escalation queue, who needs full context
-  and a drafted reply to approve in seconds rather than write from scratch.
-
-### 7. User Stories
-- As a user, I want instant answers to how-to and billing questions, so I don't
-  wait on a human.
-- As a user with an account question, I want an answer grounded in my real data,
-  never a guess.
-- As a user who asks a strategy question, I should be cleanly refused and offered a
-  human, not coached.
-- As the support operator, I want escalations to arrive with full conversation
-  context and a drafted first reply, so I can approve in about 10 seconds instead
-  of writing for 5 minutes.
-
-### 8. Solution Overview
-An orchestrator (OpenAI gpt-4o-mini for chat and tool-use) wrapped on both sides by
-guardrails, fed by RAG and live, auth-scoped tools, with every turn traced.
-Anything it can't resolve becomes a ticket with a grounded, LLM-drafted reply.
-
-Core design stances:
-
-- **Grounding over recall:** account and billing answers must come from retrieval
-  or a tool call. An output groundedness check replaces unsupported claims with
-  "let me open a ticket."
-- **Refusal as a first-class path:** a strategy-intent classifier runs before
-  generation. Strategy questions never reach the answer path. The system prompt is
-  a backstop, not the primary defense.
-- **Agentic but read-only:** tools let the bot act (check a real subscription,
-  create a ticket). Every tool is auth-scoped, and the only write tool is
-  create_ticket.
-- **Eval-first:** every prompt, retrieval, and guardrail change is gated by an eval
-  suite. The safety metric (0 leaks) is a hard CI gate.
-
-### 9. Functional Requirements
-- Input guardrail moderates and classifies intent. Out-of-scope or strategy goes to
-  a scoped refusal plus the offer of a human.
-- Allowed messages go to the orchestrator, which retrieves top-k KB chunks
-  (re-ranked, cited).
-- Account-specific intents trigger auth-scoped, read-only tool calls
-  (get_subscription_status, get_account_state, lookup_glossary, get_freemium_limits).
+### 7. Functional Requirements
+- Input guardrail classifies intent. Out-of-scope or strategy goes to a scoped
+  refusal.
+- Allowed messages retrieve top-k KB chunks (re-ranked, cited).
+- Account intents trigger auth-scoped, read-only tool calls.
 - Output guardrail enforces groundedness and PII redaction before send.
-- Unresolved sessions call create_ticket with the full conversation and a drafted
-  reply.
-- Every turn emits a trace (retrieval hits, tool calls, tokens, cost, latency,
-  groundedness, outcome).
-- The eval suite (refusal-accuracy, groundedness, answer-quality,
-  injection-resistance) runs in CI and gates ships. The build fails on a single
-  strategy leak.
+- Unresolved sessions call create_ticket with the conversation and a drafted reply.
+- Every turn emits a trace. The eval suite runs in CI and fails the build on a
+  single strategy leak.
 
-### 10. Edge Cases & Constraints
-- **Disguised strategy intent** (jailbreak, roleplay, "for research"): the
-  classifier refuses regardless of framing.
-- **Account question with no retrievable data:** open a ticket, never invent.
-- **Sparse KB or no relevant chunk:** escalate rather than guess.
-- **PII in a draft response:** redacted before send.
-- **Constraints:** ship post-launch only (launch approval required). Cost-capped
-  and rate- and token-limited so it is cheap while idle. Compliance re-verified
-  before the UI ships (Apple 5.1.1, Google Play generative-AI policy, and a Data
-  Safety label update for the new support_conversations collection).
+### 8. Edge Cases & Constraints
+- Disguised strategy intent (jailbreak, roleplay, "for research"): refused
+  regardless of framing.
+- Account question with no retrievable data: open a ticket, never invent.
+- Constraints: ship post-launch only. Cost-capped and rate-limited so it is cheap
+  while idle.
 
-### 11. Risks & Mitigations
-
-| Risk | Mitigation |
-| --- | --- |
-| Strategy drift | Refusal classifier plus eval gate plus production sampling |
-| Hallucination | RAG grounding plus groundedness eval plus "open a ticket" over inventing |
-| Scope creep (the build can balloon) | Every sprint ships standalone. S5 and S6 are cuttable |
-| Over-built for current volume | Acknowledged. Justified by safety plus feedback value. Cost-capped while idle |
-| Cost runaway | gpt-4o-mini plus semantic cache plus rate and token caps plus alerts |
-| Review delay | Ship post-launch only |
-
-### 12. Alternatives Considered
+### 9. Alternatives Considered
 
 | Option | Why not |
 | --- | --- |
-| Expand static FAQ / help docs | Questions were already answerable, a findability problem, not a content gap, and it can't do account lookups. |
-| Human support | Doesn't scale. Routes every question through a founder, a bottleneck. |
-| Simple scripted / FAQ chatbot | Hallucinates on account and billing, can't do live lookups, and could drift into strategy. It fails the one safety constraint that matters. |
-| Agentic RAG with guardrails and evals (chosen) | Enforces the safety line by construction, grounds account answers in real tool calls, and turns support into a measurable product-feedback instrument. |
+| Expand static FAQ / help docs | Questions were already answerable, a findability problem, and it can't do account lookups. |
+| Human support | Doesn't scale, routes every question through a founder. |
+| Simple scripted / FAQ chatbot | Hallucinates on account and billing, and could drift into strategy. Fails the one safety constraint that matters. |
+| Agentic RAG with guardrails and evals (chosen) | Enforces the safety line by construction, grounds answers in real tool calls, and turns support into a product-feedback instrument. |
 
 </PRDDoc>
 
-## Prioritization
-
-<TLDR>Chose agentic RAG with guardrails and evals over a simpler chatbot, because only a system that enforces the safety line by construction could be trusted.</TLDR>
-
-I considered four options:
-
-- **Expand static FAQ and help docs.** The questions were already answerable, so
-  this is a findability problem, not a content gap, and it can't do account
-  lookups.
-- **Human support.** Doesn't scale, and routes every question through a founder,
-  the exact bottleneck I was trying to remove.
-- **A simple scripted or FAQ chatbot.** Hallucinates on account and billing, can't
-  do live lookups, and could drift into strategy. It fails the one safety
-  constraint that matters.
-- **Agentic RAG with guardrails and evals (chosen).** Enforces the safety line by
-  construction, grounds account answers in real tool calls, and turns support into
-  a measurable product-feedback instrument.
-
-**Owned over-investment:** this system deliberately exceeds day-1 support volume. I
-am not claiming it was minimally right-sized. The over-investment is justified by a
-non-negotiable safety constraint, the need to ground account answers in real data,
-and a deliberate platform bet, and the cost is capped so it stays cheap while idle.
-
-## Build & sprint summary
-
-<TLDR>Built eval-first across six shippable sprints: input and output guardrails, RAG over pgvector, agentic tools, a ticket queue, and per-turn observability.</TLDR>
-
-I built it as six independently shippable sprints (spec and evals, RAG layer, chat
-core, chat UI, ticketing, observability and hardening), each gated by the eval
-suite before merge. The architecture is an orchestrator wrapped by guardrails on
-both sides:
-
-- **Guardrails, input.** A strategy-intent and jailbreak classifier runs before
-  generation. Strategy questions never reach the answer path, they get a scoped
-  refusal. The system prompt is only a backstop.
-- **RAG over pgvector.** The knowledge base plus the in-app glossary is chunked,
-  embedded, and stored in Supabase pgvector. Retrieval is semantic top-k plus a
-  re-rank, cited in the answer. Folding the 56-term glossary into the index took
-  retrieval-eval coverage from 77% to 100%.
-- **Agentic tools.** Auth-scoped, read-only tools let the bot act: check a real
-  subscription or account, look up a term, read freemium limits. The only write
-  tool is create_ticket. Tool identity comes from the session, never a model
-  argument, so there is no IDOR surface.
-- **Guardrails, output.** A groundedness check and PII redaction run before send.
-  Unsupported claims are replaced with "let me open a ticket."
-- **Ticketing.** Anything unresolved becomes a ticket with the full conversation
-  and a drafted first reply, an admin queue, and Resend email. A human approves in
-  seconds instead of writing from scratch.
-- **Observability.** Every turn writes a trace (retrieval hits, tool calls, tokens,
-  cost, latency, outcome) to a metrics dashboard, so deflection, cost, and
-  groundedness are provable, not guessed.
-
-<Artifact
-  src="/artifacts/poker-support-architecture.svg"
-  alt="Architecture request flow. A user message hits the API, then an input guardrail (moderation plus a strategy classifier) that either refuses out-of-scope strategy questions or allows them to the orchestrator (gpt-4o-mini). The orchestrator retrieves from RAG over pgvector and calls auth-scoped read-only tools, an output guardrail checks groundedness and redacts PII before the answer, unresolved sessions create a ticket that routes to Resend email and the admin queue, and every turn is traced to a metrics dashboard."
-  caption="The request flow: guardrailed before and after generation, grounded by RAG and live tools, escalating to a ticket when it can't resolve, with every turn traced."
-/>
-
-**A cost decision worth naming:** the system was originally specced on Claude
-Haiku, but I switched the chat and classifier to OpenAI gpt-4o-mini for
-one-provider billing and lower per-token cost. The provider abstraction made it a
-localized change. It ships behind a feature flag, enabled after launch approval.
-
 ## Measurement & retro
 
-<TLDR>0 strategy leaks across 1,000 adversarial prompts and 60 of 60 grounded are readable now. Deflection and CSAT are early and volume-dependent, reported as directional.</TLDR>
+<TLDR>Lead with what's provable now: 0 strategy leaks across 1,000 adversarial prompts, 60/60 grounded, and a confusion map that surfaced real product problems. Deflection and CSAT are openly early.</TLDR>
 
 <MetricResult
   metric="Strategy-coaching leaks (gating)"
   target="0 in production"
-  result="0 across 1,000 adversarial prompts (CI-gated)"
+  result="0 across 1,000 adversarial prompts, 15 jailbreak techniques (CI-gated)"
+  hit={true}
+/>
+
+<MetricResult
+  metric="Confusion map (diagnostic)"
+  target="Coherent, actionable clusters"
+  result="Surfaced a billing cluster and a streak cluster as product signals"
   hit={true}
 />
 
 <MetricResult
   metric="Groundedness / faithfulness"
   target="≥95%"
-  result="60 of 60 grounded on the eval set"
+  result="60 of 60 grounded (LLM-as-judge)"
   hit={true}
 />
 
 <MetricResult
   metric="Deflection rate (primary)"
   target="about 70% of sessions"
-  result="Early and stabilizing as volume grows"
+  result="Early and directional as post-launch volume grows"
   hit="early"
 />
 
-<MetricResult
-  metric="Cost per message"
-  target="Under a hard cap"
-  result="About $0.0005, roughly 2,000 messages per dollar"
-  hit={true}
-/>
+Ordered by what is provable now, because this is a recent project, and the honest
+move is to lead with the eval-readable results and let the volume-dependent ones be
+openly early.
 
-**Honest framing:** the safety and groundedness results are eval-readable today.
-Deflection and CSAT depend on real traffic, so I report them as early and
-directional, not settled.
+**1. Safety, the headline.** 0 strategy-coaching leaks across 1,000 adversarial
+prompts (15 jailbreak techniques: DAN-mode, roleplay, fake-developer, "ignore
+instructions," emotional framing, "for research," one-word, system-prompt
+extraction, and more). 100% refused. Enforced as a CI gate, the build fails on a
+single leak. Honest caveat: this is a synthetic adversarial suite, so the claim is
+"0 leaks across a 1,000-prompt red-team, gated in CI," not "unjailbreakable." Live
+users are weirder than any test set, and that is part of what is still accumulating.
+The mechanism (gate on a single leak) is as much the result as the number.
 
-**The diagnostic payoff:** clustering incoming questions surfaced coherent
-confusion signals, billing and streak among them, which feed the knowledge base and
-the product roadmap. Support became an instrument for finding product problems, not
-just answering them.
+**2. The confusion map, the metric that justifies the build.** Incoming questions
+are embedded and clustered into "what are users confused about." The clusters were
+coherent and actionable, and two of them aren't bot-tuning signals at all, they are
+product signals the bot surfaced:
+
+- a **billing cluster** (charged twice, billed again, charged after cancelling), a
+  possible billing or cancellation-flow problem.
+- a **streak cluster** (where's my streak, why did it reset, it disappeared), a
+  streak-logic or visibility problem.
+
+This is the reframe that makes the over-engineering pay off: **the bot's most
+valuable first-week output wasn't deflection, it was a ranked map of product
+problems to fix upstream so the questions stop being asked.** Support load became a
+product-feedback engine. Honest caveat: the clustering input mixed real beta
+questions with synthetic ones, so the next step is to filter to real-only and
+confirm whether the billing and streak clusters are live user incidents. If they
+are, "N real users independently reported double-charging" becomes a concrete
+product finding worth stating outright.
+
+**3. Groundedness.** 60 of 60 answered responses grounded in retrieved KB
+(LLM-as-judge). An earlier flagged miss (from a smaller 22-prompt run) was
+human-reviewed and found to be a judge false-positive: the answer was grounded, the
+judge erred. We treat judge output as auditable, not ground truth. Honest note: 60
+is a controlled eval set, so a clean score reflects the suite, not a permanent
+property. Live groundedness is tracked as volume grows.
+
+**4. Operational, openly early.** Deflection rate (target about 70%), CSAT (thumbs,
+target 80% or more), cost per resolution, and p50 TTFT are instrumented and
+accumulating, but post-launch volume is still small, so these are directional only
+and tracked over time, not reported as settled results.
 
 ### Retro & lessons
 
-The lesson I keep: when one behavior is non-negotiable, enforce it with
-architecture and evals, not a prompt. A strategy-intent classifier that runs before
-generation, plus a CI gate that fails the build on a single leak, is what lets me
-claim "0 strategy-coaching responses" and mean it. The same discipline, ground
-every claim and trace every turn, is what turns an LLM demo into a system you can
-actually operate.
+- The most valuable thing a support bot produced wasn't answers, it was a
+  prioritized list of what confuses users. Build support as an *instrument*, not
+  just a deflector.
+- Owned over-engineering is defensible, unowned over-engineering isn't. The
+  discipline was naming the over-investment, tying it to a real safety constraint,
+  and capping cost, not pretending it was minimal.
+- This is the same bottleneck-removal instinct as the rest of the portfolio
+  (support previously routed through a human), applied to a safety-critical surface
+  where the guardrails, not the deflection, are the point.
