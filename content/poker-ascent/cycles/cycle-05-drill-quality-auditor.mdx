@@ -107,6 +107,12 @@ findings land in `drill_audit_findings` and an `/admin/drill-audit` triage queue
 Built eval-gated, sprint by sprint, internal-only, with no user surface and zero
 compliance risk.
 
+<Artifact
+  src="/artifacts/poker-drill-auditor-architecture.svg"
+  alt="Architecture pipeline. About 113,000 drills are deduplicated by render signature so one representative per pattern is audited. Each AuditUnit (positions, stack, tier, prose) goes to the gpt-4o-mini auditor, which proposes a Finding list under a strict json schema. A deterministic findingValid guard then re-checks each finding's literal trigger per category: survivors go to the drill_audit_findings triage queue, and findings with no trigger are discarded as false positives. A 7-case eval gates the auditor and must stay 7 of 7 before any run."
+  caption="LLM proposes, code disposes: the model drafts findings, then deterministic per-category guards keep only the ones whose literal trigger is present. That second layer lifted precision from ~20% to ~80%+."
+/>
+
 <PRDDoc
   title="Full PRD: AI Drill-Quality Auditor"
   meta="Product: Poker Ascent (internal tooling) · Author: Brandon · Status: Shipped · Created 2026-04-13 · Last updated 2026-04-17"
