@@ -107,6 +107,136 @@ findings land in `drill_audit_findings` and an `/admin/drill-audit` triage queue
 Built eval-gated, sprint by sprint, internal-only, with no user surface and zero
 compliance risk.
 
+<PRDDoc
+  title="Full PRD: AI Drill-Quality Auditor"
+  meta="Product: Poker Ascent (internal tooling) · Author: Brandon · Status: Shipped · Created 2026-04-13 · Last updated 2026-04-17"
+>
+
+### 1. Summary
+An internal, LLM-powered QA auditor for a ~113,000-drill content library. It reads
+each drill like a meticulous copy editor and flags where the *explanation text
+contradicts the drill's own stated facts*, **never whether the poker play is
+correct**. Built eval-first, with a two-layer design (LLM proposes, deterministic
+code disposes) that keeps precision high, and signature sampling that audits the
+whole library's *variety* for cents. It triages, and humans (or a targeted scrub)
+act.
+
+### 2. Problem & Background
+Drills are template-generated. A few hundred templates expand into ~113,000 drills
+by crossing villain archetypes × stack depths × environments × training modes, each
+with a written explanation. At that scale, content defects are invisible: no human
+reads 113k explanations, and the deterministic audits only catch what's expressible
+as a hard rule. The defects that slip through are subtle and linguistic: state
+contradictions, tier leaks, stale repetition, tone and template artifacts. These
+are content-quality defects in the prose. The poker answers themselves are owned and
+verified elsewhere.
+
+### 3. Discovery
+The existing deterministic suite (`qa-regression`, `drill-consistency-audit`)
+already owns rule-expressible checks. The gap is concept-level and linguistic
+defects that no rule captures and no human can read 113k rows to find, which defined
+the tool's lane: a reviewer-grade pass over factual fidelity and phrasing,
+complementing (not replacing) the deterministic suite.
+
+### 4. Goals & Non-Goals
+**Goals**
+
+- Surface a prioritized, trustworthy punch-list of content defects, with
+  `{category, severity, issue, suggestion, quote}` per finding.
+
+**Precision goal (make-or-break)**
+
+- **At least 80% of flags are real.** Over-flagging kills trust in the tool faster
+  than under-flagging.
+
+**Non-Goals (hard lines)**
+
+- **Never re-judge poker correctness.** Correctness depends on ~7 interacting
+  factors, and an LLM will confidently err. The decision engine and `qa-regression`
+  own correctness. The auditor checks factual fidelity only.
+- **No auto-fixing.** It triages, and humans (or a targeted scrub) act.
+
+### 5. Success Metrics
+
+| Metric | Type | Target | Result |
+| --- | --- | --- | --- |
+| Precision (flags that are real) | Primary | at least 80% | ~20% raw to ~80%+ with two-layer guards. Position FP 23 to 0 (controlled re-audit) |
+| Eval gate | Quality gate | 7/7 before any run | 7/7 (clean means no flags, each seeded defect caught) |
+| Recall | Guardrail | 100% of seeded eval defects | met on the seeded set, true recall at 113k scale unmeasured (precision-first tradeoff) |
+| Cost (full pass) | Efficiency | under ~$5 | $0.28 (1,600 audits, ~$0.0002 per drill) |
+| Corpus flag rate | Impact | reduce after fixes | 4.9% to 1.0% (directional, full-pass vs balanced confirm) |
+| Actionability | Quality | every finding actionable | `{category, severity, issue, suggestion, quote}` |
+
+### 6. Target User
+The internal content or QA operator who triages findings in `/admin/drill-audit`
+and decides what to fix at the renderer or scrub in bulk. No end-user surface.
+
+### 7. User Stories
+- As the content owner, I want a prioritized list of content-quality defects across
+  the library, so I can fix systematic issues no rule or human pass would catch.
+- As the content owner, I want each flag verified by deterministic code before I see
+  it, so I'm not drowning in false positives.
+- As the content owner, I want the tool to *never* opine on whether a poker answer
+  is correct, so it stays in its reliable lane.
+
+### 8. Solution Overview
+An **LLM proposer wrapped by a deterministic verifier**, fed by a **signature
+sampler**, calibrated by an **eval gate**, emptying into a **triage queue**:
+
+- **Propose:** `gpt-4o-mini` with a strict `json_schema` returns a validated
+  `Finding[]`.
+- **Dispose:** `findingValid()` re-checks each finding's literal trigger per
+  category. Only survivors count.
+- **Sample:** audit one representative per `render_signature`, variety not volume.
+- **Gate:** a 7-case eval (clean plus one seeded-bad per category) must be 7/7
+  before any paid run.
+- **Triage:** surviving findings go to `drill_audit_findings` and
+  `/admin/drill-audit`.
+
+### 9. Functional Requirements
+- `fetchAuditUnit` joins drills, choices, and explanations into an `AuditUnit`
+  (positions, multiway flag, stack, tier, explanation).
+- `auditDrill(unit)` returns a strict-schema `Finding[]`.
+- `findingValid()` applies per-category deterministic guards (literal-trigger
+  checks).
+- The runner samples by `render_signature`, audits concurrently, caps cost, supports
+  `--mode all` and `--write-db`, and partial-writes on rate-limit.
+- The eval script gates every run (must be 7/7).
+- Findings are written to `drill_audit_findings` and surfaced in an admin-gated
+  triage UI.
+
+### 10. Edge Cases & Constraints
+- **Correct-seat mention:** not a defect (the position guard must allow it).
+- **Fold-to-heads-up transition** in multiway prose: correct, not a contradiction
+  (the multiway guard skips it).
+- **Counterfactual teaching** ("at 100bb+ this would be a call"): not a stack
+  contradiction.
+- **Coherence checks:** out of the LLM's lane, owned by the deterministic mismatch
+  checker.
+- **Constraints:** internal-only (no compliance surface), a per-run cost cap, RLS on
+  with no policies (service-role only).
+
+### 11. Risks & Mitigations
+
+| Risk | Mitigation |
+| --- | --- |
+| Over-flagging (false positives) | Two-layer deterministic guards plus eval-first calibration plus triage-only |
+| Scope creep into re-judging poker | Explicit out-of-scope, factual fidelity only, coherence handed to the deterministic checker |
+| Cost at scale | Signature sampling plus a per-run cap |
+| Acting on a false finding | Triage discipline: verify every finding against source before fixing |
+
+### 12. Alternatives Considered
+
+| Option | Why not |
+| --- | --- |
+| Extend the deterministic rule suite | Can't express concept-level or linguistic defects as hard rules. |
+| Human review of the library | Impossible at 113k drills. |
+| Raw LLM auditor (no deterministic layer) | ~20% precision, over-flags and misreads, untrustworthy. |
+| LLM judging coherence or correctness | The LLM is unreliable here, and correctness is dangerous to delegate. |
+| LLM proposer + deterministic verifier, fidelity-only (chosen) | Trustworthy (verifiable checks), safe (never correctness), cheap (signature sampling). |
+
+</PRDDoc>
+
 ## Measurement & retro
 
 <TLDR>Position false-positives 23 to 0 under a controlled re-audit with the eval holding 7/7, a $0.28 full pass, and triage that proved half the "defects" were noise or stale data.</TLDR>
