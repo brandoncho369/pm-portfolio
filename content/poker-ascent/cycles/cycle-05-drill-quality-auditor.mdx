@@ -1,0 +1,190 @@
+---
+title: "AI Drill-Quality Auditor: Triage Over Automation"
+cycle: 5
+date: "Apr 2026"
+status: "Shipped"
+bluf: "Poker Ascent's ~113,000 template-generated drills hide subtle content-quality defects no human can read and no rule can catch. I built an LLM auditor (LLM proposes, deterministic code disposes) that flags prose contradicting a drill's own facts, never whether the play is right. Position false-positives went 23 to 0, the eval held 7/7, and a full pass costs $0.28."
+tags: ["LLM", "hybrid-systems", "eval-driven", "scoping-judgment", "content-QA"]
+---
+
+## Summary (BLUF)
+
+Poker Ascent's ~113,000 drills are template-generated, and at that scale subtle
+content-quality defects are invisible. No human reads 113k explanations, and
+rule-based audits only catch what you can express as a hard rule. I built an
+internal LLM auditor that flags where an explanation's prose contradicts the
+drill's own stated facts, **never whether the poker play is correct**, using a
+two-layer design (LLM proposes, deterministic code disposes) and signature sampling
+that audits the library's *variety* for **$0.28 a full pass**. The most valuable
+output wasn't a fix list. It was **triage that separated live generator defects
+from auditor false-positives from stale data**, which prevented thousands of
+needless edits and drove a content-quality cleanup of 112,640 plus ~12k rows.
+Position false-positives went **23 to 0**, and the eval gate held **7/7**.
+
+## Trigger & problem
+
+<TLDR>A few hundred templates expand into ~113,000 drills, and the defects that slip past deterministic rules are the subtle linguistic ones no rule or human catches.</TLDR>
+
+A few hundred templates expand into ~113,000 drills by crossing villain archetypes,
+stack depths, environments, and training modes. Each ships with a written
+explanation. The existing deterministic audits (`qa-regression`,
+`drill-consistency-audit`) catch anything expressible as a hard rule, but the
+defects that slip through are the subtle, *linguistic* ones:
+
+| Defect kind | Example | Why rules miss it |
+|---|---|---|
+| State contradiction | "fires into what's now a heads-up pot," in a 3-way drill | needs prose compared against the drill's actual structure |
+| Tier leak | a beginner (T1) drill that says "low SPR, plenty of implied odds" | concept-level, not a banned-word list |
+| Stale repetition | the recommendation sentence printed twice | emerges from old generation passes |
+| Tone / artifact | em-dashes, `undefined`, leftover `{x}` | scattered, low-frequency |
+
+None of these are wrong *answers*. They're content-quality defects in the
+explanation text.
+
+## Discovery & user-research synthesis
+
+<TLDR>The deterministic suite owns rule-expressible checks, so the gap was concept-level and linguistic defects no rule captures and no human can read 113k rows to find.</TLDR>
+
+The deterministic suite already owns rule-expressible checks. The gap was
+concept-level and linguistic defects no rule captures and no human can read 113k
+rows to find. That defined the tool's lane: a reviewer-grade pass over factual
+fidelity and phrasing, not a second correctness engine.
+
+## The scoping decision (the make-or-break)
+
+<TLDR>I scoped the LLM twice, to factual fidelity not poker judgment, and out of coherence too, because a narrower tool you can trust beats a broad one you can't.</TLDR>
+
+I scoped the LLM **twice**, and that discipline is the whole reason the tool is
+trustworthy:
+
+1. **Factual fidelity, never poker judgment.** Whether "fold" is right depends on
+   ~7 interacting factors, and an LLM will confidently get it wrong. The decision
+   engine and `qa-regression` own correctness. The rubric explicitly tells the
+   model: *do not judge whether the play is right.* This keeps the LLM out of the
+   one domain where it is dangerous.
+2. **Out of coherence, too.** The first pass had the LLM check
+   answer-to-explanation coherence, and it flagged 18 to 72% (~20% precision),
+   misreading "the explanation argues against the alternative" as "contradicts the
+   answer." So I pulled coherence *out* of the LLM's lane entirely and left it to
+   the existing deterministic checker, keeping the LLM on the categories where it
+   is reliable (tier leaks, tone and artifacts, clarity, and verifiable factual
+   contradictions).
+
+The transferable judgment: **find the boundary of where your tool is reliable and
+retreat to it.** A narrower tool you can trust beats a broad one you can't.
+
+## Prioritization & key design decisions
+
+<TLDR>Two-layer validation (LLM proposes, deterministic code disposes), signature sampling, eval-first, and triage not auto-fix, the pattern that turns a toy into a tool.</TLDR>
+
+- **Two-layer validation, LLM proposes and code disposes.** A raw-LLM auditor sits
+  around ~20% precision, so every category has a **deterministic guard**
+  (`findingValid`) that re-checks the literal trigger before a finding counts. A
+  `tier` flag survives only if the archetype or stack-concept word literally
+  appears. A `position` flag survives only if the prose names a seat that is neither
+  hero's nor villain's (naming the *correct* seat is not a defect). A `stack` flag
+  survives only on an explicit opposite-of-actual term (counterfactual teaching
+  isn't a contradiction). This two-layer pattern is the difference between a toy and
+  a tool. It pushed precision to ~80% or more.
+- **Signature sampling.** Drills are near-duplicates within a `render_signature`.
+  Auditing one representative per signature covers the *variety*, not the volume, at
+  ~$0.0002 per drill.
+- **Eval-first.** Seven fixed cases (one clean plus one seeded-bad per category)
+  must stay **7/7** before any paid run. Clean means no flags, which proves
+  precision. Each seeded defect caught proves recall. This caught a regression the
+  same minute a guard tune over-tightened during development.
+- **Triage, not auto-fix.** Findings are evidence for a human or a targeted SQL
+  scrub, never silent rewrites of 113k rows.
+
+## Build & sprint summary
+
+<TLDR>gpt-4o-mini returns a schema-validated Finding list, deterministic guards re-check each one, a signature sampler feeds it, and survivors land in an admin triage queue.</TLDR>
+
+`gpt-4o-mini` with a strict `json_schema` returns a validated `Finding[]`
+(`category`, `severity`, `issue`, `suggestion`, `quote`). `findingValid()` applies
+the per-category deterministic guards. A signature sampler feeds it. Surviving
+findings land in `drill_audit_findings` and an `/admin/drill-audit` triage queue.
+Built eval-gated, sprint by sprint, internal-only, with no user surface and zero
+compliance risk.
+
+## Measurement & retro
+
+<TLDR>Position false-positives 23 to 0 under a controlled re-audit with the eval holding 7/7, a $0.28 full pass, and triage that proved half the "defects" were noise or stale data.</TLDR>
+
+<MetricResult
+  metric="Position false-positives (controlled)"
+  target="0"
+  result="23 to 0 on a 200-drill re-audit, eval held 7/7"
+  hit={true}
+/>
+
+<MetricResult
+  metric="Eval gate"
+  target="7/7 before any paid run"
+  result="7/7 held (caught a guard-tune regression in development)"
+  hit={true}
+/>
+
+<MetricResult
+  metric="Auditor precision (language categories)"
+  target="High enough to trust"
+  result="~20% raw LLM to ~80%+ with the two-layer guards"
+  hit={true}
+/>
+
+<MetricResult
+  metric="Cost per full pass"
+  target="Cheap enough to run freely"
+  result="$0.28 for 1,600 audits (~$0.0002 per drill)"
+  hit={true}
+/>
+
+**Tool quality, precision as a progression (because it was one):** raw LLM ~20% to
+~80% or more on the language categories once the two-layer guards were in place, and
+the one rigorously controlled before-and-after (same tool, guard tuning on a
+200-drill re-audit) drove **position false-positives 23 to 0** while the eval held
+**7/7**. That 23 to 0 is the precision result to stand on. The ~20% to ~80% arc is
+the design story.
+
+**Recall, an honest tradeoff:** the 7-case eval proves recall on *known* defect
+types (each seeded bug caught). True recall across 113k is unmeasured. I
+deliberately optimized precision, because over-flagging kills trust in the tool
+faster than under-flagging. Unknown recall is the accepted cost of that choice,
+stated rather than hidden.
+
+**The triage, the centerpiece and the real value.** The full pass produced 78 raw
+findings. The valuable part was separating them:
+
+```
+78 raw findings
+ ├─ ~2 auditor FALSE POSITIVES   → tuned the guards (position FP 23 to 0)
+ ├─  1 STALE-DATA class (~15k)   → scrubbed 11,942 duplicated-sentence rows
+ └─ ~2 live generator defects    → fixed at source + DB
+                                   (redundant-equity lead: 112,640 rows,
+                                    ".the" missing-space typo: 24 rows)
+```
+
+Roughly **half of all "content defects" this pass were auditor noise or stale data,
+not live generator defects.** The auditor's job wasn't to hand over a long fix list.
+It was to tell live defects apart from its own false positives and from stale rows,
+which prevented thousands of unnecessary edits and made the tool itself more
+precise.
+
+**Impact, content-quality cleanup (not correctness, the answers were always
+right):** the live defects were fixed *at the renderer* and bulk-scrubbed, not
+patched row-by-row. The redundant-equity lead (a phrasing stutter where the equity
+threshold printed twice) spanned **112,640 rows**, plus the ~12k stale
+duplicate-sentence rows, plus an earlier systematic article defect (8,084 rows).
+Corpus flag rate fell from **4.9%** (the 1,600-audit full pass, all modes) to
+**1.0%** (a 300-drill balanced confirm re-audit after all fixes). Honest caveat:
+those two endpoints differ in sample and mode coverage, so treat 4.9% to 1.0% as
+*directional*. The controlled measurement is the 23 to 0.
+
+### Retro & lessons
+
+- *Verify a finding against source before fixing it.* Half of what looked like
+  content defects weren't live defects at all.
+- *Fix at the source, scrub in bulk.* One renderer fix plus one SQL scrub cleared
+  112,640 rows, and nobody edited a row by hand.
+- *Scope the LLM to its reliable lane, twice,* and let deterministic code own
+  everything that is verifiable.
