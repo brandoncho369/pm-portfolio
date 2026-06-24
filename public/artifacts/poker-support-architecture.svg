@@ -1,0 +1,121 @@
+<svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .title { font-family: Georgia,'Iowan Old Style','Times New Roman',serif; fill:#211C16; }
+      .sub   { fill:#8C8378; }
+      .bx    { font-size:11.5px; font-weight:700; fill:#211C16; }
+      .mn    { font-family: ui-monospace,'SF Mono',Menlo,Consolas,monospace; font-size:9px; fill:#5C554B; }
+      .cap   { font-size:9px; fill:#8C8378; }
+      .lbl   { font-family: ui-monospace,'SF Mono',Menlo,Consolas,monospace; font-size:8.5px; }
+      .leg   { fill:#5C554B; font-size:10px; }
+    </style>
+    <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L9,5 L0,10" fill="none" stroke="#A89E92" stroke-width="1.6"/>
+    </marker>
+    <marker id="arg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L9,5 L0,10" fill="none" stroke="#1E7A50" stroke-width="1.7"/>
+    </marker>
+    <marker id="aro" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L9,5 L0,10" fill="none" stroke="#B6442F" stroke-width="1.7"/>
+    </marker>
+  </defs>
+
+  <rect x="14" y="14" width="972" height="572" rx="18" fill="#FBFAF6" stroke="#ECE5DB"/>
+
+  <text class="title" x="40" y="48" font-size="22">AI support assistant: request flow</text>
+  <text class="sub" x="40" y="69" font-size="12">Poker Ascent · grounded agentic RAG, guardrailed on both sides, every turn traced</text>
+
+  <!-- ============ SPINE ============ -->
+  <!-- User -->
+  <rect x="28" y="104" width="104" height="56" rx="8" fill="#fff" stroke="#D9D2C5"/>
+  <text class="bx" x="80" y="129" text-anchor="middle">User</text>
+  <text class="mn" x="80" y="144" text-anchor="middle">chat widget</text>
+  <!-- API -->
+  <rect x="150" y="104" width="120" height="56" rx="8" fill="#fff" stroke="#D9D2C5"/>
+  <text class="bx" x="210" y="127" text-anchor="middle">API route</text>
+  <text class="mn" x="210" y="143" text-anchor="middle">/api/support/chat</text>
+  <!-- Input guardrail -->
+  <rect x="288" y="98" width="152" height="68" rx="8" fill="#fff" stroke="#D9D2C5"/>
+  <text class="bx" x="364" y="123" text-anchor="middle">Input guardrail</text>
+  <text class="mn" x="364" y="138" text-anchor="middle">moderation +</text>
+  <text class="mn" x="364" y="150" text-anchor="middle">strategy classifier</text>
+  <!-- Orchestrator -->
+  <rect x="470" y="98" width="156" height="68" rx="8" fill="#E4F0EA" stroke="#93C2AC"/>
+  <text class="bx" x="548" y="125" text-anchor="middle" fill="#1E7A50">Orchestrator</text>
+  <text class="mn" x="548" y="142" text-anchor="middle">agent · gpt-4o-mini</text>
+  <!-- Output guardrail -->
+  <rect x="658" y="98" width="152" height="68" rx="8" fill="#fff" stroke="#D9D2C5"/>
+  <text class="bx" x="734" y="123" text-anchor="middle">Output guardrail</text>
+  <text class="mn" x="734" y="138" text-anchor="middle">groundedness +</text>
+  <text class="mn" x="734" y="150" text-anchor="middle">PII redaction</text>
+  <!-- Answer -->
+  <rect x="838" y="98" width="140" height="68" rx="8" fill="#E4F0EA" stroke="#93C2AC"/>
+  <text class="bx" x="908" y="127" text-anchor="middle" fill="#1E7A50">Answer</text>
+  <text class="mn" x="908" y="143" text-anchor="middle">+ citations</text>
+
+  <!-- spine arrows -->
+  <line x1="132" y1="132" x2="148" y2="132" stroke="#A89E92" stroke-width="1.6" marker-end="url(#ar)"/>
+  <line x1="270" y1="132" x2="286" y2="132" stroke="#A89E92" stroke-width="1.6" marker-end="url(#ar)"/>
+  <line x1="440" y1="132" x2="468" y2="132" stroke="#1E7A50" stroke-width="1.7" marker-end="url(#arg)"/>
+  <text class="lbl" x="454" y="124" text-anchor="middle" fill="#1E7A50">allow</text>
+  <line x1="626" y1="132" x2="656" y2="132" stroke="#A89E92" stroke-width="1.6" marker-end="url(#ar)"/>
+  <line x1="810" y1="132" x2="836" y2="132" stroke="#A89E92" stroke-width="1.6" marker-end="url(#ar)"/>
+
+  <!-- ============ REFUSAL ============ -->
+  <rect x="288" y="194" width="152" height="46" rx="8" fill="#F5E5DF" stroke="#DDA193"/>
+  <text class="bx" x="364" y="214" text-anchor="middle" fill="#B6442F">Scoped refusal</text>
+  <text class="mn" x="364" y="228" text-anchor="middle">+ offer a human</text>
+  <line x1="364" y1="166" x2="364" y2="192" stroke="#B6442F" stroke-width="1.7" marker-end="url(#aro)"/>
+  <text class="lbl" x="378" y="183" fill="#B6442F">refuse</text>
+
+  <!-- ============ RAG + TOOLS ============ -->
+  <rect x="392" y="272" width="156" height="58" rx="8" fill="#fff" stroke="#D9D2C5"/>
+  <text class="bx" x="470" y="296" text-anchor="middle">RAG · pgvector</text>
+  <text class="mn" x="470" y="311" text-anchor="middle">top-k + re-rank, cited</text>
+  <rect x="566" y="270" width="214" height="62" rx="8" fill="#fff" stroke="#D9D2C5"/>
+  <text class="bx" x="673" y="291" text-anchor="middle">Tools · auth-scoped, read-only</text>
+  <text class="mn" x="673" y="306" text-anchor="middle">subscription · account · glossary · limits</text>
+  <text class="mn" x="673" y="319" text-anchor="middle">create_ticket (the only write)</text>
+  <!-- orchestrator to rag/tools (bidirectional) -->
+  <line x1="512" y1="168" x2="476" y2="270" stroke="#A89E92" stroke-width="1.5" marker-start="url(#ar)" marker-end="url(#ar)"/>
+  <text class="lbl" x="466" y="222" text-anchor="end" fill="#8C8378">retrieve</text>
+  <line x1="592" y1="168" x2="660" y2="268" stroke="#A89E92" stroke-width="1.5" marker-start="url(#ar)" marker-end="url(#ar)"/>
+  <text class="lbl" x="640" y="222" fill="#8C8378">tool calls</text>
+
+  <!-- ============ OBSERVABILITY (left) ============ -->
+  <rect x="70" y="396" width="190" height="60" rx="8" fill="#fff" stroke="#D9D2C5"/>
+  <text class="bx" x="165" y="419" text-anchor="middle">Observability</text>
+  <text class="mn" x="165" y="433" text-anchor="middle">support_traces</text>
+  <text class="mn" x="165" y="446" text-anchor="middle">tokens · cost · latency · outcome</text>
+  <rect x="70" y="486" width="190" height="52" rx="8" fill="#fff" stroke="#D9D2C5"/>
+  <text class="bx" x="165" y="508" text-anchor="middle">Metrics dashboard</text>
+  <text class="mn" x="165" y="522" text-anchor="middle">deflection · cost · groundedness</text>
+  <path d="M180,160 C150,250 165,330 165,394" fill="none" stroke="#A89E92" stroke-width="1.4" stroke-dasharray="3 3" marker-end="url(#ar)"/>
+  <text class="lbl" x="120" y="300" text-anchor="middle" fill="#8C8378">every turn</text>
+  <line x1="165" y1="456" x2="165" y2="484" stroke="#A89E92" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- ============ TICKETING (right) ============ -->
+  <rect x="556" y="396" width="212" height="60" rx="8" fill="#fff" stroke="#D9D2C5"/>
+  <text class="bx" x="662" y="419" text-anchor="middle">Ticket system</text>
+  <text class="mn" x="662" y="433" text-anchor="middle">support_tickets +</text>
+  <text class="mn" x="662" y="446" text-anchor="middle">bot-drafted first reply</text>
+  <path d="M690,332 C700,355 690,372 678,394" fill="none" stroke="#A89E92" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#ar)"/>
+  <text class="lbl" x="722" y="368" fill="#8C8378">unresolved</text>
+  <rect x="520" y="488" width="130" height="46" rx="8" fill="#fff" stroke="#D9D2C5"/>
+  <text class="bx" x="585" y="508" text-anchor="middle">Resend</text>
+  <text class="mn" x="585" y="521" text-anchor="middle">email reply</text>
+  <rect x="666" y="488" width="180" height="46" rx="8" fill="#fff" stroke="#D9D2C5"/>
+  <text class="bx" x="756" y="507" text-anchor="middle">/admin/support queue</text>
+  <text class="mn" x="756" y="521" text-anchor="middle">human approves in ~10s</text>
+  <line x1="630" y1="456" x2="600" y2="486" stroke="#A89E92" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="700" y1="456" x2="745" y2="486" stroke="#A89E92" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- ============ LEGEND ============ -->
+  <line x1="40" y1="562" x2="62" y2="562" stroke="#1E7A50" stroke-width="1.7" marker-end="url(#arg)"/>
+  <text class="leg" x="68" y="566">allowed path</text>
+  <line x1="168" y1="562" x2="190" y2="562" stroke="#B6442F" stroke-width="1.7" marker-end="url(#aro)"/>
+  <text class="leg" x="196" y="566">refusal (before generation)</text>
+  <line x1="360" y1="562" x2="382" y2="562" stroke="#A89E92" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text class="leg" x="388" y="566">escalation / trace</text>
+  <text class="cap" x="986" y="566" text-anchor="end">Safety enforced before AND after generation. CI fails the build on a single strategy leak.</text>
+</svg>

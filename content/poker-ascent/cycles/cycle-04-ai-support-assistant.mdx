@@ -291,6 +291,12 @@ both sides:
   cost, latency, outcome) to a metrics dashboard, so deflection, cost, and
   groundedness are provable, not guessed.
 
+<Artifact
+  src="/artifacts/poker-support-architecture.svg"
+  alt="Architecture request flow. A user message hits the API, then an input guardrail (moderation plus a strategy classifier) that either refuses out-of-scope strategy questions or allows them to the orchestrator (gpt-4o-mini). The orchestrator retrieves from RAG over pgvector and calls auth-scoped read-only tools, an output guardrail checks groundedness and redacts PII before the answer, unresolved sessions create a ticket that routes to Resend email and the admin queue, and every turn is traced to a metrics dashboard."
+  caption="The request flow: guardrailed before and after generation, grounded by RAG and live tools, escalating to a ticket when it can't resolve, with every turn traced."
+/>
+
 **A cost decision worth naming:** the system was originally specced on Claude
 Haiku, but I switched the chat and classifier to OpenAI gpt-4o-mini for
 one-provider billing and lower per-token cost. The provider abstraction made it a
